@@ -1,0 +1,4 @@
+name: Bedwars
+version: '${version}'
+main: eu.cosup.bedwars.Bedwars
+api-version: 1.19
