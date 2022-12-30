@@ -1,0 +1,51 @@
+TestMap:
+  maxHeight: 89
+  minHeight: 76
+  deathHeight: 76
+  xMin: -95
+  xMax: 256
+  zMin: 224
+  zMax: 289
+  spectatorSpawn:
+    ==: org.bukkit.Location
+    world: world
+    x: -4.0
+    y: 121.0
+    z: 257.0
+    pitch: 0.0
+    yaw: 0.0
+  teams:
+    blue:
+      spawn:
+        ==: org.bukkit.Location
+        world: world
+        x: 105.0
+        y: 9.0
+        z: 518.0
+        pitch: 0.0
+        yaw: 0.0
+      bed:
+        ==: org.bukkit.Location
+        world: world
+        x: 105.0
+        y: 14.0
+        z: 520.0
+        pitch: 0.0
+        yaw: 0.0
+    red:
+      spawn:
+        ==: org.bukkit.Location
+        world: world
+        x: 113.0
+        y: 9.0
+        z: 262.0
+        pitch: 0.0
+        yaw: 0.0
+      bed:
+        ==: org.bukkit.Location
+        world: world
+        x: 113.0
+        y: 14.0
+        z: 260.0
+        pitch: 0.0
+        yaw: 0.0
