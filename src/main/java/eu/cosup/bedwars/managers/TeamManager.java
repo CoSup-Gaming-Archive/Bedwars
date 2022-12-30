@@ -1,7 +1,9 @@
-package eu.cosup.bedwars.Managers;
+package eu.cosup.bedwars.managers;
 
-import eu.cosup.bedwars.Objects.Team;
-import eu.cosup.bedwars.Objects.TeamColor;
+import eu.cosup.bedwars.Game;
+import eu.cosup.bedwars.objects.Team;
+import eu.cosup.bedwars.objects.TeamColor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -17,7 +19,22 @@ public class TeamManager {
 
     // this will probably be thrown away later
     public void makeTeams(ArrayList<Player> players) {
-        // TODO make teams
+
+        ArrayList<Player> teamPlayers = new ArrayList<>();
+
+        for (TeamColor teamColor : TeamColor.values()) {
+
+            for (Player player : players) {
+
+                if (teamPlayers.size() >= players.size() / Game.getGameInstance().getSelectedMap().getTeamBeds().size()) {
+
+                    teams.add(new Team(teamColor, teamPlayers));
+
+                    teamPlayers = new ArrayList<>();
+                }
+                teamPlayers.add(player);
+            }
+        }
     }
 
     // which team player is in

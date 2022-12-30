@@ -1,8 +1,7 @@
-package eu.cosup.bedwars.Objects;
+package eu.cosup.bedwars.objects;
 
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
-import it.unimi.dsi.fastutil.Hash;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -48,12 +47,12 @@ public class LoadedMap {
         this.zMin = zMin;
     }
 
-    public HashMap<TeamColor, Location> getTeamSpawns() {
-        return teamSpawns;
+    public HashMap<TeamColor, Location> getTeamBeds() {
+        return teamBeds;
     }
 
-    public Location getTeamSpawn(TeamColor color) {
-        return teamSpawns.get(color);
+    public HashMap<TeamColor, Location> getTeamSpawns() {
+        return teamSpawns;
     }
 
     public String getName() {
@@ -92,36 +91,15 @@ public class LoadedMap {
         return zMin;
     }
 
-    public void saveToConfig() {
+    public Location getSpawnByPlayer(Player player) {
 
-        File configFile = new File(Bedwars.getInstance().getDataFolder(), "maps.yml");
+        TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player);
 
-        if (!configFile.exists()) {
-            try {
-                configFile.createNewFile();
-            } catch (IOException exception) {
-                Bukkit.getLogger().severe("There was no maps file and we were not able to create new one.");
-            }
-        }
+        return teamSpawns.get(teamColor);
+    }
 
-        YamlConfiguration customConfig = YamlConfiguration.loadConfiguration(configFile);
-
-        customConfig.set(name + ".maxHeight", maxHeight);
-        customConfig.set(name + ".minHeight", minHeight);
-        customConfig.set(name + ".deathHeight", deathHeight);
-
-        customConfig.set(name + ".spectatorSpawn", spectatorSpawn);
-
-        customConfig.set(name + ".xMax", xMax);
-        customConfig.set(name + ".zMax", zMax);
-        customConfig.set(name + ".zMin", zMin);
-        customConfig.set(name + ".xMin", xMin);
-
-        try {
-            customConfig.save(configFile);
-        } catch (IOException exception) {
-            Bukkit.getLogger().severe("Were not able to save map to config");
-        }
+    public Location getSpawnByColor(TeamColor teamColor) {
+        return teamSpawns.get(teamColor);
     }
 
     public static LoadedMap loadMapFromConfig(String name) {
@@ -166,11 +144,20 @@ public class LoadedMap {
 
             // we have every team
 
-            Location spawnLocation = teamSpawnsSection.getLocation(teamKey+".spawn");
-            Location bedLocation = teamSpawnsSection.getLocation(teamKey+".bed");
+            Location spawnLocation = teamSpawnsSection.getLocation(teamKey + ".spawn");
+            Location bedLocation = teamSpawnsSection.getLocation(teamKey + ".bed");
 
-            spawns.put(TeamColor.valueOf(teamKey.toUpperCase()), spawnLocation);
-            beds.put(TeamColor.valueOf(teamKey.toUpperCase()), bedLocation);
+            TeamColor teamColor;
+            try {
+                teamColor = TeamColor.valueOf(teamKey.toUpperCase());
+            } catch (IllegalArgumentException exception) {
+                Bukkit.getLogger().severe("No such team color exists as: " + teamKey + " from map: " + name+" therefore we didnt register map");
+                return null;
+            }
+
+
+            spawns.put(teamColor, spawnLocation);
+            beds.put(teamColor, bedLocation);
 
         }
 

@@ -1,4 +1,4 @@
-package eu.cosup.bedwars.Managers;
+package eu.cosup.bedwars.managers;
 
 public class GameStateManager {
 

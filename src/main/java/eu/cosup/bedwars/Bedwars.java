@@ -1,9 +1,16 @@
 package eu.cosup.bedwars;
 
-import eu.cosup.bedwars.Objects.LoadedMap;
-import eu.cosup.bedwars.Data.WorldLoader;
+import eu.cosup.bedwars.commands.ForceStartCommand;
+import eu.cosup.bedwars.commands.SpectatorCommand;
+import eu.cosup.bedwars.listeners.PlayerDeathListener;
+import eu.cosup.bedwars.listeners.PlayerJoinListener;
+import eu.cosup.bedwars.listeners.PlayerLeaveListener;
+import eu.cosup.bedwars.listeners.PlayerMoveListener;
+import eu.cosup.bedwars.objects.LoadedMap;
+import eu.cosup.bedwars.data.WorldLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -45,9 +52,15 @@ public final class Bedwars extends JavaPlugin {
         }
 
         // register all the listeners
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerMoveListener(), this);
 
 
         // register all the commands
+        getCommand("spectate").setExecutor(new SpectatorCommand());
+        getCommand("forcestart").setExecutor(new ForceStartCommand());
     }
 
     @Override

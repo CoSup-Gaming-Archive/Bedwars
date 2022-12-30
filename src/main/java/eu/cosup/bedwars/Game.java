@@ -1,12 +1,15 @@
 package eu.cosup.bedwars;
 
-import eu.cosup.bedwars.Managers.GameStateManager;
-import eu.cosup.bedwars.Managers.TeamManager;
-import eu.cosup.bedwars.Objects.LoadedMap;
-import eu.cosup.bedwars.Objects.TeamColor;
+import eu.cosup.bedwars.managers.GameStateManager;
+import eu.cosup.bedwars.managers.TeamManager;
+import eu.cosup.bedwars.objects.LoadedMap;
+import eu.cosup.bedwars.objects.TeamColor;
+import eu.cosup.bedwars.tasks.ActivateGameTask;
+import eu.cosup.bedwars.tasks.GameEndTask;
+import eu.cosup.bedwars.tasks.GameTimerTask;
+import eu.cosup.bedwars.tasks.StartCountdownTask;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.block.Bed;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -62,15 +65,15 @@ public class Game {
     // active phase
     public void activateGame() {
 
-        // TODO new ActivateGameTask(joinedPlayers).runTask(Cores.getInstance());
-        // TODO GameTimerTask.resetTimer();
-        // TODO new GameTimerTask().runTask(Cores.getInstance());
+        new ActivateGameTask(joinedPlayers).runTask(Bedwars.getInstance());
+        GameTimerTask.resetTimer();
+        new GameTimerTask().runTask(Bedwars.getInstance());
 
     }
 
     public void finishGame(TeamColor winner) {
 
-        // TODO new GameEndTask(winner).runTask(Bedwars.getInstance());
+        new GameEndTask(winner).runTask(Bedwars.getInstance());
 
     }
 
@@ -83,7 +86,7 @@ public class Game {
     }
 
     // returns boolean -> is the joined players > required players
-    // to check how many players are on the cores game
+    // to check how many players are on the Bedwars game
     public void refreshPlayerCount() {
 
         // if the game already started
@@ -113,6 +116,6 @@ public class Game {
         }
 
         // just saving so we can cancel it later
-        // TODO new StartCountdownTask().runTask(Bedwars.getInstance());
+        new StartCountdownTask().runTask(Bedwars.getInstance());
     }
 }

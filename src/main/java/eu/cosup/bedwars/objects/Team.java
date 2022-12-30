@@ -1,4 +1,4 @@
-package eu.cosup.bedwars.Objects;
+package eu.cosup.bedwars.objects;
 
 import org.bukkit.entity.Player;
 
