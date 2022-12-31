@@ -8,10 +8,12 @@ public class Team {
 
     ArrayList<Player> players;
     private final TeamColor color;
+    private boolean isAlive;
 
-    public Team(TeamColor teamColor, ArrayList<Player> players) {
+    public Team(TeamColor teamColor, ArrayList<Player> players, boolean isAlive) {
         this.players = players;
         this.color = teamColor;
+        this.isAlive = isAlive;
     }
 
     public ArrayList<Player> getPlayers() {
@@ -29,5 +31,9 @@ public class Team {
             }
         }
         return false;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 }
