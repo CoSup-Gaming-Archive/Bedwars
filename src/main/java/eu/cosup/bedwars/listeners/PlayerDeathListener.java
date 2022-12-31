@@ -9,6 +9,7 @@ import eu.cosup.bedwars.tasks.SpectatorTask;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.GameMode;
 import org.bukkit.block.Bed;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 
 public class PlayerDeathListener implements Listener {
@@ -51,7 +53,7 @@ public class PlayerDeathListener implements Listener {
             killer = null;
         }
 
-        TextComponent.Builder killerText = Component.text().content(player.getName()).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(player)));
+        TextComponent.Builder killerText = Component.text().content(player.getName()).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(player).getColor()));
 
         // that means player was not damaged by other players
         if (killer == null) {
@@ -59,8 +61,19 @@ public class PlayerDeathListener implements Listener {
         } else {
             killerText
             .append(Component.text().content(" was killed by ").color(NamedTextColor.YELLOW))
-            .append(Component.text().content(killer.getName()).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(killer))));
+            .append(Component.text().content(killer.getName()).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(killer).getColor())));
             PlayerDamageManager.setPlayerLastDamage(event.getPlayer(), null);
+        }
+
+
+        if (!Game.getGameInstance().getTeamManager().whichTeam(player).isAlive()) {
+            killerText
+            .append(Component.text().content(" FINAL KILL").decorate(TextDecoration.BOLD).color(NamedTextColor.AQUA));
+
+            player.teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
+            player.setGameMode(GameMode.SPECTATOR);
+            Bedwars.getInstance().getServer().sendMessage(killerText);
+            return;
         }
 
         Bedwars.getInstance().getServer().sendMessage(killerText);
