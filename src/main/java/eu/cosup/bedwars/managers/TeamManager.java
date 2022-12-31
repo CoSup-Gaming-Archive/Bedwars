@@ -6,7 +6,9 @@ import eu.cosup.bedwars.objects.TeamColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class TeamManager {
@@ -20,25 +22,46 @@ public class TeamManager {
     // this will probably be thrown away later
     public void makeTeams(ArrayList<Player> players) {
 
-        ArrayList<Player> teamPlayers = new ArrayList<>();
+        int index = 0;
+        for (TeamColor teamColor : Game.getGameInstance().getSelectedMap().getTeamSpawns().keySet()) {
 
-        for (TeamColor teamColor : TeamColor.values()) {
+            if (players.size() == 1) {
+                teams.add(new Team(teamColor, players, true));
+                break;
+            }
 
-            for (Player player : players) {
+            if (players.size() > 1) {
 
-                if (teamPlayers.size() >= players.size() / Game.getGameInstance().getSelectedMap().getTeamBeds().size()) {
+                List<Player> teamPlayers = players.subList(index, players.size() / Game.getGameInstance().getSelectedMap().getTeamSpawns().keySet().size() + index);
 
-                    teams.add(new Team(teamColor, teamPlayers));
+                ArrayList<Player> teamPlayersArrayList = new ArrayList<>(teamPlayers.stream().filter(player -> whichTeam(player) == null).toList());
 
-                    teamPlayers = new ArrayList<>();
+                if (teamPlayersArrayList.size() > 0) {
+                    teams.add(new Team(teamColor, teamPlayersArrayList, true));
+                } else {
+                    teams.add(new Team(teamColor, new ArrayList<>(), false));
                 }
-                teamPlayers.add(player);
+
+                index+=players.size() / Game.getGameInstance().getSelectedMap().getTeamSpawns().keySet().size();
             }
         }
+
+
+        for (TeamColor teamColor : TeamColor.values()) {
+            // add all the dead teams
+            if (Game.getGameInstance().getTeamManager().getTeamByColor(teamColor) == null) {
+                teams.add(new Team(teamColor, new ArrayList<>(), false));
+            }
+        }
+
+        for (Team team : teams) {
+            Bukkit.getLogger().info(team.getPlayers()+"");
+        }
+
     }
 
     // which team player is in
-    public TeamColor whichTeam(Player player) {
+    public Team whichTeam(Player player) {
 
         if (player == null) {
             return null;
@@ -46,7 +69,7 @@ public class TeamManager {
 
         for (Team team : teams) {
             if (team.isPlayerInTeam(player)) {
-                return team.getColor();
+                return team;
             }
         }
 
