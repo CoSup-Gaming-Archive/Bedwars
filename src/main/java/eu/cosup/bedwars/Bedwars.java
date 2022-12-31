@@ -6,6 +6,7 @@ import eu.cosup.bedwars.listeners.PlayerDeathListener;
 import eu.cosup.bedwars.listeners.PlayerJoinListener;
 import eu.cosup.bedwars.listeners.PlayerLeaveListener;
 import eu.cosup.bedwars.listeners.PlayerMoveListener;
+import eu.cosup.bedwars.managers.ScoreBoardManager;
 import eu.cosup.bedwars.objects.LoadedMap;
 import eu.cosup.bedwars.data.WorldLoader;
 import org.bukkit.Bukkit;
@@ -65,6 +66,9 @@ public final class Bedwars extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // so this doesnt accidentaly show up next time if the server was to crash
+        ScoreBoardManager scoreBoardManager = new ScoreBoardManager("bedwars");
+        scoreBoardManager.clearObjective();
         instance = null;
     }
 
