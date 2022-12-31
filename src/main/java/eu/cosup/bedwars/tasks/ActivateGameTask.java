@@ -63,7 +63,7 @@ public class ActivateGameTask extends BukkitRunnable {
 
     // ooo so juicy
     public static void preparePlayerFull(Player player) {
-        TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player);
+        TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player).getColor();
         // TODO NameTagEditor nameTagEditor = new NameTagEditor(player);
         // TODO nameTagEditor.setNameColor(TeamColor.getChatColor(teamColor)).setPrefix(teamColor.toString()+" ").setTabName(TeamColor.getChatColor(teamColor)+player.getName()).setChatName((TeamColor.getChatColor(teamColor)+player.getName()));
         preparePlayerStats(player);
@@ -93,7 +93,7 @@ public class ActivateGameTask extends BukkitRunnable {
             ItemMeta meta = armorPeace.hasItemMeta() ? armorPeace.getItemMeta() : Bukkit.getItemFactory().getItemMeta(armorPeace.getType());
             LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) meta;
             // from Color:
-            leatherArmorMeta.setColor(TeamColor.getColor(Game.getGameInstance().getTeamManager().whichTeam(player)));
+            leatherArmorMeta.setColor(TeamColor.getColor(Game.getGameInstance().getTeamManager().whichTeam(player).getColor()));
             armorPeace.setItemMeta(leatherArmorMeta);
 
             // cheeky way but maybe there is a better method
@@ -152,9 +152,29 @@ public class ActivateGameTask extends BukkitRunnable {
         // spawn every bed acording to the team color
         for (TeamColor teamColor : Game.getGameInstance().getSelectedMap().getTeamBeds().keySet()) {
 
-            Bedwars.getInstance().getGameWorld().setType(Game.getGameInstance().getSelectedMap().getTeamBeds().get(teamColor),
-                    Material.getMaterial(teamColor.toString().toUpperCase() + "_BED"));
+            if (!Game.getGameInstance().getTeamManager().getTeamByColor(teamColor).isAlive()) {
+                Bukkit.getLogger().info("Did not spawn beds for "+teamColor);
+                continue;
+            }
 
+            Material bed = Material.getMaterial(teamColor.toString().toUpperCase() + "_BED");
+
+            Location bedLocation = Game.getGameInstance().getSelectedMap().getTeamBeds().get(teamColor);
+
+            Bedwars.getInstance().getGameWorld().setType(bedLocation, bed);
+
+            // TODO make the second bed block also in config
+            /*
+            Location secondBlockLocation = new Location(
+                    Bedwars.getInstance().getGameWorld(),
+                    bedLocation.getBlockX() + Math.sin(Math.toRadians(bedLocation.getYaw())),
+                    bedLocation.getBlockY(),
+                    bedLocation.getZ() + Math.cos(Math.toRadians(bedLocation.getYaw()))
+            );
+
+            Bedwars.getInstance().getGameWorld().setType(secondBlockLocation, bed);
+
+             */
         }
 
         Bukkit.getLogger().info("Spawned beds");
