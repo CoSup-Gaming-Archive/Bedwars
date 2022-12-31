@@ -16,6 +16,7 @@ import org.bukkit.util.Vector;
 public class SpectatorTask extends BukkitRunnable {
 
     private final Player player;
+    private static final int respawnDelay = Bedwars.getInstance().getConfig().getInt("respawn-delay");
 
     public SpectatorTask(Player player) {
         this.player = player;
@@ -24,21 +25,21 @@ public class SpectatorTask extends BukkitRunnable {
     @Override
     public void run() {
 
-        TeamColor team = Game.getGameInstance().getTeamManager().whichTeam(player);
+        TeamColor team = Game.getGameInstance().getTeamManager().whichTeam(player).getColor();
         player.setGameMode(GameMode.SPECTATOR);
         player.setVelocity(new Vector().zero());
 
         // yay
         player.teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
 
-        for (int i = 0; i < Bedwars.getInstance().getConfig().getInt("respawn-delay"); i++) {
+        for (int i = 0; i < respawnDelay; i++) {
             int finalI = i;
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     player.clearTitle();
                     Component msg = Component.text().content("Respawning in " ).color(NamedTextColor.RED)
-                            .append(Component.text().content(String.valueOf(Bedwars.getInstance().getConfig().getInt("respawn-delay")-finalI))).build();
+                            .append(Component.text().content(String.valueOf(respawnDelay-finalI))).build();
 
                     Title title = Title.title(msg, Component.text().build());
 
@@ -66,6 +67,6 @@ public class SpectatorTask extends BukkitRunnable {
 
                 player.sendMessage(Component.text().content("You are alive!").color(TeamColor.getNamedTextColor(team)));
             }
-        }.runTaskLater(Bedwars.getInstance(), Bedwars.getInstance().getConfig().getInt("respawn-delay") * 20L);
+        }.runTaskLater(Bedwars.getInstance(), respawnDelay * 20L);
     }
 }
