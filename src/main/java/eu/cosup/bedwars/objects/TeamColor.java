@@ -55,4 +55,8 @@ public enum TeamColor {
         
         return NamedTextColor.BLACK;
     }
+
+    public static String getFormattedTeamColor(TeamColor teamColor) {
+        return teamColor.toString().substring(0, 1).toUpperCase()+teamColor.toString().substring(1).toLowerCase();
+    }
 }
