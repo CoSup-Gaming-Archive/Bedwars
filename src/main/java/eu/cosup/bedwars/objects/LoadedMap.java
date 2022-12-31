@@ -93,7 +93,7 @@ public class LoadedMap {
 
     public Location getSpawnByPlayer(Player player) {
 
-        TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player);
+        TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player).getColor();
 
         return teamSpawns.get(teamColor);
     }
