@@ -1,7 +1,9 @@
 required-player-count : 1
 return-to-lobby-delay : 10
 respawn-delay : 7
+spawn-protection-distance : 6
+
 
 armor : ["LEATHER_BOOTS", "LEATHER_LEGGINGS", "LEATHER_CHESTPLATE", "LEATHER_HELMET"]
 hotbar :
-  STONE_SWORD: 1
+  WOODEN_SWORD: 1
