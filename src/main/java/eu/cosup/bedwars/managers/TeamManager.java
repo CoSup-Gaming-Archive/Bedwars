@@ -10,6 +10,7 @@ import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class TeamManager {
 
@@ -53,11 +54,31 @@ public class TeamManager {
                 teams.add(new Team(teamColor, new ArrayList<>(), false));
             }
         }
+    }
+
+    public ArrayList<Team> getAliveTeams() {
+        ArrayList<Team> aliveTeams = new ArrayList<>();
 
         for (Team team : teams) {
-            Bukkit.getLogger().info(team.getPlayers()+"");
+            if (team.isAlive()) {
+                aliveTeams.add(team);
+            }
         }
 
+        return aliveTeams;
+    }
+
+    public boolean onlyOneTeamAlive() {
+        return getAliveTeams().size() == 1;
+    }
+
+    public Team getAliveTeam() {
+
+        if (!onlyOneTeamAlive()) {
+            return null;
+        }
+
+        return getAliveTeams().get(0);
     }
 
     // which team player is in
