@@ -1,6 +1,7 @@
 package eu.cosup.bedwars;
 
 import eu.cosup.bedwars.commands.ForceStartCommand;
+import eu.cosup.bedwars.commands.GeneratorSpawnCommand;
 import eu.cosup.bedwars.commands.SpectatorCommand;
 import eu.cosup.bedwars.listeners.*;
 import eu.cosup.bedwars.managers.ScoreBoardManager;
@@ -70,6 +71,8 @@ public final class Bedwars extends JavaPlugin {
         // register all the commands
         Objects.requireNonNull(getCommand("spectate")).setExecutor(new SpectatorCommand());
         Objects.requireNonNull(getCommand("forcestart")).setExecutor(new ForceStartCommand());
+        Objects.requireNonNull(getCommand("generator")).setExecutor(new GeneratorSpawnCommand());
+
 
     }
 
