@@ -7,14 +7,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class LoadedMap {
 
@@ -32,9 +31,10 @@ public class LoadedMap {
     private final int zMin;
     private HashMap<TeamColor, Location> teamSpawns;
     private HashMap<TeamColor, Location> teamBeds;
+    private ArrayList<ItemGenerator> itemGenerators;
 
     public LoadedMap(String name, HashMap<TeamColor, Location> teamSpawns, HashMap<TeamColor, Location> teamBeds, Location spectatorSpawn, int maxHeight, int minHeight, int deathHeight
-                    , int xMax, int xMin, int zMax, int zMin) {
+                    , int xMax, int xMin, int zMax, int zMin, ArrayList<ItemGenerator> itemGenerators) {
 
         this.teamSpawns = teamSpawns;
         this.teamBeds = teamBeds;
@@ -47,6 +47,7 @@ public class LoadedMap {
         this.xMin = xMin;
         this.zMax = zMax;
         this.zMin = zMin;
+        this.itemGenerators = itemGenerators;
     }
 
     public HashMap<TeamColor, Location> getTeamBeds() {
@@ -135,6 +136,10 @@ public class LoadedMap {
         return null;
     }
 
+    public ArrayList<ItemGenerator> getItemGenerators() {
+        return itemGenerators;
+    }
+
     public Location getSpawnByColor(TeamColor teamColor) {
         return teamSpawns.get(teamColor);
     }
@@ -214,6 +219,24 @@ public class LoadedMap {
             Bukkit.getLogger().severe("Make sure you have the correct version of maps.yml (check in repository)");
         }
 
+        ConfigurationSection generatorsList = customConfig.getConfigurationSection(name+".generators");
+
+        ArrayList<ItemGenerator> generators = new ArrayList<>();
+
+        if (generatorsList != null) {
+            for (String key : generatorsList.getKeys(false)) {
+                ConfigurationSection itemGeneratorSection = customConfig.getConfigurationSection(name+".generators."+key);
+                if (itemGeneratorSection == null) {
+                    Bukkit.getLogger().severe("Didnt load generator by name: "+key);
+                    continue;
+                }
+                generators.add(ItemGenerator.deserialize(itemGeneratorSection));
+            }
+        } else {
+            Bukkit.getLogger().severe("There was no generators path in your maps.yml for map: "+name);
+        }
+
+
         return new LoadedMap(
                 name,
                 spawns,
@@ -225,7 +248,8 @@ public class LoadedMap {
                 xMax,
                 xMin,
                 zMax,
-                zMin
+                zMin,
+                generators
         );
     }
 
