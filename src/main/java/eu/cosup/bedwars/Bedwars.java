@@ -58,6 +58,7 @@ public final class Bedwars extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(), this);
 
         new GameChangePhaseListener();
+        new TeamChangeAliveListener();
 
         // register all the commands
         getCommand("spectate").setExecutor(new SpectatorCommand());

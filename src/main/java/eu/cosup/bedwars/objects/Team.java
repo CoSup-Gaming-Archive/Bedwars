@@ -1,5 +1,6 @@
 package eu.cosup.bedwars.objects;
 
+import eu.cosup.bedwars.events.TeamChangeAliveEvent;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -40,6 +41,7 @@ public class Team {
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+        new TeamChangeAliveEvent(alive, color);
     }
 
     public boolean isAlive() {
