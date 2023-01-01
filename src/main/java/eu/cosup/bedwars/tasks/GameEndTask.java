@@ -28,7 +28,10 @@ public class GameEndTask extends BukkitRunnable {
     @Override
     public void run() {
 
-        Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.ENDING);
+        if (winner == null) {
+            return;
+        }
+
         Team winnerTeam = Game.getGameInstance().getTeamManager().getTeamByColor(winner);
 
         GameTimerTask.getInstance().cancelTimer();
@@ -41,15 +44,12 @@ public class GameEndTask extends BukkitRunnable {
                 Bedwars.getInstance().getGameWorld().spawnEntity(playerLocation, EntityType.FIREWORK);
             }
         }
-
         for (Player player : Game.getGameInstance().getJoinedPlayers()) {
 
             if (!winnerTeam.isPlayerInTeam(player)) {
                 player.setGameMode(GameMode.SPECTATOR);
             }
-
         }
-
         Component msg = Component.text().content(winner.toString()).color(TeamColor.getNamedTextColor(winner))
                 .append(Component.text().content(" is the winner!").color(NamedTextColor.YELLOW)).build();
         Bedwars.getInstance().getServer().broadcast(msg);
@@ -69,7 +69,5 @@ public class GameEndTask extends BukkitRunnable {
 
             }
         }.runTaskLater(Bedwars.getInstance(), Bedwars.getInstance().getConfig().getInt("return-to-lobby-delay") * 20L);
-
     }
-
 }
