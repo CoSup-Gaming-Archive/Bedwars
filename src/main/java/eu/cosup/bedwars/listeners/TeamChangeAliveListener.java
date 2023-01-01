@@ -3,12 +3,12 @@ package eu.cosup.bedwars.listeners;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.events.TeamChangeAliveEvent;
-import eu.cosup.bedwars.interfaces.TeamListener;
+import eu.cosup.bedwars.interfaces.TeamListenerInterface;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
 
-public class TeamChangeAliveListener implements TeamListener {
+public class TeamChangeAliveListener implements TeamListenerInterface {
 
     public TeamChangeAliveListener() {
         TeamChangeAliveEvent.addListener(this);

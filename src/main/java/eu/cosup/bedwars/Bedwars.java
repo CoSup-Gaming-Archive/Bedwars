@@ -2,15 +2,12 @@ package eu.cosup.bedwars;
 
 import eu.cosup.bedwars.commands.ForceStartCommand;
 import eu.cosup.bedwars.commands.SpectatorCommand;
-import eu.cosup.bedwars.events.ChangeGamePhaseEvent;
 import eu.cosup.bedwars.listeners.*;
 import eu.cosup.bedwars.managers.ScoreBoardManager;
 import eu.cosup.bedwars.objects.LoadedMap;
 import eu.cosup.bedwars.data.WorldLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.event.player.PlayerGameModeChangeEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;

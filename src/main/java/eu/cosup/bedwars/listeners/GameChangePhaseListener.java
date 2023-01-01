@@ -3,13 +3,12 @@ package eu.cosup.bedwars.listeners;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.events.ChangeGamePhaseEvent;
 import eu.cosup.bedwars.events.ChangeGameStateEvent;
-import eu.cosup.bedwars.interfaces.GameListener;
-import eu.cosup.bedwars.listeners.GameChangePhaseListener;
+import eu.cosup.bedwars.interfaces.GameListenerInterface;
 import eu.cosup.bedwars.managers.GameStateManager;
 import org.bukkit.Bukkit;
 
 // this could be usefull for later
-public class GameChangePhaseListener implements GameListener {
+public class GameChangePhaseListener implements GameListenerInterface {
 
     public GameChangePhaseListener() {
         ChangeGamePhaseEvent.addListener(this);
