@@ -1,5 +1,7 @@
 package eu.cosup.bedwars.managers;
 
+import eu.cosup.bedwars.events.ChangeGamePhaseEvent;
+import eu.cosup.bedwars.events.ChangeGameStateEvent;
 
 public class GameStateManager {
 
@@ -7,6 +9,7 @@ public class GameStateManager {
     private GamePhase gamePhase;
 
     public void setGameState(GameState newGameState) {
+        new ChangeGameStateEvent(newGameState, this.gameState);
         this.gameState = newGameState;
     }
 
@@ -15,6 +18,7 @@ public class GameStateManager {
     }
 
     public void setGamePhase(GamePhase newGamePhase) {
+        new ChangeGamePhaseEvent(newGamePhase, this.gamePhase);
         this.gamePhase = newGamePhase;
     }
 
