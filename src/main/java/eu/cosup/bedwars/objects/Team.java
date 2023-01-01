@@ -1,5 +1,6 @@
 package eu.cosup.bedwars.objects;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -31,6 +32,14 @@ public class Team {
             }
         }
         return false;
+    }
+
+    public ArrayList<Player> getOnlinePlayers() {
+        return new ArrayList<>(players.stream().filter(OfflinePlayer::isOnline).toList());
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
     }
 
     public boolean isAlive() {
