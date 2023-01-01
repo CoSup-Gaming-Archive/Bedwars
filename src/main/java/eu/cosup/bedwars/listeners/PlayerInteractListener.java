@@ -8,6 +8,11 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+
+        if (event.hasBlock()) {
+            return;
+        }
+
         event.setCancelled(true);
     }
 }
