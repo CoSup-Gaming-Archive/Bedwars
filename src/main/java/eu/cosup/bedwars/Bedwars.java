@@ -2,15 +2,14 @@ package eu.cosup.bedwars;
 
 import eu.cosup.bedwars.commands.ForceStartCommand;
 import eu.cosup.bedwars.commands.SpectatorCommand;
-import eu.cosup.bedwars.listeners.PlayerDeathListener;
-import eu.cosup.bedwars.listeners.PlayerJoinListener;
-import eu.cosup.bedwars.listeners.PlayerLeaveListener;
-import eu.cosup.bedwars.listeners.PlayerMoveListener;
+import eu.cosup.bedwars.events.ChangeGamePhaseEvent;
+import eu.cosup.bedwars.listeners.*;
 import eu.cosup.bedwars.managers.ScoreBoardManager;
 import eu.cosup.bedwars.objects.LoadedMap;
 import eu.cosup.bedwars.data.WorldLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -58,10 +57,12 @@ public final class Bedwars extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(), this);
 
+        new GameChangePhaseListener();
 
         // register all the commands
         getCommand("spectate").setExecutor(new SpectatorCommand());
         getCommand("forcestart").setExecutor(new ForceStartCommand());
+
     }
 
     @Override
