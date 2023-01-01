@@ -16,21 +16,28 @@ import org.bukkit.util.Vector;
 public class SpectatorTask extends BukkitRunnable {
 
     private final Player player;
+    private final Boolean respawn;
     private static final int respawnDelay = Bedwars.getInstance().getConfig().getInt("respawn-delay");
 
-    public SpectatorTask(Player player) {
+    public SpectatorTask(Player player, Boolean respawn) {
         this.player = player;
+        this.respawn = respawn;
     }
 
     @Override
     public void run() {
 
-        TeamColor team = Game.getGameInstance().getTeamManager().whichTeam(player).getColor();
         player.setGameMode(GameMode.SPECTATOR);
         player.setVelocity(new Vector().zero());
 
         // yay
         player.teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
+
+        if (!respawn) {
+            return;
+        }
+
+        TeamColor team = Game.getGameInstance().getTeamManager().whichTeam(player).getColor();
 
         for (int i = 0; i < respawnDelay; i++) {
             int finalI = i;
