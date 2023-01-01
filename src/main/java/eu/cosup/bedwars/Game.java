@@ -32,7 +32,6 @@ public class Game {
         this.selectedMap = selectedMap;
 
         joinedPlayers = new ArrayList<>(Bedwars.getInstance().getServer().getOnlinePlayers());
-        refreshPlayerCount();
 
         initGame();
     }
@@ -60,6 +59,7 @@ public class Game {
         gameStateManager.setGameState(GameStateManager.GameState.LOADING);
 
         gameStateManager.setGameState(GameStateManager.GameState.JOINING);
+
     }
 
     // active phase
@@ -100,8 +100,6 @@ public class Game {
         if (joinedPlayers.size() < Bedwars.getInstance().getConfig().getInt("required-player-count")) {
             // this means there is already a countdown going
             if (Game.gameInstance.gameStateManager.getGameState() == GameStateManager.GameState.STARTING) {
-                Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.JOINING);
-
                 Component msg = Component.text().content("Stopping!").color(NamedTextColor.YELLOW).build();
 
                 Bedwars.getInstance().getServer().broadcast(msg);
@@ -112,6 +110,7 @@ public class Game {
                     .append(Component.text().content(String.valueOf(Bedwars.getInstance().getConfig().getInt("required-player-count"))).color(NamedTextColor.RED)
                             .append(Component.text().content(")").color(NamedTextColor.RED))).build();
             Bedwars.getInstance().getServer().broadcast(msg);
+            Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.JOINING);
             return;
         }
 
