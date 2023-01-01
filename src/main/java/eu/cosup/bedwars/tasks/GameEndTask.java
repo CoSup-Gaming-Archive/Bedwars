@@ -62,6 +62,9 @@ public class GameEndTask extends BukkitRunnable {
                 // you should return players to lobby before restarting
                 Bukkit.getLogger().severe("Restarting game");
 
+                // this is not really good as it will lag the server
+                Game.getGameInstance().getBlockManager().clearMap();
+
                 // create new game instance
                 Bedwars.getInstance().createGame();
 
