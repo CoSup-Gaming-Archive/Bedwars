@@ -2,6 +2,7 @@ package eu.cosup.bedwars;
 
 import eu.cosup.bedwars.managers.BlockManager;
 import eu.cosup.bedwars.managers.GameStateManager;
+import eu.cosup.bedwars.managers.ItemGeneratorManager;
 import eu.cosup.bedwars.managers.TeamManager;
 import eu.cosup.bedwars.objects.LoadedMap;
 import eu.cosup.bedwars.objects.TeamColor;
@@ -24,6 +25,7 @@ public class Game {
     private TeamManager teamManager;
     private LoadedMap selectedMap;
     private BlockManager blockManager;
+    private ItemGeneratorManager itemGeneratorManager;
 
     public Game(LoadedMap selectedMap) {
         gameInstance = this;
@@ -31,12 +33,17 @@ public class Game {
         gameStateManager = new GameStateManager();
         teamManager = new TeamManager();
         blockManager = new BlockManager();
+        itemGeneratorManager = new ItemGeneratorManager();
 
         this.selectedMap = selectedMap;
 
         joinedPlayers = new ArrayList<>(Bedwars.getInstance().getServer().getOnlinePlayers());
 
         initGame();
+    }
+
+    public ItemGeneratorManager getItemGeneratorManager() {
+        return itemGeneratorManager;
     }
 
     public BlockManager getBlockManager() {
