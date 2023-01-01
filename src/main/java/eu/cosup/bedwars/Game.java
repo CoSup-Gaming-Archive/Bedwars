@@ -1,5 +1,6 @@
 package eu.cosup.bedwars;
 
+import eu.cosup.bedwars.managers.BlockManager;
 import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.managers.TeamManager;
 import eu.cosup.bedwars.objects.LoadedMap;
@@ -22,18 +23,24 @@ public class Game {
     private GameStateManager gameStateManager;
     private TeamManager teamManager;
     private LoadedMap selectedMap;
+    private BlockManager blockManager;
 
     public Game(LoadedMap selectedMap) {
         gameInstance = this;
 
         gameStateManager = new GameStateManager();
         teamManager = new TeamManager();
+        blockManager = new BlockManager();
 
         this.selectedMap = selectedMap;
 
         joinedPlayers = new ArrayList<>(Bedwars.getInstance().getServer().getOnlinePlayers());
 
         initGame();
+    }
+
+    public BlockManager getBlockManager() {
+        return blockManager;
     }
 
     public static Game getGameInstance() {
