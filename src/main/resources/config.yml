@@ -1,9 +1,14 @@
-required-player-count : 1
+required-player-count : 2
 return-to-lobby-delay : 10
 respawn-delay : 7
 spawn-protection-distance : 6
 
+time-to-first-phase : 60
+time-to-second-phase : 60
+time-to-third-phase : 60
+time-to-sudden-death-phase : 60
 
 armor : ["LEATHER_BOOTS", "LEATHER_LEGGINGS", "LEATHER_CHESTPLATE", "LEATHER_HELMET"]
 hotbar :
   WOODEN_SWORD: 1
+  BLACK_WOOL: 64
