@@ -15,7 +15,7 @@ public class PlayerMoveListener implements Listener {
 
         if (
                 event.getPlayer().getGameMode() == GameMode.CREATIVE
-                        || event.getPlayer().getGameMode() == GameMode.SPECTATOR
+                || event.getPlayer().getGameMode() == GameMode.SPECTATOR
         ) {
             return;
         }

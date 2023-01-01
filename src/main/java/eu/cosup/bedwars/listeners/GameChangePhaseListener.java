@@ -26,23 +26,12 @@ public class GameChangePhaseListener implements GameListenerInterface {
     @Override
     public void firedChangeGameStateEvent(ChangeGameStateEvent event) {
 
-        if (event.newGameState() == event.oldGameState()) {
-            return;
-        }
-
-        Bukkit.getLogger().info(""+event.newGameState());
-
         if (event.newGameState().equals(GameStateManager.GameState.ACTIVE)) {
             Game.getGameInstance().activateGame();
-        }
-
-        if (event.newGameState().equals(GameStateManager.GameState.JOINING)) {
-            Game.getGameInstance().refreshPlayerCount();
         }
 
         if (event.newGameState().equals(GameStateManager.GameState.ENDING)) {
             Game.getGameInstance().finishGame(Game.getGameInstance().getTeamManager().getAliveTeam().getColor());
         }
-
     }
 }

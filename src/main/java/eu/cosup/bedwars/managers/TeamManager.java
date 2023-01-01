@@ -69,13 +69,18 @@ public class TeamManager {
     }
 
     public boolean onlyOneTeamAlive() {
-        return getAliveTeams().size() == 1;
+        return getAliveTeams().size() < 2;
     }
 
     public Team getAliveTeam() {
 
         if (!onlyOneTeamAlive()) {
             return null;
+        }
+
+        if (getAliveTeams().size() == 0) {
+            Bukkit.getLogger().severe("There was probably only one team registered at the start");
+            return teams.get(0);
         }
 
         return getAliveTeams().get(0);

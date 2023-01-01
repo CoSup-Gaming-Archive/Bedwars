@@ -120,12 +120,18 @@ public class ActivateGameTask extends BukkitRunnable {
 
     public static void givePlayerTools(Player player) {
 
+        if (hotbar == null) {
+            return;
+        }
+
         int i = 0;
         for (String itemName : hotbar.getKeys(false)) {
 
-            player.getInventory().setItem(i, new ItemStack(Material.getMaterial(itemName), hotbar.getInt(itemName)));
-
-            i++;
+            Material material = Material.getMaterial(itemName);
+            if (material != null) {
+                player.getInventory().setItem(i, new ItemStack(material, hotbar.getInt(itemName)));
+                i++;
+            }
         }
     }
 
@@ -150,33 +156,16 @@ public class ActivateGameTask extends BukkitRunnable {
     private void spawnBeds() {
 
         // spawn every bed acording to the team color
-        for (TeamColor teamColor : Game.getGameInstance().getSelectedMap().getTeamBeds().keySet()) {
+        for (TeamColor teamColor : Game.getGameInstance().getSelectedMap().getTeamBedsFull().keySet()) {
 
-            if (!Game.getGameInstance().getTeamManager().getTeamByColor(teamColor).isAlive()) {
-                Bukkit.getLogger().info("Did not spawn beds for "+teamColor);
-                continue;
+            for (Location location : Game.getGameInstance().getSelectedMap().getTeamBedsFull().get(teamColor)) {
+
+                Material bed = Material.getMaterial(teamColor.toString().toUpperCase() + "_BED");
+
+                Bedwars.getInstance().getGameWorld().setType(location, bed);
+
             }
-
-            Material bed = Material.getMaterial(teamColor.toString().toUpperCase() + "_BED");
-
-            Location bedLocation = Game.getGameInstance().getSelectedMap().getTeamBeds().get(teamColor);
-
-            Bedwars.getInstance().getGameWorld().setType(bedLocation, bed);
-
-            // TODO make the second bed block also in config
-            /*
-            Location secondBlockLocation = new Location(
-                    Bedwars.getInstance().getGameWorld(),
-                    bedLocation.getBlockX() + Math.sin(Math.toRadians(bedLocation.getYaw())),
-                    bedLocation.getBlockY(),
-                    bedLocation.getZ() + Math.cos(Math.toRadians(bedLocation.getYaw()))
-            );
-
-            Bedwars.getInstance().getGameWorld().setType(secondBlockLocation, bed);
-
-             */
         }
-
         Bukkit.getLogger().info("Spawned beds");
     }
 }

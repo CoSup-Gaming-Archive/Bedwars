@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public final class Bedwars extends JavaPlugin {
@@ -53,13 +54,22 @@ public final class Bedwars extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(), this);
+        getServer().getPluginManager().registerEvents(new ItemThrowListener(), this);
+        getServer().getPluginManager().registerEvents(new HungerReceiveListener(), this);
+
+        getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
+
+
+        getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
+
 
         new GameChangePhaseListener();
         new TeamChangeAliveListener();
 
         // register all the commands
-        getCommand("spectate").setExecutor(new SpectatorCommand());
-        getCommand("forcestart").setExecutor(new ForceStartCommand());
+        Objects.requireNonNull(getCommand("spectate")).setExecutor(new SpectatorCommand());
+        Objects.requireNonNull(getCommand("forcestart")).setExecutor(new ForceStartCommand());
 
     }
 

@@ -4,12 +4,15 @@ import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.managers.PlayerDamageManager;
+import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamColor;
+import eu.cosup.bedwars.tasks.GameEndTask;
 import eu.cosup.bedwars.tasks.SpectatorTask;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.block.Bed;
 import org.bukkit.entity.Player;
@@ -18,7 +21,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.ArrayList;
 
 
 public class PlayerDeathListener implements Listener {
@@ -40,9 +47,8 @@ public class PlayerDeathListener implements Listener {
 
         if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.ACTIVE) {
 
-            // after game ends and stuff
-            event.getPlayer().setGameMode(GameMode.SPECTATOR);
-            event.getPlayer().teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
+            new SpectatorTask(event.getPlayer(), false);
+
             return;
         }
 
@@ -70,14 +76,17 @@ public class PlayerDeathListener implements Listener {
             killerText
             .append(Component.text().content(" FINAL KILL").decorate(TextDecoration.BOLD).color(NamedTextColor.AQUA));
 
-            player.teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
-            player.setGameMode(GameMode.SPECTATOR);
+            new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
             Bedwars.getInstance().getServer().sendMessage(killerText);
+
+            if (Game.getGameInstance().getTeamManager().onlyOneTeamAlive()) {
+                Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.ENDING);
+            }
             return;
         }
 
         Bedwars.getInstance().getServer().sendMessage(killerText);
 
-        new SpectatorTask(event.getPlayer()).runTask(Bedwars.getInstance());
+        new SpectatorTask(event.getPlayer(), true).runTask(Bedwars.getInstance());
     }
 }

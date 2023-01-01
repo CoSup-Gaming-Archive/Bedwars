@@ -4,10 +4,12 @@ import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.objects.TeamColor;
+import eu.cosup.bedwars.tasks.SpectatorTask;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.block.Bed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -17,7 +19,6 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent event) {
         Game game = Game.getGameInstance();
-        
         game.getPlayerList().add(event.getPlayer());
         // TODO NameTagEditor nameTagEditor = new NameTagEditor(event.getPlayer());
         // TODO nameTagEditor.setNameColor(ChatColor.GRAY).setPrefix("Spectator ").setTabName(ChatColor.translateAlternateColorCodes('&', "&7"+event.getPlayer().getName()));
@@ -31,8 +32,7 @@ public class PlayerJoinListener implements Listener {
             if (playerTeam == null) {
                 Component msg = Component.text().content("You joined as spectator since the game already started").color(NamedTextColor.RED).build();
                 event.getPlayer().sendMessage(msg);
-                event.getPlayer().setGameMode(GameMode.SPECTATOR);
-                event.getPlayer().teleport(game.getSelectedMap().getSpectatorSpawn());
+                new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
                 return;
             }
 
@@ -53,8 +53,7 @@ public class PlayerJoinListener implements Listener {
             event.getPlayer().sendMessage(msg);
         }
 
-        event.getPlayer().setGameMode(GameMode.SPECTATOR);
-        event.getPlayer().teleport(game.getSelectedMap().getSpectatorSpawn());
+        new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
 
     }
 }

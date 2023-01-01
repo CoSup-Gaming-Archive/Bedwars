@@ -2,6 +2,7 @@ package eu.cosup.bedwars.objects;
 
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
+import it.unimi.dsi.fastutil.Hash;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -12,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Set;
 
 public class LoadedMap {
@@ -49,6 +51,30 @@ public class LoadedMap {
 
     public HashMap<TeamColor, Location> getTeamBeds() {
         return teamBeds;
+    }
+
+    public HashMap<TeamColor, ArrayList<Location>> getTeamBedsFull() {
+
+        HashMap<TeamColor, ArrayList<Location>> fullTeamBeds = new HashMap<>();
+
+        for (TeamColor teamColor : getTeamBeds().keySet()) {
+
+            ArrayList<Location> teamBeds = new ArrayList<>();
+            Location originalLocation = getTeamBeds().get(teamColor);
+
+            teamBeds.add(new Location(
+                    Bedwars.getInstance().getGameWorld(),
+                    originalLocation.getX() + Math.sin(Math.toRadians(originalLocation.getYaw())),
+                    originalLocation.getY(),
+                    originalLocation.getZ() + Math.cos(Math.toRadians(originalLocation.getYaw()))
+            ).toBlockLocation());
+
+            teamBeds.add(originalLocation);
+
+            fullTeamBeds.put(teamColor, teamBeds);
+        }
+
+        return fullTeamBeds;
     }
 
     public HashMap<TeamColor, Location> getTeamSpawns() {
@@ -96,6 +122,17 @@ public class LoadedMap {
         TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player).getColor();
 
         return teamSpawns.get(teamColor);
+    }
+
+    public Team whichTeamBed(Location location) {
+        for (TeamColor teamColor : getTeamBedsFull().keySet()) {
+            for (Location bedLocation : getTeamBedsFull().get(teamColor)) {
+                if (Objects.equals(bedLocation.toBlockLocation().toString(), location.toBlockLocation().toString())) {
+                    return Game.getGameInstance().getTeamManager().getTeamByColor(teamColor);
+                }
+            }
+        }
+        return null;
     }
 
     public Location getSpawnByColor(TeamColor teamColor) {
