@@ -12,7 +12,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 
-public class BeaconInformation {
+public class SideBarInformation {
     public static void update() {
 
         Component header = Component.text().content("Cosup Gaming").build();

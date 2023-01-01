@@ -1,7 +1,7 @@
 package eu.cosup.bedwars.tasks;
 
 import eu.cosup.bedwars.Bedwars;
-import eu.cosup.bedwars.objects.BeaconInformation;
+import eu.cosup.bedwars.objects.SideBarInformation;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameTimerTask extends BukkitRunnable {
@@ -15,7 +15,7 @@ public class GameTimerTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        BeaconInformation.update();
+        SideBarInformation.update();
         setSecondsElapsed(getSecondsElapsed()+1);
         new GameTimerTask().runTaskLater(Bedwars.getInstance(), 20L);
     }
