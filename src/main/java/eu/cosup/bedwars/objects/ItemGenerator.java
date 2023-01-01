@@ -111,8 +111,6 @@ public class ItemGenerator implements ConfigurationSerializable {
 
     public static ItemGenerator deserialize(ConfigurationSection configurationSection) {
 
-        Bukkit.getLogger().info(""+configurationSection.getString("item"));
-
         if (configurationSection.getString("item") == null) {
             Bukkit.getLogger().severe("While loading a generator material was a null string or material does not exist");
             return null;
