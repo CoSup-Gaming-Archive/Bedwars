@@ -45,7 +45,7 @@ public class StartCountdownTask extends BukkitRunnable {
                         Game.getGameInstance().getTeamManager().makeTeams(Game.getGameInstance().getJoinedPlayers());
 
                         Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.ACTIVE);
-                        Game.getGameInstance().activateGame();
+
                         Bedwars.getInstance().getServer().broadcast(
                                 Component.text("STARTING").color(NamedTextColor.YELLOW)
                         );
