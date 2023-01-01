@@ -3,12 +3,13 @@ package eu.cosup.bedwars.listeners;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.events.ChangeGamePhaseEvent;
 import eu.cosup.bedwars.events.ChangeGameStateEvent;
-import eu.cosup.bedwars.interfaces.Listener;
+import eu.cosup.bedwars.interfaces.GameListener;
+import eu.cosup.bedwars.listeners.GameChangePhaseListener;
 import eu.cosup.bedwars.managers.GameStateManager;
 import org.bukkit.Bukkit;
 
 // this could be usefull for later
-public class GameChangePhaseListener implements Listener {
+public class GameChangePhaseListener implements GameListener {
 
     public GameChangePhaseListener() {
         ChangeGamePhaseEvent.addListener(this);
@@ -21,11 +22,14 @@ public class GameChangePhaseListener implements Listener {
         if (event.newGamePhase().equals(GameStateManager.GamePhase.FIRST_UPGRADE)) {
             Bukkit.getLogger().info("FIRST UPGRADE NOW!");
         }
-
     }
 
     @Override
     public void firedChangeGameStateEvent(ChangeGameStateEvent event) {
+
+        if (event.newGameState() == event.oldGameState()) {
+            return;
+        }
 
         Bukkit.getLogger().info(""+event.newGameState());
 

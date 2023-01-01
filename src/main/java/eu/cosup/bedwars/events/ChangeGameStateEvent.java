@@ -1,6 +1,6 @@
 package eu.cosup.bedwars.events;
 
-import eu.cosup.bedwars.interfaces.Listener;
+import eu.cosup.bedwars.interfaces.GameListener;
 import eu.cosup.bedwars.managers.GameStateManager;
 
 import java.util.ArrayList;
@@ -14,14 +14,14 @@ public record ChangeGameStateEvent(GameStateManager.GameState newGameState, Game
         changeGameState();
     }
 
-    private static List<Listener> listeners = new ArrayList<>();
+    private static List<GameListener> listeners = new ArrayList<>();
 
-    public static void addListener(Listener listener) {
+    public static void addListener(GameListener listener) {
         listeners.add(listener);
     }
 
     private void changeGameState() {
-        for (Listener listener : listeners)
+        for (GameListener listener : listeners)
             listener.firedChangeGameStateEvent(this);
     }
 }
