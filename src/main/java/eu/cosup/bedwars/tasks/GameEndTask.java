@@ -35,6 +35,7 @@ public class GameEndTask extends BukkitRunnable {
         Team winnerTeam = Game.getGameInstance().getTeamManager().getTeamByColor(winner);
 
         GameTimerTask.getInstance().cancelTimer();
+        Game.getGameInstance().getItemGeneratorManager().deactivateGenerators();
 
         for (Player player : winnerTeam.getPlayers()) {
 

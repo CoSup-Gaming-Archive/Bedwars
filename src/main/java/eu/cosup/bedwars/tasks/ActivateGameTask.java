@@ -35,6 +35,7 @@ public class ActivateGameTask extends BukkitRunnable {
         prepareEnviroment();
         preparePlayers();
         spawnBeds();
+        spawnGenerators();
     }
 
     private void prepareEnviroment() {
@@ -167,5 +168,9 @@ public class ActivateGameTask extends BukkitRunnable {
             }
         }
         Bukkit.getLogger().info("Spawned beds");
+    }
+
+    private void spawnGenerators() {
+        Game.getGameInstance().getItemGeneratorManager().activateGenerators();
     }
 }
