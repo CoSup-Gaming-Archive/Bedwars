@@ -2,6 +2,8 @@ package eu.cosup.bedwars.tasks;
 
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
+import eu.cosup.bedwars.objects.PrivateChest;
+import eu.cosup.bedwars.objects.TeamChest;
 import eu.cosup.bedwars.objects.TeamColor;
 import org.bukkit.*;
 import org.bukkit.block.Bed;
@@ -36,6 +38,7 @@ public class ActivateGameTask extends BukkitRunnable {
         preparePlayers();
         spawnBeds();
         spawnGenerators();
+        spawnChests();
     }
 
     private void prepareEnviroment() {
@@ -172,5 +175,19 @@ public class ActivateGameTask extends BukkitRunnable {
 
     private void spawnGenerators() {
         Game.getGameInstance().getItemGeneratorManager().activateGenerators();
+    }
+
+    private void spawnChests() {
+        for (Location location : Game.getGameInstance().getChestManager().getGameChestLocation()) {
+
+            if (Game.getGameInstance().getChestManager().isTeamChest(location)) {
+                Bedwars.getInstance().getGameWorld().setType(location, TeamChest.CHEST_BLOCK);
+                continue;
+            }
+
+            if (Game.getGameInstance().getChestManager().isPrivateChest(location)) {
+                Bedwars.getInstance().getGameWorld().setType(location, PrivateChest.CHEST_BLOCK);
+            }
+        }
     }
 }
