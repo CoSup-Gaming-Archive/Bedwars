@@ -6,6 +6,31 @@ TestMap:
   xMax: 252
   zMin: 248
   zMax: 536
+  chests:
+    team:
+      yellow:
+        ==: org.bukkit.Location
+        world: world
+        x: 105.0
+        y: 14.0
+        z: 518.0
+        pitch: 0.0
+        yaw: 0.0
+  generators:
+    diamond-one:
+      maxLevel: 3
+      item: DIAMOND
+      dropAmount: 20
+      location:
+        ==: org.bukkit.Location
+        world: world
+        x: 105.0
+        y: 14.0
+        z: 517.0
+        pitch: 0.0
+        yaw: 0.0
+      dropTime: 1.0
+      percentTimeDecreaseLevel: 0.2
   spectatorSpawn:
     ==: org.bukkit.Location
     world: world
