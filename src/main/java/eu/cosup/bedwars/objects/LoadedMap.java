@@ -32,9 +32,13 @@ public class LoadedMap {
     private HashMap<TeamColor, Location> teamSpawns;
     private HashMap<TeamColor, Location> teamBeds;
     private ArrayList<ItemGenerator> itemGenerators;
+    private ArrayList<PrivateChest> privateChests;
+    private ArrayList<TeamChest> teamChests;
 
     public LoadedMap(String name, HashMap<TeamColor, Location> teamSpawns, HashMap<TeamColor, Location> teamBeds, Location spectatorSpawn, int maxHeight, int minHeight, int deathHeight
-                    , int xMax, int xMin, int zMax, int zMin, ArrayList<ItemGenerator> itemGenerators) {
+                    , int xMax, int xMin, int zMax, int zMin, ArrayList<ItemGenerator> itemGenerators,
+                     ArrayList<PrivateChest> privateChests, ArrayList<TeamChest> teamChests
+    ) {
 
         this.teamSpawns = teamSpawns;
         this.teamBeds = teamBeds;
@@ -48,6 +52,8 @@ public class LoadedMap {
         this.zMax = zMax;
         this.zMin = zMin;
         this.itemGenerators = itemGenerators;
+        this.privateChests = privateChests;
+        this.teamChests = teamChests;
     }
 
     public HashMap<TeamColor, Location> getTeamBeds() {
@@ -76,6 +82,14 @@ public class LoadedMap {
         }
 
         return fullTeamBeds;
+    }
+
+    public ArrayList<PrivateChest> getPrivateChests() {
+        return privateChests;
+    }
+
+    public ArrayList<TeamChest> getTeamChests() {
+        return teamChests;
     }
 
     public HashMap<TeamColor, Location> getTeamSpawns() {
@@ -243,6 +257,35 @@ public class LoadedMap {
             Bukkit.getLogger().severe("There was no generators path in your maps.yml for map: "+name);
         }
 
+        Bukkit.getLogger().info("-------------------LOADING PRIVATE CHESTS: "+name+"-------------------");
+
+        ArrayList<PrivateChest> privateChests = new ArrayList<>();
+
+        ConfigurationSection privateChestConfiguration = customConfig.getConfigurationSection(name+".chests.private");
+
+        if (privateChestConfiguration == null) {
+            Bukkit.getLogger().severe("Cannot load private chests");
+        } else {
+            for (String key : privateChestConfiguration.getKeys(false)) {
+                Location privateChestLocation = privateChestConfiguration.getLocation(key);
+                privateChests.add(new PrivateChest(privateChestLocation));
+            }
+        }
+
+        Bukkit.getLogger().info("-------------------LOADING TEAM CHESTS: "+name+"-------------------");
+
+        ArrayList<TeamChest> teamChests = new ArrayList<>();
+
+        ConfigurationSection teamChestConfiguration = customConfig.getConfigurationSection(name+".chests.team");
+
+        if (teamChestConfiguration == null) {
+            Bukkit.getLogger().severe("Cannot load team chests");
+        } else {
+            for (String key : teamChestConfiguration.getKeys(false)) {
+                Location teamChestLocation = teamChestConfiguration.getLocation(key);
+                teamChests.add(new TeamChest(TeamColor.valueOf(key.toUpperCase()),teamChestLocation));
+            }
+        }
 
         return new LoadedMap(
                 name,
@@ -256,7 +299,9 @@ public class LoadedMap {
                 xMin,
                 zMax,
                 zMin,
-                generators
+                generators,
+                privateChests,
+                teamChests
         );
     }
 
