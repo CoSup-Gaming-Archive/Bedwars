@@ -25,7 +25,6 @@ public class openshop implements CommandExecutor {
             return true;
         }
         ItemStack is = new ItemStack(Material.CHEST);
-        player.sendMessage(is.serialize().keySet().toString());
         Game.getGameInstance().getShopManager().openShopForPlayer(player, null);
         return true;
     }

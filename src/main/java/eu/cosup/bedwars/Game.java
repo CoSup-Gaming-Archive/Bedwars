@@ -24,7 +24,7 @@ public class Game {
     private LoadedMap selectedMap;
     private BlockManager blockManager;
     private ItemGeneratorManager itemGeneratorManager;
-    private ChestManager chestManager;
+    //private ChestManager chestManager;
 
     public Game(LoadedMap selectedMap) {
         gameInstance = this;
@@ -35,7 +35,8 @@ public class Game {
         blockManager = new BlockManager();
         itemGeneratorManager = new ItemGeneratorManager();
         shopManager=new ShopManager();
-        chestManager = new ChestManager();
+        shopManager.loadConfig();
+        //chestManager = new ChestManager();
 
 
         joinedPlayers = new ArrayList<>(Bedwars.getInstance().getServer().getOnlinePlayers());
@@ -47,9 +48,9 @@ public class Game {
         return shopManager;
     }
 
-    public ChestManager getChestManager() {
+    /*public ChestManager getChestManager() {
         return chestManager;
-    }
+    }*/
 
     public ItemGeneratorManager getItemGeneratorManager() {
         return itemGeneratorManager;

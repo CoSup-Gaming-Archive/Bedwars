@@ -13,10 +13,8 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.format.TextFormat;
-import org.bukkit.Bukkit;
+import org.bukkit.*;
 import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Bed;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -61,7 +59,7 @@ public class ShopManager {
     public int offset=0;
     private PlayerInventoryUtility playerInventoryUtility = new PlayerInventoryUtility();
     public ShopManager(){
-        loadConfig();
+
     }
     public void loadConfig(){
         //load the configs from shop.yml
@@ -124,10 +122,7 @@ public class ShopManager {
         index=0;
         for (ShopItemsUtility item: items.get(currentTab).items){
             ItemStack itemPreview=item.getItem().clone();
-
-            //show item price
             ItemMeta itemMeta= itemPreview.getItemMeta();
-            //TODO REMPOe
             if (item.isRespectTeamColor()){
                 String modifyItemType = item.getItem().getType().name();
                 modifyItemType= modifyItemType.replaceFirst("WHITE", getTeamColor(player));
@@ -170,7 +165,7 @@ public class ShopManager {
         } else if (material==Material.IRON_INGOT){
             return Component.text(String.valueOf(amount)+ "x Iron Ingot").color(TextColor.color(255, 255, 255));
         } else {
-            return Component.text(String.valueOf(amount)+ "x Thig bruh this is weird").color(TextColor.color(255, 255, 255));
+            return Component.text(String.valueOf(amount)+ "x "+material.name()).color(TextColor.color(255, 255, 255));
         }
     }
     public String getTeamColor(Player player){
@@ -187,12 +182,14 @@ public class ShopManager {
             if (openTab == null) {
                 openShopForPlayer(player, getOpenedTab(shop));
             }
+            player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 100F, 2F);
             openShopForPlayer(player, openTab);
         } else if (slot<17&&slot>9) {
             String openTab = getClickedTab(slot-9);
             if (openTab == null) {
                 openShopForPlayer(player, getOpenedTab(shop));
             }
+            player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 100F, 2F);
             openShopForPlayer(player, openTab);
 
         } else if ((slot>27 && slot<35) || (slot>36 && slot<44)){
@@ -202,7 +199,9 @@ public class ShopManager {
               ShopItemsUtility itemsUtility=getClickedItem(slot, shop);
               if (PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, itemsUtility.getPriceItem(), itemsUtility.getPrice())){
                   player.getInventory().addItem(itemsUtility.getItem());
+                  player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 200f, 2f);
               } else {
+                  player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 100f, 0.9f);
                   player.sendMessage(Component.text("You can't afford this item").color(TextColor.color(255, 85, 85)));
               }
               openShopForPlayer(player, getOpenedTab(shop));

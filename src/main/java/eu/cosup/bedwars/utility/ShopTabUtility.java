@@ -1,5 +1,6 @@
 package eu.cosup.bedwars.utility;
 
+import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.ShopManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +21,7 @@ public class ShopTabUtility {
             int y = dx.intValue();
             int x = index%7;
 
-            this.items.add(new ShopItemsUtility(ShopManager.getInstance().readItemStackFromConfig("shop."+tabName+".items."+item + ".item", ShopManager.getInstance().getShopConfig()), items.getString(item+".priceItem"), items.getInt(item+".price"), items.getBoolean(item+".respectTeamColor", false), tabName, (y+1)*9+x+19));
+            this.items.add(new ShopItemsUtility(Game.getGameInstance().getShopManager().readItemStackFromConfig("shop."+tabName+".items."+item + ".item", Game.getGameInstance().getShopManager().getShopConfig()), items.getString(item+".priceItem"), items.getInt(item+".price"), items.getBoolean(item+".respectTeamColor", false), tabName, (y+1)*9+x+19));
             index++;
         }
     }
