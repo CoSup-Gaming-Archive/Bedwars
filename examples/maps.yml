@@ -15,7 +15,7 @@ TestMap:
     pitch: 0.0
     yaw: 0.0
   teams:
-    blue:
+    yellow:
       spawn:
         ==: org.bukkit.Location
         world: world
@@ -32,7 +32,7 @@ TestMap:
         z: 520.0
         pitch: 0.0
         yaw: 0.0
-    red:
+    green:
       spawn:
         ==: org.bukkit.Location
         world: world
