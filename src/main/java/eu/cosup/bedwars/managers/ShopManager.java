@@ -72,8 +72,6 @@ public class ShopManager {
             Bukkit.getLogger().severe("We were not able to find a shop configuration file");
             return;
         }
-        ItemStack item = new ItemStack(Material.TERRACOTTA);
-        Bukkit.getLogger().severe(item.getType().name());
         YamlConfiguration shopConfig=YamlConfiguration.loadConfiguration(shopConfigFile);
         this.shopConfig=shopConfig;
         title=Component.text("Shop");
@@ -114,7 +112,6 @@ public class ShopManager {
             if (tab==currentTab){
                 ItemMeta itemMeta = icon.getItemMeta();
                 if (itemMeta==null){
-                    Bukkit.getLogger().warning(icon.getType().name());
                     itemMeta=Bukkit.getItemFactory().getItemMeta(icon.getType());
                 }
                 itemMeta.addEnchant(Enchantment.DURABILITY, 0, false);
@@ -137,11 +134,9 @@ public class ShopManager {
             //show item price
             ItemMeta itemMeta= itemPreview.getItemMeta();
             //TODO REMPOe
-            System.out.println(item.isRespectTeamColor());
             if (item.isRespectTeamColor()){
                 String modifyItemType = item.getItem().getType().name();
                 modifyItemType= modifyItemType.replaceFirst("WHITE", getTeamColor(player));
-                System.out.println(modifyItemType);
                 itemPreview.setType(Material.getMaterial(modifyItemType));
             }
             if (itemMeta.hasLore()){
@@ -186,7 +181,6 @@ public class ShopManager {
     }
     public String getTeamColor(Player player){
         Team team= Game.getGameInstance().getTeamManager().whichTeam(player);
-        System.out.println(team);
         if (team==null){
             return "GRAY";
         } else {
@@ -362,7 +356,7 @@ public class ShopManager {
                 particles= potions.getBoolean(name+".particles", true);
                 overwrite= potions.getBoolean(name+".particles", true);
                 try {
-                    System.out.println(potionMeta.addCustomEffect(new PotionEffect(type, duration, amplifier, ambient, particles, icon), overwrite));
+                    potionMeta.addCustomEffect(new PotionEffect(type, duration, amplifier, ambient, particles, icon), overwrite);
                     //itemMeta.addEnchant(Enchantment.getByKey(new NamespacedKey("minecraft", name.toLowerCase())), enchants.getInt(name), false);
                 } catch (Exception e){
                     Bukkit.getLogger().warning("Exception at: "+path+" (potions: "+name+")");
