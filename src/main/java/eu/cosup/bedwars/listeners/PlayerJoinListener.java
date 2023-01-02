@@ -3,6 +3,7 @@ package eu.cosup.bedwars.listeners;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
+import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamColor;
 import eu.cosup.bedwars.tasks.SpectatorTask;
 import net.kyori.adventure.text.Component;
@@ -27,7 +28,7 @@ public class PlayerJoinListener implements Listener {
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
             // if player is not in a team
 
-            TeamColor playerTeam = game.getTeamManager().whichTeam(event.getPlayer()).getColor();
+            Team playerTeam = game.getTeamManager().whichTeam(event.getPlayer());
 
             if (playerTeam == null) {
                 Component msg = Component.text().content("You joined as spectator since the game already started").color(NamedTextColor.RED).build();
@@ -35,7 +36,7 @@ public class PlayerJoinListener implements Listener {
                 new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
                 return;
             }
-
+            
             Component msg = Component.text().content("You joined as ").color(NamedTextColor.YELLOW)
                             .append(Component.text().content(playerTeam.toString()).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer()).getColor()))).build();
 
