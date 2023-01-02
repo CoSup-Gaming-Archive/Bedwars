@@ -56,13 +56,11 @@ shop:
  */
 public class ShopManager {
     public HashMap<String, ShopTabUtility> items=new HashMap<>();
-    private static ShopManager instance;
     public YamlConfiguration shopConfig;
     public Component title;
     public int offset=0;
     private PlayerInventoryUtility playerInventoryUtility = new PlayerInventoryUtility();
     public ShopManager(){
-        instance=this;
         loadConfig();
     }
     public void loadConfig(){
@@ -78,20 +76,16 @@ public class ShopManager {
 
         //load items from config
         ConfigurationSection shop = getShopConfig().getConfigurationSection("shop");
-        List<String> tabs= ShopManager.getInstance().getShopConfig().getStringList("tabList");
+        List<String> tabs= this.getShopConfig().getStringList("tabList");
         String f="{";
         for (String tab: tabs){
             ConfigurationSection thisTab = shop.getConfigurationSection(tab);
-            getItems().put(tab, new ShopTabUtility(ShopManager.getInstance().readItemStackFromConfig("shop."+tab+".icon", shopConfig), thisTab.getConfigurationSection("items"), tab));
+            getItems().put(tab, new ShopTabUtility(this.readItemStackFromConfig("shop."+tab+".icon", shopConfig), thisTab.getConfigurationSection("items"), tab));
             f+="\""+tab+"\":"+getItems().get(tab).getStringBuilt()+", ";
         }
         f+="}";
         //Bukkit.getLogger().warning(f);
     }
-    public static ShopManager getInstance() {
-        return instance;
-    }
-
     public HashMap<String, ShopTabUtility> getItems(){
         return items;
     }
@@ -106,7 +100,7 @@ public class ShopManager {
         Double beingAtD=Math.floor((items.size()/2));
         int beginAt=4-beingAtD.intValue();
         offset=beginAt;
-        for (String tab: ShopManager.getInstance().getShopConfig().getStringList("tabList")){
+        for (String tab: this.getShopConfig().getStringList("tabList")){
             //show tabs at the top
             ItemStack icon = items.get(tab).icon.clone();
             if (tab==currentTab){

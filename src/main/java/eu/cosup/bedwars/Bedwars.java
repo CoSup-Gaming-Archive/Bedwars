@@ -58,7 +58,7 @@ public final class Bedwars extends JavaPlugin {
         if (!createGame()) {
             return;
         }
-        if (ShopManager.getInstance().items.size() == 0){
+        if (Game.getGameInstance().getShopManager().items.size() == 0){
             Bukkit.getLogger().severe("We'Re not able to load the itemshop");
             return;
         }

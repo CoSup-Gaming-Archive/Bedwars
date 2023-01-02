@@ -1,10 +1,6 @@
 package eu.cosup.bedwars;
 
-import eu.cosup.bedwars.managers.BlockManager;
-import eu.cosup.bedwars.managers.GameStateManager;
-import eu.cosup.bedwars.managers.ItemGeneratorManager;
-import eu.cosup.bedwars.managers.ShopManager;
-import eu.cosup.bedwars.managers.TeamManager;
+import eu.cosup.bedwars.managers.*;
 import eu.cosup.bedwars.objects.LoadedMap;
 import eu.cosup.bedwars.objects.TeamColor;
 import eu.cosup.bedwars.tasks.ActivateGameTask;
@@ -28,22 +24,31 @@ public class Game {
     private LoadedMap selectedMap;
     private BlockManager blockManager;
     private ItemGeneratorManager itemGeneratorManager;
+    private ChestManager chestManager;
 
     public Game(LoadedMap selectedMap) {
         gameInstance = this;
+        this.selectedMap = selectedMap;
 
         gameStateManager = new GameStateManager();
         teamManager = new TeamManager();
         blockManager = new BlockManager();
         itemGeneratorManager = new ItemGeneratorManager();
         shopManager=new ShopManager();
+        chestManager = new ChestManager();
 
-
-        this.selectedMap = selectedMap;
 
         joinedPlayers = new ArrayList<>(Bedwars.getInstance().getServer().getOnlinePlayers());
 
         initGame();
+    }
+
+    public ShopManager getShopManager() {
+        return shopManager;
+    }
+
+    public ChestManager getChestManager() {
+        return chestManager;
     }
 
     public ItemGeneratorManager getItemGeneratorManager() {

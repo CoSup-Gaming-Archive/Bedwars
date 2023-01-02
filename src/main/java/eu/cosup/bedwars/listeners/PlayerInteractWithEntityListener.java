@@ -1,5 +1,6 @@
 package eu.cosup.bedwars.listeners;
 
+import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.ShopManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
@@ -21,6 +22,6 @@ public class PlayerInteractWithEntityListener implements Listener {
             return;
         }
 
-        ShopManager.getInstance().openShopForPlayer(player, null);
+        Game.getGameInstance().getShopManager().openShopForPlayer(player, null);
     }
 }

@@ -1,5 +1,6 @@
 package eu.cosup.bedwars.commands;
 
+import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.ShopManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -25,7 +26,7 @@ public class openshop implements CommandExecutor {
         }
         ItemStack is = new ItemStack(Material.CHEST);
         player.sendMessage(is.serialize().keySet().toString());
-        ShopManager.getInstance().openShopForPlayer(player, null);
+        Game.getGameInstance().getShopManager().openShopForPlayer(player, null);
         return true;
     }
 }
