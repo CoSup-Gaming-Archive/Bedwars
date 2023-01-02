@@ -160,6 +160,8 @@ public class LoadedMap {
             return null;
         }
 
+        Bukkit.getLogger().info("-------------------LOADING HEIGHTS: "+name+"-------------------");
+
         int maxHeight = customConfig.getInt(name + ".maxHeight");
         int minHeight = customConfig.getInt(name + ".minHeight");
         int deathHeight = customConfig.getInt(name + ".deathHeight");
@@ -169,6 +171,8 @@ public class LoadedMap {
             Bukkit.getLogger().severe(name + "   minHeight cannot be the same as the maxHeight plase change that");
             return null;
         }
+
+        Bukkit.getLogger().info("-------------------LOADING TEAM SPAWNS AND BEDS: "+name+"-------------------");
 
         Location spectatorSpawn = customConfig.getLocation(name + ".spectatorSpawn");
 
@@ -208,6 +212,7 @@ public class LoadedMap {
             return null;
         }
 
+        Bukkit.getLogger().info("-------------------LOADING BOUNDARIES: "+name+"-------------------");
 
         int xMax = customConfig.getInt(name + ".xMax");
         int zMax = customConfig.getInt(name + ".zMax");
@@ -218,6 +223,8 @@ public class LoadedMap {
             Bukkit.getLogger().severe("Acording to your configuration for "+name+" players not by able to place blocks anywhere");
             Bukkit.getLogger().severe("Make sure you have the correct version of maps.yml (check in repository)");
         }
+
+        Bukkit.getLogger().info("-------------------LOADING GENERATORS: "+name+"-------------------");
 
         ConfigurationSection generatorsList = customConfig.getConfigurationSection(name+".generators");
 
