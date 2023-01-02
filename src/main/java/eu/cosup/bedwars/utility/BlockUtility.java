@@ -3,9 +3,17 @@ package eu.cosup.bedwars.utility;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import org.bukkit.Bukkit;
+import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.util.BlockIterator;
+import org.bukkit.util.RayTraceResult;
+import org.bukkit.util.Vector;
 
+import java.lang.annotation.Target;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class BlockUtility {
@@ -20,5 +28,63 @@ public class BlockUtility {
             }
         }
         return false;
+    }
+    /*public static RayTraceResult rayTrace(Location start, Vector direction, double maxDistance, List<Material> searchedTargets) {
+        if (direction.lengthSquared() < 1e-5 || maxDistance <= 1e-5) return null;
+
+        // Look for block collisions
+        RayTraceResult blockRayTrace = null;
+
+        BlockIterator bIterator = new BlockIterator(start.getWorld(), start.toVector(), direction, 0, (int) Math.ceil(maxDistance));
+
+        while(bIterator.hasNext()) {
+
+            Block block = bIterator.next();
+            Bukkit.getLogger().info(block.getType().name());
+            // First perform a rough collision check with BlockIterator
+            if (searchedTargets.contains(block.getType()) && !block.isEmpty()) {
+
+                // Now check if the collision still occurs with the precise collision geometry of the block
+                RayTraceResult res = block.rayTrace(start, direction, maxDistance, FluidCollisionMode.ALWAYS);
+                if (res != null) {
+                    blockRayTrace = res;
+                    break;
+                }
+
+            }
+
+        }
+
+        // Look for entity collisions
+
+        // Return closest RayTraceResult
+        return blockRayTrace;
+    }*/
+    public static RayTraceResult rayTrace(Location start, Vector direction, double maxDistance, ArrayList<Material> targetBlocks) {
+        if (direction.lengthSquared() < 1e-5 || maxDistance <= 1e-5) return null;
+
+        // Look for block collisions
+        RayTraceResult blockRayTrace = null;
+
+        BlockIterator bIterator = new BlockIterator(start.getWorld(), start.toVector(), direction, 0, (int) Math.ceil(maxDistance));
+
+        while(bIterator.hasNext()) {
+
+            Block block = bIterator.next();
+            // First perform a rough collision check with BlockIterator
+            if (targetBlocks.contains(block.getType()) && !block.isEmpty()) {
+
+                // Now check if the collision still occurs with the precise collision geometry of the block
+                RayTraceResult res = block.rayTrace(start, direction, maxDistance, FluidCollisionMode.ALWAYS);
+                if (res != null) {
+                    blockRayTrace = res;
+                    break;
+                }
+
+            }
+
+        }
+        // Return closest RayTraceResult
+        return blockRayTrace;
     }
 }
