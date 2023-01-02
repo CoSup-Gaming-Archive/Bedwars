@@ -23,6 +23,10 @@ public class Team {
     }
 
     public TeamColor getColor() {
+        if (color == null) {
+            return TeamColor.GREEN;
+        }
+
         return color;
     }
 
