@@ -1,0 +1,487 @@
+# How to Shop.yml
+# shop:
+#   <tabname>:
+#   icon: customItemMeta
+#   items:
+#     <itemname>:
+#       item: customItemMeta
+#       priceItem: materialName (EMERALD, IRON_INGOT, GOLD_INGOT...)
+#       respectTeamColor: false 
+#       price: int
+# tabList:
+#   - <tabname>
+#
+# Important to know:
+# tabname is only an ID, the name shown in the Shop menu is the display name of the icon
+# itemname is aswell only an ID. It has to be unique within its tab
+# every tabname has to be put below tabList. tabList takes care of the order in wich the tabs are shown
+#
+# customItemMeta:
+#   type: MaterialName
+#   amount: int
+#   damage: int (if damageable)
+#   meta:
+#     display-name: string
+#     lore:
+#       - string
+#     enchants:
+#       <enchantname>: int
+#     potions:
+#       <potionname>:
+#         duration: int (in ticks)
+#         amplifier: int
+#         icon: boolean
+#         ambient: boolean
+#         particles: boolean
+#         overwrite: boolean
+#     potioncolor:
+#       r: int
+#       g: int
+#       b: int
+# 
+# Important to know:
+# enchantname is NOT the one you would find in the Bukkit.enchantment class but the name you would use in the /enchant or /give command:
+# Power, not ARROW_DAMAGE or respiration, not oxygen
+# Just as enchantname potionname is also the one you would use with /effect or /give
+# haste, not faster_digging
+
+shop:
+  tab1:
+    name: yo
+    icon:
+      type: TERRACOTTA
+      amount: 1
+      meta:
+        meta-type: UNSPECIFIC
+        display-name: §6Blocks
+      
+    items:
+      WOOL:
+        item:
+          type: WHITE_WOOL
+          amount: 16
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: IRON_INGOT
+        respectTeamColor: false
+        price: 4
+      TERRACOTTA:
+        item:
+          type: TERRACOTTA
+          amount: 16
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: GOLD_INGOT
+        respectTeamColor: false
+        price: 2
+      GLASS:
+        item:
+          type: GLASS
+          amount: 4
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: IRON_INGOT
+        respectTeamColor: false
+        price: 12
+      END_STONE:
+        item:
+          type: END_STONE
+          amount: 12
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: IRON_INGOT
+        respectTeamColor: false
+        price: 24
+      LADDER:
+        item:
+          type: LADDER
+          amount: 8
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: GOLD_INGOT
+        respectTeamColor: false
+        price: 4
+      WOOD:
+        item:
+          type: OAK_PLANKS
+          amount: 16
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: GOLD_INGOT
+        respectTeamColor: false
+        price: 3
+      OBSIDIAN:
+        item:
+          type: OBSIDIAN
+          amount: 4
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: EMERALD
+        respectTeamColor: false
+        price: 4
+  tab2:
+    icon:
+      type: GOLDEN_SWORD
+      amount: 1
+      meta:
+        meta-type: UNSPECIFIC
+        display-name: §6Melee
+      
+    items:
+      STONE_SWORD:
+        item:
+          type: STONE_SWORD
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: IRON_INGOT
+        respectTeamColor: false
+        price: 10
+      IRON_SWORD:
+        item:
+          type: IRON_SWORD
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: GOLD_INGOT
+        respectTeamColor: false
+        price: 7
+      DIAMOND_SWORD:
+        item:
+          type: DIAMOND_SWORD
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: EMERALD
+        respectTeamColor: false
+        price: 3
+      STICK:
+        item:
+          type: STICK
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+            enchants:
+              KNOCKBACK: 2
+        priceItem: EMERALD
+        respectTeamColor: false
+        price: 2
+  tab3:
+    icon:
+      type: CHAINMAIL_BOOTS
+      amount: 1
+      meta:
+        meta-type: UNSPECIFIC
+        display-name: §6Armor
+      
+    items:
+      CHAINMAIL:
+        item:
+          type: CHAINMAIL_BOOTS
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: IRON_INGOT
+        respectTeamColor: false
+        price: 40
+      IRON:
+        item:
+          type: IRON_BOOTS
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: GOLD_INGOT
+        respectTeamColor: false
+        price: 12
+      DIAMOND:
+        item:
+          type: DIAMOND_BOOTS
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: EMERALD
+        respectTeamColor: false
+        price: 6
+  tab4:
+    icon:
+      type: STONE_PICKAXE
+      amount: 1
+      meta:
+        meta-type: UNSPECIFIC
+        display-name: §6Tools
+      
+    items:
+      SHEARS:
+        item:
+          type: SHEARS
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: IRON_INGOT
+        respectTeamColor: false
+        price: 10
+      WOOD_PICKAXE:
+        item:
+          type: WOODEN_PICKAXE
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+            enchants:
+              EFFICIENCY: 1
+        priceItem: IRON_INGOT
+        respectTeamColor: false
+        price: 10
+      WOOD_AXE:
+        item:
+          type: WOODEN_AXE
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+            enchants:
+              EFFICIENCY: 1
+        priceItem: IRON_INGOT
+        respectTeamColor: false
+        price: 10
+  tab5:
+    icon:
+      type: BOW
+      amount: 1
+      meta:
+        meta-type: UNSPECIFIC
+        display-name: §6Ranged for losers
+      
+    items:
+      ARROW:
+        item:
+          type: ARROW
+          amount: 6
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: GOLD_INGOT
+        respectTeamColor: false
+        price: 2
+      BOW:
+        item:
+          type: BOW
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: EMERALD
+        respectTeamColor: false
+        price: 2
+      BOW_POWER:
+        item:
+          type: BOW
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+            enchants:
+              power: 1
+        priceItem: EMERALD
+        respectTeamColor: false
+        price: 3
+      BOW_BEST:
+        item:
+          type: BOW
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+            enchants:
+              power: 1
+              punch: 1
+        priceItem: EMERALD
+        respectTeamColor: false
+        price: 4
+  tab6:
+    icon:
+      type: BREWING_STAND
+      amount: 1
+      meta:
+        meta-type: UNSPECIFIC
+        display-name: §6Potions
+      
+    items:
+      SPEED:
+        item:
+          type: POTION
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+            display-name: §r§bSpeed Potions
+            potioncolor:
+              r: 195
+              g: 145
+              b: 255
+            potions:
+              speed:
+                duration: 900
+                amplifier: 1
+                particles: true
+                ambient: true
+                icon: true
+                overwrite: true
+        priceItem: EMERALD
+        respectTeamColor: false
+        price: 1
+      JUMP:
+        item:
+          type: POTION
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+            display-name: §r§bExtreme Jump Boost Potion
+            potioncolor:
+              r: 91
+              g: 210
+              b: 229
+            potions:
+              jump_boost:
+                duration: 900
+                amplifier: 4
+                particles: true
+                ambient: true
+                icon: true
+                overwrite: true
+        priceItem: EMERALD
+        respectTeamColor: false
+        price: 1
+      INVISIBLE:
+        item:
+          type: POTION
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+            display-name: §r§bTrue Invisibility Potion
+            potioncolor:
+              r: 180
+              g: 120
+              b: 255
+            potions:
+              invisibility:
+                duration: 600
+                amplifier: 0
+                particles: false
+                ambient: true
+                icon: true
+                overwrite: true
+        priceItem: EMERALD
+        respectTeamColor: false
+        price: 2
+  tab7:
+    icon:
+      type: TNT
+      amount: 1
+      meta:
+        meta-type: UNSPECIFIC
+        display-name: §6Utility
+      
+    items:
+      GOLDEN:
+        item:
+          type: GOLDEN_APPLE
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: GOLD_INGOT
+        respectTeamColor: false
+        price: 3
+      SNOWBALL:
+        item:
+          type: SNOWBALL
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: GOLD_INGOT
+        respectTeamColor: false
+        price: 1000
+      IRONGOLEM:
+        item:
+          type: DIRT
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: GOLD_INGOT
+        respectTeamColor: false
+        price: 3000
+      FIREBALL:
+        item:
+          type: FIRE_CHARGE
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: IRON_INGOT
+        respectTeamColor: false
+        price: 30
+      TNT:
+        item:
+          type: TNT
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: GOLD_INGOT
+        respectTeamColor: false
+        price: 3
+      ENDERPEARL:
+        item:
+          type: ENDER_PEARL
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: EMERALD
+        respectTeamColor: false
+        price: 2
+      WATERBUCKET:
+        item:
+          type: WATER_BUCKET
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: GOLD_INGOT
+        respectTeamColor: false
+        price: 3
+      EGG:
+        item:
+          type: EGG
+          amount: 1
+          meta:
+            display-name: I think they will remove this item
+            meta-type: UNSPECIFIC
+        priceItem: IRON_INGOT
+        respectTeamColor: false
+        price: 30
+      MILK:
+        item:
+          type: MILK_BUCKET
+          amount: 1
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: IRON_INGOT
+        respectTeamColor: false
+        price: 20
+      SPONGE:
+        item:
+          type: SPONGE
+          amount: 4
+          meta:
+            meta-type: UNSPECIFIC
+        priceItem: SPONGE
+        respectTeamColor: false
+        price: 1
+      CHEST:
+        item:
+          type: CHEST
+          amount: 1
+          meta:
+            display-name: never heard of this before
+        priceItem: CHEST
+        respectTeamColor: false
+        price: 1
+tabList:
+  - tab1
+  - tab2
+  - tab3
+  - tab4
+  - tab5
+  - tab6
+  - tab7
+    
