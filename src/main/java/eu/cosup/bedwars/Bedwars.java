@@ -55,6 +55,7 @@ public final class Bedwars extends JavaPlugin {
         if (!createGame()) {
             return;
         }
+
         if (Game.getGameInstance().getShopManager().items.size() == 0){
             Bukkit.getLogger().severe("We'Re not able to load the itemshop");
             return;
@@ -74,6 +75,8 @@ public final class Bedwars extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
         getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
+
+        getServer().getPluginManager().registerEvents(new PlayerInteractWithChestListener(), this);
 
 
         new GameChangePhaseListener();
