@@ -23,6 +23,7 @@ public class BlockPlaceListener implements Listener {
         Block block = event.getBlock();
 
         if (player.getGameMode() == GameMode.CREATIVE) {
+            Game.getGameInstance().getBlockManager().addBlock(block);
             return;
         }
 
