@@ -10,12 +10,9 @@ import eu.cosup.bedwars.listeners.PlayerJoinListener;
 import eu.cosup.bedwars.listeners.PlayerLeaveListener;
 import eu.cosup.bedwars.listeners.PlayerMoveListener;
 import eu.cosup.bedwars.managers.ScoreBoardManager;
-import eu.cosup.bedwars.listeners.*;
-import eu.cosup.bedwars.managers.ShopManager;
 
 import eu.cosup.bedwars.objects.LoadedMap;
 import eu.cosup.bedwars.data.WorldLoader;
-import eu.cosup.bedwars.utility.ShopItemsUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;

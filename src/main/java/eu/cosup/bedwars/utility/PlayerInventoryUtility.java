@@ -2,15 +2,10 @@ package eu.cosup.bedwars.utility;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataHolder;
-
-import java.awt.*;
-import java.util.List;
 
 public class PlayerInventoryUtility {
     private static PlayerInventoryUtility instance;

@@ -1,13 +1,8 @@
 package eu.cosup.bedwars.utility;
 
-import eu.cosup.bedwars.Bedwars;
-import eu.cosup.bedwars.managers.ShopManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.rmi.MarshalException;
 
 
 public class ShopItemsUtility {

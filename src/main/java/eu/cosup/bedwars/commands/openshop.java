@@ -1,7 +1,6 @@
 package eu.cosup.bedwars.commands;
 
 import eu.cosup.bedwars.Game;
-import eu.cosup.bedwars.managers.ShopManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;

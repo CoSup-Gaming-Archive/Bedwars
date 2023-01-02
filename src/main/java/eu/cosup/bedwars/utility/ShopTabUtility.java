@@ -1,7 +1,6 @@
 package eu.cosup.bedwars.utility;
 
 import eu.cosup.bedwars.Game;
-import eu.cosup.bedwars.managers.ShopManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
