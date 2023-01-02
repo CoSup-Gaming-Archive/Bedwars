@@ -4,9 +4,18 @@ import eu.cosup.bedwars.commands.ForceStartCommand;
 import eu.cosup.bedwars.commands.GeneratorSpawnCommand;
 import eu.cosup.bedwars.commands.SpectatorCommand;
 import eu.cosup.bedwars.listeners.*;
+import eu.cosup.bedwars.commands.openshop;
+import eu.cosup.bedwars.listeners.PlayerDeathListener;
+import eu.cosup.bedwars.listeners.PlayerJoinListener;
+import eu.cosup.bedwars.listeners.PlayerLeaveListener;
+import eu.cosup.bedwars.listeners.PlayerMoveListener;
 import eu.cosup.bedwars.managers.ScoreBoardManager;
+import eu.cosup.bedwars.listeners.*;
+import eu.cosup.bedwars.managers.ShopManager;
+
 import eu.cosup.bedwars.objects.LoadedMap;
 import eu.cosup.bedwars.data.WorldLoader;
+import eu.cosup.bedwars.utility.ShopItemsUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -49,6 +58,10 @@ public final class Bedwars extends JavaPlugin {
         if (!createGame()) {
             return;
         }
+        if (ShopManager.getInstance().items.size() == 0){
+            Bukkit.getLogger().severe("We'Re not able to load the itemshop");
+            return;
+        }
 
         // register all the listeners
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
@@ -57,6 +70,8 @@ public final class Bedwars extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(), this);
         getServer().getPluginManager().registerEvents(new ItemThrowListener(), this);
         getServer().getPluginManager().registerEvents(new HungerReceiveListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerInteractWithEntityListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerInteractWithInventoryListener(), this);
 
         getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
@@ -74,6 +89,10 @@ public final class Bedwars extends JavaPlugin {
         Objects.requireNonNull(getCommand("generator")).setExecutor(new GeneratorSpawnCommand());
 
 
+        getCommand("spectate").setExecutor(new SpectatorCommand());
+        getCommand("forcestart").setExecutor(new ForceStartCommand());
+        getCommand("openshop").setExecutor(new openshop());
+        getCommand("os").setExecutor(new openshop());
     }
 
     @Override
@@ -101,13 +120,15 @@ public final class Bedwars extends JavaPlugin {
         Random random = new Random();
 
         // by default we get number 0
-        LoadedMap selectedMap = loadedMaps.get(0);
+        LoadedMap selectedMap;
+        selectedMap = loadedMaps.get(0);
+
 
         // if there are more maps to choose from
         if (loadedMaps.size() > 1) {
-            int selection = random.nextInt(loadedMaps.size());
+            /*int selection = random.nextInt(loadedMaps.size());
             Bukkit.getLogger().warning("Choosing from: " + loadedMaps + " chose:" + selection);
-            selectedMap = loadedMaps.get(selection);
+            selectedMap = loadedMaps.get(selection);*/
         }
 
         Bukkit.getLogger().info("Selected map: " + selectedMap.getName());
