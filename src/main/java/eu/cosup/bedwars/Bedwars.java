@@ -70,30 +70,19 @@ public final class Bedwars extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new HungerReceiveListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractWithEntityListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractWithInventoryListener(), this);
-
         getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
-
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
         getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
-
         getServer().getPluginManager().registerEvents(new EntityExploreListener(), this);
-
         getServer().getPluginManager().registerEvents(new PlayerInteractWithChestListener(), this);
-
 
         new GameChangePhaseListener();
         new TeamChangeAliveListener();
 
-        // register all the commands
         Objects.requireNonNull(getCommand("spectate")).setExecutor(new SpectatorCommand());
         Objects.requireNonNull(getCommand("forcestart")).setExecutor(new ForceStartCommand());
-        Objects.requireNonNull(getCommand("generator")).setExecutor(new GeneratorSpawnCommand());
-
-
-        getCommand("spectate").setExecutor(new SpectatorCommand());
-        getCommand("forcestart").setExecutor(new ForceStartCommand());
-        getCommand("openshop").setExecutor(new openshop());
-        getCommand("os").setExecutor(new openshop());
+        Objects.requireNonNull(getCommand("openshop")).setExecutor(new openshop());
+        Objects.requireNonNull(getCommand("os")).setExecutor(new openshop());
     }
 
     @Override
