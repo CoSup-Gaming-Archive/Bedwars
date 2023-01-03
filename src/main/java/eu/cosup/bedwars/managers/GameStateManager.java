@@ -35,9 +35,11 @@ public class GameStateManager {
     }
 
     public enum GamePhase {
+
+        BEFORE_UPGRADE,
         FIRST_UPGRADE,
         SECOND_UPGRADE,
-        THIRD_UPGRADE,
+        BED_DESTRUCTION,
         SUDDEN_DEATH
     }
 }
