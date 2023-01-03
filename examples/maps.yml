@@ -17,9 +17,23 @@ TestMap:
         pitch: 0.0
         yaw: 0.0
   generators:
-    diamond-one:
+    yellow-spawn-iron:
       maxLevel: 3
-      item: DIAMOND
+      item: IRON_INGOT
+      dropAmount: 20
+      location:
+        ==: org.bukkit.Location
+        world: world
+        x: 105.0
+        y: 14.0
+        z: 517.0
+        pitch: 0.0
+        yaw: 0.0
+      dropTime: 1.0
+      percentTimeDecreaseLevel: 0.2
+    yellow-spawn-gold:
+      maxLevel: 3
+      item: GOLD_INGOT
       dropAmount: 20
       location:
         ==: org.bukkit.Location
