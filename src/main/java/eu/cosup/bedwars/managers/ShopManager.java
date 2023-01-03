@@ -14,6 +14,7 @@ import org.bukkit.Color;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -159,10 +160,13 @@ public class ShopManager {
         if (team==null){
             return "GRAY";
         } else {
-        return team.getColor().toString();
+            return team.getColor().toString();
         }
     }
     public void interactWithShop(int slot, Player player, Inventory shop){
+        if (shop==null){
+            return;
+        }
         if (slot<8) {
             String openTab = getClickedTab(slot);
             if (openTab == null) {
@@ -184,7 +188,16 @@ public class ShopManager {
           } else {
               ShopItemsUtility itemsUtility=getClickedItem(slot, shop);
               if (PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, itemsUtility.getPriceItem(), itemsUtility.getPrice())){
-                  player.getInventory().addItem(itemsUtility.getItem());
+                  ItemStack boughtItem=itemsUtility.getItem().clone();
+                  if (itemsUtility.isRespectTeamColor()){
+                      String name = boughtItem.getType().name();
+                      name= name.replaceFirst("WHITE", getTeamColor(player));
+                      boughtItem.setType(Material.getMaterial(name));
+                  }
+                  HashMap<Integer, ItemStack> itemThatDidntFit= player.getInventory().addItem(boughtItem);
+                  for (ItemStack itemToDrop :itemThatDidntFit.values()){
+                      player.getWorld().dropItemNaturally(player.getLocation(), itemToDrop);
+                  }
                   player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 200f, 2f);
               } else {
                   player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 100f, 0.9f);
