@@ -32,7 +32,6 @@ public class PlayerInteractWithChestListener implements Listener {
         if (event.getClickedBlock().getType() != PrivateChest.CHEST_BLOCK &&
             event.getClickedBlock().getType() != TeamChest.CHEST_BLOCK
         ) {
-            event.setCancelled(true);
             return;
         }
 
