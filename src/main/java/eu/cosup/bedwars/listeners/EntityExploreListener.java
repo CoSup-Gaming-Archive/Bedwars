@@ -33,9 +33,9 @@ public class EntityExploreListener implements Listener {
                 int distance = (int) event.getLocation().distance(block.getLocation());
 
                 Vector direction = new Vector(
-                        event.getLocation().getX() - block.getLocation().getX() + 0.2,
-                        event.getLocation().getY() - block.getLocation().getY() + 0.2,
-                        event.getLocation().getZ() - block.getLocation().getZ() + 0.2
+                        event.getLocation().getX() - block.getLocation().getX() + 0.0001,
+                        event.getLocation().getY() - block.getLocation().getY() + 0.0001,
+                        event.getLocation().getZ() - block.getLocation().getZ() + 0.0001
                 );
 
                 direction = direction.normalize();
@@ -44,7 +44,6 @@ public class EntityExploreListener implements Listener {
 
                 if (rayTraceResult == null) {
                     block.breakNaturally();
-                    //block.getWorld().setType(block.getLocation(), Material.AIR);
                 }
             }
         }
