@@ -1,11 +1,13 @@
 package eu.cosup.bedwars.listeners;
 
+import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.events.ChangeGamePhaseEvent;
 import eu.cosup.bedwars.events.ChangeGameStateEvent;
 import eu.cosup.bedwars.interfaces.GameListenerInterface;
 import eu.cosup.bedwars.managers.GameStateManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 
 // this could be usefull for later
 public class GameChangePhaseListener implements GameListenerInterface {
@@ -18,8 +20,17 @@ public class GameChangePhaseListener implements GameListenerInterface {
     @Override
     public void firedChangeGamePhaseEvent(ChangeGamePhaseEvent event) {
 
-        if (event.newGamePhase().equals(GameStateManager.GamePhase.FIRST_UPGRADE)) {
-            Bukkit.getLogger().info("FIRST UPGRADE NOW!");
+        if (event.newGamePhase() == GameStateManager.GamePhase.SUDDEN_DEATH) {
+            // spawn dragons
+        }
+
+        if (event.newGamePhase() == GameStateManager.GamePhase.BED_DESTRUCTION) {
+            Bedwars.getInstance().getGameWorld().playSound(
+                    Game.getGameInstance().getSelectedMap().getSpectatorSpawn(),
+                    Sound.ENTITY_ENDER_DRAGON_AMBIENT,
+                    20,
+                    1
+            );
         }
     }
 
