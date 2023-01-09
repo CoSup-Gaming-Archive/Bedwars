@@ -36,7 +36,6 @@ public class ActivateGameTask extends BukkitRunnable {
 
         prepareEnviroment();
         preparePlayers();
-        spawnBeds();
         spawnGenerators();
         spawnChests();
     }
@@ -155,22 +154,6 @@ public class ActivateGameTask extends BukkitRunnable {
             }
         }
         return false;
-    }
-
-    private void spawnBeds() {
-
-        // spawn every bed acording to the team color
-        for (TeamColor teamColor : Game.getGameInstance().getSelectedMap().getTeamBedsFull().keySet()) {
-
-            for (Location location : Game.getGameInstance().getSelectedMap().getTeamBedsFull().get(teamColor)) {
-
-                Material bed = Material.getMaterial(teamColor.toString().toUpperCase() + "_BED");
-
-                Bedwars.getInstance().getGameWorld().setType(location, bed);
-
-            }
-        }
-        Bukkit.getLogger().info("Spawned beds");
     }
 
     private void spawnGenerators() {
