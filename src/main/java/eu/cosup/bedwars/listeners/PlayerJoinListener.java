@@ -20,7 +20,6 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent event) {
         Game game = Game.getGameInstance();
-        game.getPlayerList().add(event.getPlayer());
         // TODO NameTagEditor nameTagEditor = new NameTagEditor(event.getPlayer());
         // TODO nameTagEditor.setNameColor(ChatColor.GRAY).setPrefix("Spectator ").setTabName(ChatColor.translateAlternateColorCodes('&', "&7"+event.getPlayer().getName()));
 

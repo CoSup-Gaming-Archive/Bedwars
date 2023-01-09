@@ -17,7 +17,6 @@ public class Game {
 
     private static Game gameInstance;
     private ArrayList<Player> joinedPlayers = new ArrayList<>();
-    private ArrayList<Player> playerList = new ArrayList<>();
     private GameStateManager gameStateManager;
     private TeamManager teamManager;
     private ShopManager shopManager;
@@ -105,9 +104,6 @@ public class Game {
         return joinedPlayers;
     }
 
-    public ArrayList<Player> getPlayerList() {
-        return playerList;
-    }
 
     // returns boolean -> is the joined players > required players
     // to check how many players are on the Bedwars game
