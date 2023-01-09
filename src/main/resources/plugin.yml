@@ -4,10 +4,10 @@ main: eu.cosup.bedwars.Bedwars
 api-version: 1.19
 commands:
   spectate:
-    aliases: /sp
+    aliases: [sp]
   forcestart:
-    aliases: /fs
+    aliases: [fs]
   generator:
-    aliases: /gen
+    aliases: [gen]
   openshop:
     aliases: [os]
