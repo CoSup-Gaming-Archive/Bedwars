@@ -8,6 +8,7 @@ import eu.cosup.bedwars.tasks.GameTimerTask;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -81,6 +82,9 @@ public class SideBarInformation {
     private static Component getTeamSymbol(Team team) {
         if (team.isAlive()) {
             return Component.text().content("\u2714").color(NamedTextColor.GREEN).build();
+        }
+        if (team.getAlivePlayers().size() > 0) {
+            return Component.text().content(" "+team.getAlivePlayers().size()).color(NamedTextColor.GREEN).build();
         }
         return Component.text().content("\u2716").color(NamedTextColor.RED).build();
     }

@@ -7,6 +7,7 @@ import eu.cosup.bedwars.objects.TeamColor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -22,6 +23,7 @@ public class SpectatorTask extends BukkitRunnable {
     public SpectatorTask(Player player, Boolean respawn) {
         this.player = player;
         this.respawn = respawn;
+
     }
 
     @Override
@@ -33,9 +35,16 @@ public class SpectatorTask extends BukkitRunnable {
         // yay
         player.teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
 
+        if (Game.getGameInstance().getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
+            if (Game.getGameInstance().getTeamManager().whichTeam(player) != null) {
+                Game.getGameInstance().getTeamManager().whichTeam(player).setPlayerDead(player, true);
+            }
+        }
+
         if (!respawn) {
             return;
         }
+
 
         TeamColor team = Game.getGameInstance().getTeamManager().whichTeam(player).getColor();
 
@@ -71,6 +80,7 @@ public class SpectatorTask extends BukkitRunnable {
 
                 ActivateGameTask.preparePlayerFull(player);
 
+                Game.getGameInstance().getTeamManager().whichTeam(player).setPlayerDead(player, false);
 
                 player.sendMessage(Component.text().content("You are alive!").color(TeamColor.getNamedTextColor(team)));
             }
