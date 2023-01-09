@@ -10,9 +10,7 @@ import org.jetbrains.annotations.Nullable;
 public enum TeamColor {
 
     RED,
-    BLUE,
-    YELLOW,
-    GREEN;
+    BLUE;
 
     public static Color getColor(TeamColor teamColor) {
 
@@ -22,14 +20,6 @@ public enum TeamColor {
 
         if (teamColor == BLUE) {
             return Color.BLUE;
-        }
-
-        if (teamColor == GREEN) {
-            return Color.GREEN;
-        }
-
-        if (teamColor == YELLOW) {
-            return Color.YELLOW;
         }
 
         return Color.BLACK;
@@ -43,14 +33,6 @@ public enum TeamColor {
 
         if (teamColor == BLUE) {
             return NamedTextColor.BLUE;
-        }
-
-        if (teamColor == GREEN) {
-            return NamedTextColor.GREEN;
-        }
-
-        if (teamColor == YELLOW) {
-            return NamedTextColor.YELLOW;
         }
         
         return NamedTextColor.BLACK;
