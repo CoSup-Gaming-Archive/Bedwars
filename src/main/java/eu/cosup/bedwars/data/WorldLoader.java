@@ -20,7 +20,7 @@ public class WorldLoader {
 
         // this is a very brute force way and there is probably a better way of doing this.
 
-        Bukkit.unloadWorld("world", true);
+        Bukkit.unloadWorld("world", false);
 
         try {
             FileUtils.forceDelete(new File("world"));
