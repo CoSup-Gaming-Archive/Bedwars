@@ -3,6 +3,7 @@ package eu.cosup.bedwars.tasks;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
+import eu.cosup.bedwars.objects.SideBarInformation;
 import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamColor;
 import net.kyori.adventure.text.Component;
@@ -54,6 +55,8 @@ public class GameEndTask extends BukkitRunnable {
         Component msg = Component.text().content(winner.toString()).color(TeamColor.getNamedTextColor(winner))
                 .append(Component.text().content(" is the winner!").color(NamedTextColor.YELLOW)).build();
         Bedwars.getInstance().getServer().broadcast(msg);
+
+        SideBarInformation.update();
 
         Bukkit.getLogger().warning("New game in: " + Bedwars.getInstance().getConfig().getInt("return-to-lobby-delay"));
         new BukkitRunnable() {
