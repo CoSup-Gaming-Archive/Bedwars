@@ -1,6 +1,7 @@
 package eu.cosup.bedwars.listeners;
 
 import eu.cosup.bedwars.Game;
+import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.objects.PrivateChest;
 import eu.cosup.bedwars.objects.TeamChest;
 import net.kyori.adventure.text.Component;
@@ -19,6 +20,10 @@ public class PlayerInteractWithChestListener implements Listener {
 
     @EventHandler
     private void onPlayerInteractWithChest(PlayerInteractEvent event) {
+
+        if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.ACTIVE) {
+            return;
+        }
 
         if (event.getClickedBlock() == null) {
             return;
