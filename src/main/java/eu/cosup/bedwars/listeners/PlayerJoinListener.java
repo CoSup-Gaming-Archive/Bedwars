@@ -44,7 +44,7 @@ public class PlayerJoinListener implements Listener {
             return;
         }
 
-        if (game.getJoinedPlayers().size() < Bedwars.getInstance().getConfig().getInt("required-player-count")) {
+        if (game.getJoinedPlayers().size() < Bedwars.getInstance().getConfig().getInt("required-player-count") && Game.getGameInstance().getGameStateManager().getGameState() == GameStateManager.GameState.JOINING) {
             game.getJoinedPlayers().add(event.getPlayer());
             game.refreshPlayerCount();
         } else {
