@@ -6,8 +6,16 @@ import eu.cosup.bedwars.events.ChangeGamePhaseEvent;
 import eu.cosup.bedwars.events.ChangeGameStateEvent;
 import eu.cosup.bedwars.interfaces.GameListenerInterface;
 import eu.cosup.bedwars.managers.GameStateManager;
-import org.bukkit.Bukkit;
+import eu.cosup.bedwars.objects.SideBarInformation;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.title.Title;
+import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+
 
 // this could be usefull for later
 public class GameChangePhaseListener implements GameListenerInterface {
@@ -25,6 +33,21 @@ public class GameChangePhaseListener implements GameListenerInterface {
         }
 
         if (event.newGamePhase() == GameStateManager.GamePhase.BED_DESTRUCTION) {
+
+            Component msg = Component.text().content("All beds have been destroyed!" ).color(NamedTextColor.RED).build();
+
+            Title title = Title.title(msg, Component.text().build());
+
+            for (Player player : Bedwars.getInstance().getServer().getOnlinePlayers()) {
+                player.showTitle(title);
+            }
+
+            for (Location bedLocation : Game.getGameInstance().getSelectedMap().getTeamBeds().values()) {
+                // this weird af
+                new BlockBreakEvent(bedLocation.getBlock(), Game.getGameInstance().getJoinedPlayers().get(0));
+                bedLocation.getBlock().breakNaturally();
+            }
+
             Bedwars.getInstance().getGameWorld().playSound(
                     Game.getGameInstance().getSelectedMap().getSpectatorSpawn(),
                     Sound.ENTITY_ENDER_DRAGON_AMBIENT,
