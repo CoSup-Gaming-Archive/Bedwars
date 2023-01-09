@@ -10,6 +10,7 @@ import eu.cosup.bedwars.utility.BlockUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,15 +35,24 @@ public class BlockBreakListener implements Listener {
                 return;
             }
         }
+
         if (block.getType().toString().contains("BED")) {
 
-            TeamColor bedColor = Game.getGameInstance().getSelectedMap().whichTeamBed(block.getLocation()).getColor();
+            Team bedTeam = Game.getGameInstance().getSelectedMap().whichTeamBed(block.getLocation());
 
-            TeamColor playerTeamColor = Game.getGameInstance().getTeamManager().whichTeam(player).getColor();
-
-            if (bedColor == null || playerTeamColor == null) {
+            if (bedTeam == null) {
                 event.setCancelled(true);
                 return;
+            }
+
+            TeamColor bedColor = bedTeam.getColor();
+
+            Team playerTeam = Game.getGameInstance().getTeamManager().whichTeam(player);
+
+            TeamColor playerTeamColor = null;
+
+            if (playerTeam != null) {
+                playerTeamColor = playerTeam.getColor();
             }
 
             // so no own kill
@@ -60,10 +70,11 @@ public class BlockBreakListener implements Listener {
             loserTeam.setAlive(false);
             SideBarInformation.update();
 
-            // broadcast that they lost beacon
+            // broadcast that they lost bed
             Component msg = Component.text().content("A ").color(TextColor.color(NamedTextColor.YELLOW))
                     .append(Component.text().content(TeamColor.getFormattedTeamColor(loserTeam.getColor())+" bed").color(TeamColor.getNamedTextColor(loserTeam.getColor())))
                     .append(Component.text().content(" was destroyed!").color(NamedTextColor.YELLOW)).build();
+
             Bedwars.getInstance().getServer().broadcast(msg);
 
             // cheeky way of getting the beacon to not drop anything
@@ -73,6 +84,12 @@ public class BlockBreakListener implements Listener {
             }
 
             event.setCancelled(true);
+
+            if (!(loserTeam.getAlivePlayers().size() > 0)) {
+                if (Game.getGameInstance().getTeamManager().onlyOneTeamAlive()) {
+                    Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.ENDING);
+                }
+            }
         }
 
         if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
