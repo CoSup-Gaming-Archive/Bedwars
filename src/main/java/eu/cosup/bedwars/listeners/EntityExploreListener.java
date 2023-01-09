@@ -1,5 +1,6 @@
 package eu.cosup.bedwars.listeners;
 
+import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.utility.BlockUtility;
 import org.bukkit.Material;
@@ -13,8 +14,9 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 
 public class EntityExploreListener implements Listener {
+
     @EventHandler
-    public void onEvent(EntityExplodeEvent event){
+    public void onEntityExplode(EntityExplodeEvent event){
             event.setCancelled(true);
 
             ArrayList<Material> searchedTargets=new ArrayList<>();
