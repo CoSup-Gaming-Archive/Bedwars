@@ -37,7 +37,7 @@ public class PlayerJoinListener implements Listener {
             }
             
             Component msg = Component.text().content("You joined as ").color(NamedTextColor.YELLOW)
-                            .append(Component.text().content(playerTeam.toString()).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer()).getColor()))).build();
+                            .append(Component.text().content(TeamColor.getFormattedTeamColor(playerTeam.getColor())).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer()).getColor()))).build();
 
             event.getPlayer().sendMessage(msg);
             event.getPlayer().setHealth(0);
