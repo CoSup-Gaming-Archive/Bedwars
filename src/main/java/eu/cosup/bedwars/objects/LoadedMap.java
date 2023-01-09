@@ -5,6 +5,7 @@ import eu.cosup.bedwars.Game;
 import it.unimi.dsi.fastutil.Hash;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -34,6 +35,7 @@ public class LoadedMap {
     private ArrayList<ItemGenerator> itemGenerators;
     private ArrayList<PrivateChest> privateChests;
     private ArrayList<TeamChest> teamChests;
+    private HashMap<TeamColor, ArrayList<Location>> teamBedsFull;
 
     public LoadedMap(String name, HashMap<TeamColor, Location> teamSpawns, HashMap<TeamColor, Location> teamBeds, Location spectatorSpawn, int maxHeight, int minHeight, int deathHeight
                     , int xMax, int xMin, int zMax, int zMin, ArrayList<ItemGenerator> itemGenerators,
@@ -61,6 +63,11 @@ public class LoadedMap {
     }
 
     public HashMap<TeamColor, ArrayList<Location>> getTeamBedsFull() {
+        return teamBedsFull;
+    }
+
+    // This is very recource intense
+    public HashMap<TeamColor, ArrayList<Location>> refreshTeamBedsFull() {
 
         HashMap<TeamColor, ArrayList<Location>> fullTeamBeds = new HashMap<>();
 
@@ -69,17 +76,24 @@ public class LoadedMap {
             ArrayList<Location> teamBeds = new ArrayList<>();
             Location originalLocation = getTeamBeds().get(teamColor);
 
-            teamBeds.add(new Location(
-                    Bedwars.getInstance().getGameWorld(),
-                    originalLocation.getX() + Math.sin(Math.toRadians(originalLocation.getYaw())),
-                    originalLocation.getY(),
-                    originalLocation.getZ() + Math.cos(Math.toRadians(originalLocation.getYaw()))
-            ).toBlockLocation());
+            for (double i = 0; i < 2*Math.PI; i+=Math.PI/4) {
+
+                Location checkLocation = (new Location(
+                        Bedwars.getInstance().getGameWorld(),
+                        originalLocation.getX() + Math.round(Math.cos(i)),
+                        originalLocation.getY(),
+                        originalLocation.getZ() + Math.round(Math.sin(i))));
+
+                if (Bedwars.getInstance().getGameWorld().getBlockAt(checkLocation).getType().toString().toLowerCase().contains("bed")) {
+                    teamBeds.add(checkLocation);
+                }
+            }
 
             teamBeds.add(originalLocation);
-
             fullTeamBeds.put(teamColor, teamBeds);
         }
+
+        teamBedsFull = fullTeamBeds;
 
         return fullTeamBeds;
     }

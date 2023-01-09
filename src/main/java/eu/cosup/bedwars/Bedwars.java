@@ -79,6 +79,7 @@ public final class Bedwars extends JavaPlugin {
         new GameChangePhaseListener();
         new TeamChangeAliveListener();
 
+        // these are mostly for testing only and will probably be removed in the actualy tournament
         Objects.requireNonNull(getCommand("spectate")).setExecutor(new SpectatorCommand());
         Objects.requireNonNull(getCommand("forcestart")).setExecutor(new ForceStartCommand());
         Objects.requireNonNull(getCommand("openshop")).setExecutor(new openshop());
@@ -101,6 +102,7 @@ public final class Bedwars extends JavaPlugin {
             return false;
         }
         game = new Game(selectedMap);
+        selectedMap.refreshTeamBedsFull();
         Bukkit.getLogger().warning("Succesfully started a game.");
         return true;
     }
