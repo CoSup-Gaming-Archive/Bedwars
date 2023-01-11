@@ -9,10 +9,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameTimerTask extends BukkitRunnable {
 
-    private static final int timeToFirstUpgrade = Bedwars.getInstance().getConfig().getInt("time-to-first-phase");
-    private static final int timeToSecondUpgrade = Bedwars.getInstance().getConfig().getInt("time-to-second-phase");
-    private static final int timeToBedDestruction = Bedwars.getInstance().getConfig().getInt("time-to-bed-destruction-phase");
-    private static final int timeToSuddenDeath = Bedwars.getInstance().getConfig().getInt("time-to-sudden-death-phase");
+    public static final int timeToFirstUpgrade = Bedwars.getInstance().getConfig().getInt("time-to-first-phase");
+    public static final int timeToSecondUpgrade = Bedwars.getInstance().getConfig().getInt("time-to-second-phase");
+    public static final int timeToBedDestruction = Bedwars.getInstance().getConfig().getInt("time-to-bed-destruction-phase");
+    public static final int timeToSuddenDeath = Bedwars.getInstance().getConfig().getInt("time-to-sudden-death-phase");
 
     private static int secondsElapsed;
     private static GameTimerTask instance;
