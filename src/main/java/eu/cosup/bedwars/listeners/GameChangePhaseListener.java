@@ -7,10 +7,13 @@ import eu.cosup.bedwars.events.ChangeGameStateEvent;
 import eu.cosup.bedwars.interfaces.GameListenerInterface;
 import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.objects.SideBarInformation;
+import eu.cosup.bedwars.objects.TeamColor;
+import eu.cosup.bedwars.tasks.TeamLoseBedTask;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -34,7 +37,7 @@ public class GameChangePhaseListener implements GameListenerInterface {
 
         if (event.newGamePhase() == GameStateManager.GamePhase.BED_DESTRUCTION) {
 
-            Component msg = Component.text().content("All beds have been destroyed!" ).color(NamedTextColor.RED).build();
+            Component msg = Component.text().content("All beds have destroyed!" ).color(NamedTextColor.RED).build();
 
             Title title = Title.title(msg, Component.text().build());
 
@@ -42,10 +45,8 @@ public class GameChangePhaseListener implements GameListenerInterface {
                 player.showTitle(title);
             }
 
-            for (Location bedLocation : Game.getGameInstance().getSelectedMap().getTeamBeds().values()) {
-                // this weird af
-                new BlockBreakEvent(bedLocation.getBlock(), Game.getGameInstance().getJoinedPlayers().get(0));
-                bedLocation.getBlock().breakNaturally();
+            for (TeamColor teamColor : Game.getGameInstance().getSelectedMap().getTeamBeds().keySet()) {
+                new TeamLoseBedTask(teamColor, null);
             }
 
             Bedwars.getInstance().getGameWorld().playSound(
