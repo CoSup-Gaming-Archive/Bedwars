@@ -1,4 +1,4 @@
-package eu.cosup.bedwars.listeners;
+package eu.cosup.bedwars.listeners.custom;
 
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;

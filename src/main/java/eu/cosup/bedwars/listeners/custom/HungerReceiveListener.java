@@ -1,4 +1,4 @@
-package eu.cosup.bedwars.listeners;
+package eu.cosup.bedwars.listeners.custom;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

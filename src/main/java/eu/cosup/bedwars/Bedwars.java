@@ -1,9 +1,9 @@
 package eu.cosup.bedwars;
 
 import eu.cosup.bedwars.commands.ForceStartCommand;
-import eu.cosup.bedwars.commands.GeneratorSpawnCommand;
 import eu.cosup.bedwars.commands.SpectatorCommand;
 import eu.cosup.bedwars.listeners.*;
+import eu.cosup.bedwars.listeners.custom.*;
 import eu.cosup.bedwars.commands.openshop;
 import eu.cosup.bedwars.listeners.PlayerDeathListener;
 import eu.cosup.bedwars.listeners.PlayerJoinListener;
