@@ -19,11 +19,13 @@ public class openshop implements CommandExecutor {
             sender.sendMessage("§cYou cannot use this command, you have to be a player");
             return true;
         }
+
         if (!(player.hasPermission("bedwars.openshop"))) {
             player.sendMessage(Component.text("You don't have permission to use this").color(TextColor.color(255, 0, 0)));
             return true;
         }
-        ItemStack is = new ItemStack(Material.CHEST);
+
+        //ItemStack is = new ItemStack(Material.CHEST); // This was unused
         Game.getGameInstance().getShopManager().openShopForPlayer(player, null);
         return true;
     }
