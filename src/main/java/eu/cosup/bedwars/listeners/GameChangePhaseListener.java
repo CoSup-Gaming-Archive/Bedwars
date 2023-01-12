@@ -4,24 +4,20 @@ import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.events.ChangeGamePhaseEvent;
 import eu.cosup.bedwars.events.ChangeGameStateEvent;
-import eu.cosup.bedwars.interfaces.GameListenerInterface;
+import eu.cosup.bedwars.interfaces.GameListener;
 import eu.cosup.bedwars.managers.GameStateManager;
-import eu.cosup.bedwars.objects.SideBarInformation;
 import eu.cosup.bedwars.objects.TeamColor;
 import eu.cosup.bedwars.tasks.TeamLoseBedTask;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.jetbrains.annotations.NotNull;
 
 
 // this could be usefull for later
-public class GameChangePhaseListener implements GameListenerInterface {
+public class GameChangePhaseListener implements GameListener {
 
     public GameChangePhaseListener() {
         ChangeGamePhaseEvent.addListener(this);
@@ -29,10 +25,10 @@ public class GameChangePhaseListener implements GameListenerInterface {
     }
 
     @Override
-    public void firedChangeGamePhaseEvent(ChangeGamePhaseEvent event) {
+    public void firedChangeGamePhaseEvent(@NotNull ChangeGamePhaseEvent event) {
 
         if (event.newGamePhase() == GameStateManager.GamePhase.SUDDEN_DEATH) {
-            // spawn dragons
+            // TODO: spawn dragons
         }
 
         if (event.newGamePhase() == GameStateManager.GamePhase.BED_DESTRUCTION) {

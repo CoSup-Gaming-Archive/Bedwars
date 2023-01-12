@@ -10,12 +10,12 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class BlockBreakListener implements Listener {
 
-
     @EventHandler
-    private void onBlockBreak(BlockBreakEvent event) {
+    private void onBlockBreak(@NotNull BlockBreakEvent event) {
 
         Block block = event.getBlock();
 

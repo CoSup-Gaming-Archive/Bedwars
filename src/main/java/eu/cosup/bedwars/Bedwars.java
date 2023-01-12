@@ -73,7 +73,7 @@ public final class Bedwars extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
         getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
-        getServer().getPluginManager().registerEvents(new EntityExploreListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityExplodeListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractWithChestListener(), this);
         getServer().getPluginManager().registerEvents(new TNTPlaceListener(), this);
         getServer().getPluginManager().registerEvents(new PearlTeleportListener(), this);

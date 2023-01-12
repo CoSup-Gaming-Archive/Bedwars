@@ -1,6 +1,6 @@
 package eu.cosup.bedwars.events;
 
-import eu.cosup.bedwars.interfaces.TeamListenerInterface;
+import eu.cosup.bedwars.interfaces.TeamListener;
 import eu.cosup.bedwars.objects.TeamColor;
 
 import java.util.ArrayList;
@@ -15,14 +15,14 @@ public record TeamChangeAliveEvent(boolean teamAlive, TeamColor teamColor) {
         changeGamePhase();
     }
 
-    private static List<TeamListenerInterface> listeners = new ArrayList<>();
+    private static List<TeamListener> listeners = new ArrayList<>();
 
-    public static void addListener(TeamListenerInterface listener) {
+    public static void addListener(TeamListener listener) {
         listeners.add(listener);
     }
 
     private void changeGamePhase() {
-        for (TeamListenerInterface listener : listeners)
+        for (TeamListener listener : listeners)
             listener.firedTeamChangeState(this);
     }
 }
