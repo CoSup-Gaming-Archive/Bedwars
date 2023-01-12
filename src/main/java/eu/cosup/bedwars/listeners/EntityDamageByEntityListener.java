@@ -9,29 +9,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class EntityDamageByEntityListener implements Listener {
 
     @EventHandler
-    private void onEntityDamageEntity(EntityDamageByEntityEvent event) {
+    private void onEntityDamageEntity(@NotNull EntityDamageByEntityEvent event) {
 
-        if (!(event.getDamager() instanceof Player)) {
+        if (!(event.getDamager() instanceof Player damager)) {
             return;
         }
 
         // creative players can hit anyone
-        if (((Player) event.getDamager()).getGameMode() == GameMode.CREATIVE) {
+        if (damager.getGameMode() == GameMode.CREATIVE) {
             return;
         }
 
-        if (!(event.getEntity() instanceof Player)) {
+        if (!(event.getEntity() instanceof Player damaged)) {
             return;
         }
 
-        if (Game.getGameInstance().getTeamManager().whichTeam((Player) event.getEntity()).getColor() ==
-            Game.getGameInstance().getTeamManager().whichTeam((Player) event.getDamager()).getColor()) {
+        if (Game.getGameInstance().getTeamManager().whichTeam(damaged).getColor() ==
+            Game.getGameInstance().getTeamManager().whichTeam(damager).getColor()) {
 
-            event.getDamager().sendMessage(Component.text().content("You cannot damage teammates").color(NamedTextColor.RED));
+            damager.sendMessage(Component.text().content("You cannot damage teammates").color(NamedTextColor.RED));
             event.setCancelled(true);
             return;
         }

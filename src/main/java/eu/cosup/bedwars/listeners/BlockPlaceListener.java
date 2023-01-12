@@ -14,14 +14,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.jetbrains.annotations.NotNull;
 
 
 public class BlockPlaceListener implements Listener {
 
     @EventHandler
-    private void onPlayerPlaceBlock(BlockPlaceEvent event) {
+    private void onPlayerPlaceBlock(@NotNull BlockPlaceEvent event) {
         Player player = event.getPlayer();
-
         Block block = event.getBlock();
 
         if (player.getGameMode() == GameMode.CREATIVE) {
