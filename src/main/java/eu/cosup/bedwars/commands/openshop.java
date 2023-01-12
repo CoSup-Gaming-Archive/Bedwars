@@ -15,12 +15,12 @@ import org.jetbrains.annotations.NotNull;
 public class openshop implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player player)){
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("§cYou cannot use this command, you have to be a player");
             return true;
         }
-        if (!(player.hasPermission("bedwars.openshop"))){
-            player.sendMessage(Component.text("You don't have permission to use this").color(TextColor.color(255,0,0)));
+        if (!(player.hasPermission("bedwars.openshop"))) {
+            player.sendMessage(Component.text("You don't have permission to use this").color(TextColor.color(255, 0, 0)));
             return true;
         }
         ItemStack is = new ItemStack(Material.CHEST);
