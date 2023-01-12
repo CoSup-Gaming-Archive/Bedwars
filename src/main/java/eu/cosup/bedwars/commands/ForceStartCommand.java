@@ -18,13 +18,15 @@ public class ForceStartCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
+        // TODO: check the sender for permissions
+
         if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.JOINING) {
             sender.sendMessage("You can only force when players are joining.");
             return true;
         }
 
         new StartCountdownTask().runTask(Bedwars.getInstance());
-        Bedwars.getInstance().getServer().broadcast(Component.text(sender.getName()+" issued a force start.").color(NamedTextColor.RED));
+        Bedwars.getInstance().getServer().broadcast(Component.text(sender.getName() + " issued a force start.").color(NamedTextColor.RED));
 
         return true;
     }
