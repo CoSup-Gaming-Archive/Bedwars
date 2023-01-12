@@ -18,7 +18,10 @@ public class ForceStartCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        // TODO: check the sender for permissions
+        if (!sender.hasPermission("bedwars.forcestart")) {
+            sender.sendMessage("You do not have permissions to do this action.");
+            return true;
+        }
 
         if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.JOINING) {
             sender.sendMessage("You can only force when players are joining.");
@@ -30,5 +33,4 @@ public class ForceStartCommand implements CommandExecutor {
 
         return true;
     }
-
 }
