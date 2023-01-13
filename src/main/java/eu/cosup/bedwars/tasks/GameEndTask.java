@@ -58,21 +58,15 @@ public class GameEndTask extends BukkitRunnable {
 
         SideBarInformation.update();
 
-        Bukkit.getLogger().warning("New game in: " + Bedwars.getInstance().getConfig().getInt("return-to-lobby-delay"));
+        Bukkit.getLogger().warning("Shutting down in: " + Bedwars.getInstance().getConfig().getInt("return-to-lobby-delay"));
         new BukkitRunnable() {
             @Override
             public void run() {
 
-                // you should return players to lobby before restarting
-                Bukkit.getLogger().severe("Restarting game");
+                Component msg = Component.text().content("server is shutting down").color(NamedTextColor.RED).build();
+                Bedwars.getInstance().getServer().broadcast(msg);
 
-                // this is not really good as it will lag the server
-                Game.getGameInstance().getBlockManager().clearMap();
-
-                // create new game instance
-                Bedwars.getInstance().createGame();
-
-                Bedwars.getInstance().getGame().refreshPlayerCount();
+                Bedwars.getInstance().getServer().shutdown();
 
             }
         }.runTaskLater(Bedwars.getInstance(), Bedwars.getInstance().getConfig().getInt("return-to-lobby-delay") * 20L);
