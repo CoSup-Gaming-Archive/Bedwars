@@ -1,10 +1,9 @@
 package eu.cosup.bedwars;
 
 import eu.cosup.bedwars.commands.ForceStartCommand;
-import eu.cosup.bedwars.commands.SpectatorCommand;
 import eu.cosup.bedwars.listeners.*;
 import eu.cosup.bedwars.listeners.custom.*;
-import eu.cosup.bedwars.commands.openshop;
+import eu.cosup.bedwars.commands.OpenShopCommand;
 import eu.cosup.bedwars.listeners.PlayerDeathListener;
 import eu.cosup.bedwars.listeners.PlayerJoinListener;
 import eu.cosup.bedwars.listeners.PlayerLeaveListener;
@@ -16,10 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 public final class Bedwars extends JavaPlugin {
 
@@ -75,10 +71,8 @@ public final class Bedwars extends JavaPlugin {
         new TeamChangeAliveListener();
 
         // these are mostly for testing only and will probably be removed in the actualy tournament
-        Objects.requireNonNull(getCommand("spectate")).setExecutor(new SpectatorCommand());
         Objects.requireNonNull(getCommand("forcestart")).setExecutor(new ForceStartCommand());
-        Objects.requireNonNull(getCommand("openshop")).setExecutor(new openshop());
-        Objects.requireNonNull(getCommand("os")).setExecutor(new openshop());
+        Objects.requireNonNull(getCommand("openshop")).setExecutor(new OpenShopCommand());
     }
 
     @Override
