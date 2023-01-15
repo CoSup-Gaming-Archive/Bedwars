@@ -25,6 +25,7 @@ public class PlayerInteractWithChestListener implements Listener {
         nonInteractBlocks.add("furnace");
         nonInteractBlocks.add("brewing");
         nonInteractBlocks.add("door");
+        nonInteractBlocks.add("hopper");
     }
 
     public static boolean shouldInteract(@NotNull Material material) {
