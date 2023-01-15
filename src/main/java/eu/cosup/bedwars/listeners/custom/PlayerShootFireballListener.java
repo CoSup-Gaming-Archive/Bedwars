@@ -32,6 +32,8 @@ public class PlayerShootFireballListener implements Listener {
 
             playerCooldown.putIfAbsent(event.getPlayer().getName(), 0);
 
+            event.setCancelled(true);
+
             if (GameTimerTask.getSecondsElapsed() - playerCooldown.get(event.getPlayer().getName()) < 2) {
                 event.getPlayer().sendMessage(Component.text().content("You cannot shoot that fast").color(NamedTextColor.RED));
                 return;
@@ -52,8 +54,6 @@ public class PlayerShootFireballListener implements Listener {
             location.getWorld().spawnEntity(location, EntityType.FIREBALL);
 
             playerCooldown.put(event.getPlayer().getName(), GameTimerTask.getSecondsElapsed());
-
-            event.setCancelled(true);
         }
     }
 }
