@@ -12,6 +12,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -52,6 +53,7 @@ public class PlayerShootFireballListener implements Listener {
 
             playerCooldown.put(event.getPlayer().getName(), GameTimerTask.getSecondsElapsed());
 
+            event.setCancelled(true);
         }
     }
 }
