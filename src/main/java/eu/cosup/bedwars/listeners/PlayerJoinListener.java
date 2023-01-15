@@ -27,7 +27,7 @@ public class PlayerJoinListener implements Listener {
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
             // if player is not in a team
 
-            Team playerTeam = game.getTeamManager().whichTeam(event.getPlayer());
+            Team playerTeam = game.getTeamManager().whichTeam(event.getPlayer().getUniqueId());
 
             if (playerTeam == null) {
                 Component msg = Component.text().content("You joined as spectator since the game already started").color(NamedTextColor.RED).build();
@@ -37,7 +37,7 @@ public class PlayerJoinListener implements Listener {
             }
             
             Component msg = Component.text().content("You joined as ").color(NamedTextColor.YELLOW)
-                            .append(Component.text().content(TeamColor.getFormattedTeamColor(playerTeam.getColor())).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer()).getColor()))).build();
+                            .append(Component.text().content(TeamColor.getFormattedTeamColor(playerTeam.getColor())).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer().getUniqueId()).getColor()))).build();
 
             event.getPlayer().sendMessage(msg);
             event.getPlayer().setHealth(0);

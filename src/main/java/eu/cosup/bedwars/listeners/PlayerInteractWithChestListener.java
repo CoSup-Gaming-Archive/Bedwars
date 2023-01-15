@@ -69,7 +69,7 @@ public class PlayerInteractWithChestListener implements Listener {
 
         event.setCancelled(true);
 
-        if (!Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer()).getColor().equals(
+        if (!Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer().getUniqueId()).getColor().equals(
             Game.getGameInstance().getChestManager().getTeamChest(event.getClickedBlock().getLocation()).getTeamColor())
         ) {
             event.getPlayer().sendMessage(Component.text().content("You cannot open this chest").color(NamedTextColor.RED));

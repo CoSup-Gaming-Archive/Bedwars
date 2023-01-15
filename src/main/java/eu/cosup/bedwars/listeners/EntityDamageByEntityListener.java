@@ -36,8 +36,8 @@ public class EntityDamageByEntityListener implements Listener {
             return;
         }
 
-        if (Game.getGameInstance().getTeamManager().whichTeam(damaged).getColor() ==
-            Game.getGameInstance().getTeamManager().whichTeam(damager).getColor()) {
+        if (Game.getGameInstance().getTeamManager().whichTeam(damaged.getUniqueId()).getColor() ==
+            Game.getGameInstance().getTeamManager().whichTeam(damager.getUniqueId()).getColor()) {
 
             damager.sendMessage(Component.text().content("You cannot damage teammates").color(NamedTextColor.RED));
             event.setCancelled(true);

@@ -48,7 +48,7 @@ public class GameEndTask extends BukkitRunnable {
         }
         for (Player player : Game.getGameInstance().getJoinedPlayers()) {
 
-            if (!winnerTeam.isPlayerInTeam(player)) {
+            if (!winnerTeam.isPlayerInTeam(player.getUniqueId())) {
                 player.setGameMode(GameMode.SPECTATOR);
             }
         }

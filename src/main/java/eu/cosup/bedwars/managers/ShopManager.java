@@ -156,7 +156,7 @@ public class ShopManager {
         }
     }
     public String getTeamColor(Player player){
-        Team team= Game.getGameInstance().getTeamManager().whichTeam(player);
+        Team team= Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId());
         if (team==null){
             return "GRAY";
         } else {

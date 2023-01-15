@@ -54,12 +54,22 @@ public class PlayerDeathListener implements Listener {
 
         Player killer = PlayerDamageManager.getPlayerLastDamage(event.getPlayer());
 
-        // same as before no null pointer exeptions
-        if (Game.getGameInstance().getTeamManager().whichTeam(killer) == null) {
-            killer = null;
+        if (killer != null) {
+            // same as before no null pointer exeptions
+            if (Game.getGameInstance().getTeamManager().whichTeam(killer.getUniqueId()) == null) {
+                killer = null;
+            }
         }
 
-        TextComponent.Builder killerText = Component.text().content(player.getName()).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(player).getColor()));
+        // if
+        if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()) == null) {
+            return;
+        }
+
+        Bukkit.getLogger().info(event.getPlayer().getName());
+
+        TextComponent.Builder killerText = Component.text().content(player.getName())
+                .color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor()));
 
         // that means player was not damaged by other players
         if (killer == null) {
@@ -67,12 +77,12 @@ public class PlayerDeathListener implements Listener {
         } else {
             killerText
             .append(Component.text().content(" was killed by ").color(NamedTextColor.YELLOW))
-            .append(Component.text().content(killer.getName()).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(killer).getColor())));
+            .append(Component.text().content(killer.getName()).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(killer.getUniqueId()).getColor())));
             PlayerDamageManager.setPlayerLastDamage(event.getPlayer(), null);
         }
 
 
-        if (!Game.getGameInstance().getTeamManager().whichTeam(player).isAlive()) {
+        if (!Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).isAlive()) {
             killerText
             .append(Component.text().content(" FINAL KILL").decorate(TextDecoration.BOLD).color(NamedTextColor.AQUA));
 

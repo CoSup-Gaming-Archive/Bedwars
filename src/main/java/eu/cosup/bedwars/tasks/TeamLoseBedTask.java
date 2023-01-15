@@ -33,7 +33,7 @@ public class TeamLoseBedTask extends BukkitRunnable {
         Team playerTeam = null;
 
         if (killer != null) {
-            playerTeam = Game.getGameInstance().getTeamManager().whichTeam(killer.getName());
+            playerTeam = Game.getGameInstance().getTeamManager().whichTeam(killer.getUniqueId());
         }
 
 

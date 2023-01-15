@@ -11,6 +11,7 @@ import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class TeamManager {
@@ -36,7 +37,7 @@ public class TeamManager {
 
                 List<Player> teamPlayers = players.subList(index, players.size() / Game.getGameInstance().getSelectedMap().getTeamSpawns().keySet().size() + index);
 
-                ArrayList<Player> teamPlayersArrayList = new ArrayList<>(teamPlayers.stream().filter(player -> whichTeam(player.getName()) == null).toList());
+                ArrayList<Player> teamPlayersArrayList = new ArrayList<>(teamPlayers.stream().filter(player -> whichTeam(player.getUniqueId()) == null).toList());
 
                 if (teamPlayersArrayList.size() > 0) {
                     teams.add(new Team(teamColor, teamPlayersArrayList, true));
@@ -88,20 +89,16 @@ public class TeamManager {
     }
 
     // which team player is in
-    public Team whichTeam(Player player) {
-
-        if (player == null) {
-            return null;
-        }
+    public Team whichTeam(@NotNull UUID playerUUID) {
 
         for (Team team : teams) {
-            if (team.isPlayerInTeam(player)) {
+
+            if (team.isPlayerInTeam(playerUUID)) {
                 return team;
             }
         }
 
         return null;
-
     }
 
     public Team getTeamByColor(TeamColor teamColor) {

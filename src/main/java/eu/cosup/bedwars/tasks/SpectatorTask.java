@@ -36,8 +36,8 @@ public class SpectatorTask extends BukkitRunnable {
         player.teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
 
         if (Game.getGameInstance().getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
-            if (Game.getGameInstance().getTeamManager().whichTeam(player) != null) {
-                Game.getGameInstance().getTeamManager().whichTeam(player).setPlayerDead(player, true);
+            if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()) != null) {
+                Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).setPlayerDead(player, true);
             }
         }
 
@@ -46,7 +46,7 @@ public class SpectatorTask extends BukkitRunnable {
         }
 
 
-        TeamColor team = Game.getGameInstance().getTeamManager().whichTeam(player).getColor();
+        TeamColor team = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
 
         for (int i = 0; i < respawnDelay; i++) {
             int finalI = i;
@@ -80,7 +80,7 @@ public class SpectatorTask extends BukkitRunnable {
 
                 ActivateGameTask.preparePlayerFull(player);
 
-                Game.getGameInstance().getTeamManager().whichTeam(player).setPlayerDead(player, false);
+                Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).setPlayerDead(player, false);
 
                 player.sendMessage(Component.text().content("You are alive!").color(TeamColor.getNamedTextColor(team)));
             }

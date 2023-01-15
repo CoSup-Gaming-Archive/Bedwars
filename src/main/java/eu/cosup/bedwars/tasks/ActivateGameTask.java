@@ -17,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ActivateGameTask extends BukkitRunnable {
 
@@ -66,7 +67,7 @@ public class ActivateGameTask extends BukkitRunnable {
 
     // ooo so juicy
     public static void preparePlayerFull(Player player) {
-        TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player).getColor();
+        TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
         // TODO NameTagEditor nameTagEditor = new NameTagEditor(player);
         // TODO nameTagEditor.setNameColor(TeamColor.getChatColor(teamColor)).setPrefix(teamColor.toString()+" ").setTabName(TeamColor.getChatColor(teamColor)+player.getName()).setChatName((TeamColor.getChatColor(teamColor)+player.getName()));
         preparePlayerStats(player);
@@ -92,11 +93,11 @@ public class ActivateGameTask extends BukkitRunnable {
 
         for (String armorPeaceName : armorPeaces) {
 
-            ItemStack armorPeace = new ItemStack(Material.getMaterial(armorPeaceName));
+            ItemStack armorPeace = new ItemStack(Objects.requireNonNull(Material.getMaterial(armorPeaceName)));
             ItemMeta meta = armorPeace.hasItemMeta() ? armorPeace.getItemMeta() : Bukkit.getItemFactory().getItemMeta(armorPeace.getType());
             LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) meta;
             // from Color:
-            leatherArmorMeta.setColor(TeamColor.getColor(Game.getGameInstance().getTeamManager().whichTeam(player).getColor()));
+            leatherArmorMeta.setColor(TeamColor.getColor(Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor()));
             armorPeace.setItemMeta(leatherArmorMeta);
 
             // cheeky way but maybe there is a better method
