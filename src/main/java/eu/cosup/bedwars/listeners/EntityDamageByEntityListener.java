@@ -20,7 +20,7 @@ public class EntityDamageByEntityListener implements Listener {
 
         if (event.getDamager().getType() == EntityType.PRIMED_TNT) {
             // we want less damage from tnt
-            event.setDamage(event.getDamage()/5);
+            event.setDamage(event.getDamage()/8);
         }
 
         if (!(event.getDamager() instanceof Player damager)) {
