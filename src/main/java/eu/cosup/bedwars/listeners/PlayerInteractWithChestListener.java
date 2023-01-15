@@ -6,17 +6,35 @@ import eu.cosup.bedwars.objects.PrivateChest;
 import eu.cosup.bedwars.objects.TeamChest;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class PlayerInteractWithChestListener implements Listener {
+
+    private static ArrayList<String> nonInteractBlocks = new ArrayList<>();
+
+    static {
+        nonInteractBlocks.add("bed");
+        nonInteractBlocks.add("crafting");
+        nonInteractBlocks.add("furnace");
+        nonInteractBlocks.add("brewing");
+        nonInteractBlocks.add("door");
+    }
+
+    public static boolean shouldInteract(@NotNull Material material) {
+        for (String materialName : nonInteractBlocks) {
+            if (material.toString().toLowerCase().contains(materialName)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     @EventHandler
     private void onPlayerInteractWithChest(PlayerInteractEvent event) {
@@ -37,6 +55,9 @@ public class PlayerInteractWithChestListener implements Listener {
         if (event.getClickedBlock().getType() != PrivateChest.CHEST_BLOCK &&
             event.getClickedBlock().getType() != TeamChest.CHEST_BLOCK
         ) {
+            if (!shouldInteract(event.getClickedBlock().getType())) {
+                event.setCancelled(true);
+            }
             return;
         }
 
