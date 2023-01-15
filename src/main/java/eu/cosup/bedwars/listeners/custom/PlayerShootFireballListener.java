@@ -27,10 +27,6 @@ public class PlayerShootFireballListener implements Listener {
             return;
         }
 
-        if (event.getClickedBlock() != null) {
-            return;
-        }
-
         if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.FIRE_CHARGE) {
 
             playerCooldown.putIfAbsent(event.getPlayer().getName(), 0);
