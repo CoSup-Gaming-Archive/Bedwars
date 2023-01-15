@@ -48,8 +48,7 @@ public class PlayerShootFireballListener implements Listener {
 
             event.getPlayer().getInventory().setItemInMainHand(handItem);
 
-            Entity fireball = location.getWorld().spawnEntity(location, EntityType.FIREBALL);
-            fireball.setVelocity(fireball.getVelocity().multiply(2));
+            location.getWorld().spawnEntity(location, EntityType.FIREBALL);
 
             playerCooldown.put(event.getPlayer().getName(), GameTimerTask.getSecondsElapsed());
 
