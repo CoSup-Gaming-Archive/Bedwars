@@ -26,7 +26,6 @@ public class PlayerLeaveListener implements Listener {
 
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
 
-            Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer()).setPlayerDead(event.getPlayer(), true);
             event.getPlayer().setHealth(0);
 
             if (!Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer()).isAlive()) {
