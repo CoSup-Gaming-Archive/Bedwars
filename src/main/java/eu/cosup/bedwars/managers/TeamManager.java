@@ -5,6 +5,7 @@ import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.Buffer;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class TeamManager {
         for (TeamColor teamColor : Game.getGameInstance().getSelectedMap().getTeamSpawns().keySet()) {
 
             if (players.size() == 1) {
-                teams.add(new Team(teamColor, players, true));
+                teams.add(new Team(teamColor, new ArrayList<>(players), true));
                 break;
             }
 
@@ -35,7 +36,7 @@ public class TeamManager {
 
                 List<Player> teamPlayers = players.subList(index, players.size() / Game.getGameInstance().getSelectedMap().getTeamSpawns().keySet().size() + index);
 
-                ArrayList<Player> teamPlayersArrayList = new ArrayList<>(teamPlayers.stream().filter(player -> whichTeam(player) == null).toList());
+                ArrayList<Player> teamPlayersArrayList = new ArrayList<>(teamPlayers.stream().filter(player -> whichTeam(player.getName()) == null).toList());
 
                 if (teamPlayersArrayList.size() > 0) {
                     teams.add(new Team(teamColor, teamPlayersArrayList, true));

@@ -21,9 +21,6 @@ public class PlayerLeaveListener implements Listener {
         // TODO NameTagEditor nameTagEditor = new NameTagEditor(event.getPlayer());
         // TODO nameTagEditor.setNameColor(ChatColor.RESET).setPrefix("").setTabName(event.getPlayer().getName());
 
-        game.getJoinedPlayers().remove(event.getPlayer());
-        game.refreshPlayerCount();
-
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
 
             event.getPlayer().setHealth(0);
@@ -33,6 +30,11 @@ public class PlayerLeaveListener implements Listener {
                     Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer()).setAlive(false);
                 }
             }
+
+            return;
         }
+
+        game.getJoinedPlayers().remove(event.getPlayer());
+        game.refreshPlayerCount();
     }
 }
