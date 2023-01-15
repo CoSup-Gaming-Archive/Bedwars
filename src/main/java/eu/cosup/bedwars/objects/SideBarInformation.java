@@ -16,14 +16,6 @@ import org.bukkit.scoreboard.DisplaySlot;
 public class SideBarInformation {
     public static void update() {
 
-        Component header = Component.text().content("Cosup Gaming").build();
-        Component footer = (Component.text().content("\n")).build();
-
-        // player list
-        for (Player player : Bedwars.getInstance().getServer().getOnlinePlayers()) {
-            player.sendPlayerListHeaderAndFooter(header, footer);
-        }
-
         // scoreboard
         ScoreBoardManager scoreBoardManager = new ScoreBoardManager("bedwars");
         scoreBoardManager.clearObjective();
