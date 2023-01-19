@@ -25,17 +25,8 @@ public class PlayerJoinListener implements Listener {
 
         // if game has already started
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
-            // if player is not in a team
-
             Team playerTeam = game.getTeamManager().whichTeam(event.getPlayer().getUniqueId());
 
-            if (playerTeam == null) {
-                Component msg = Component.text().content("You joined as spectator since the game already started").color(NamedTextColor.RED).build();
-                event.getPlayer().sendMessage(msg);
-                new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
-                return;
-            }
-            
             Component msg = Component.text().content("You joined as ").color(NamedTextColor.YELLOW)
                             .append(Component.text().content(TeamColor.getFormattedTeamColor(playerTeam.getColor())).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer().getUniqueId()).getColor()))).build();
 
@@ -44,16 +35,11 @@ public class PlayerJoinListener implements Listener {
             return;
         }
 
-        if (game.getJoinedPlayers().size() < Bedwars.getInstance().getConfig().getInt("required-player-count") && Game.getGameInstance().getGameStateManager().getGameState() == GameStateManager.GameState.JOINING) {
-            game.getJoinedPlayers().add(event.getPlayer());
-            game.refreshPlayerCount();
-        } else {
-            // the player will join as spectator
-            Component msg = Component.text().content("You joined as spectator since there are already enough players in the game").color(NamedTextColor.GRAY).build();
-            event.getPlayer().sendMessage(msg);
+        if (game.getGameStateManager().getGameState() == GameStateManager.GameState.JOINING) {
+            event.getPlayer().teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
+            event.getPlayer().setGameMode(GameMode.ADVENTURE);
         }
 
-        new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
-
+        //new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
     }
 }

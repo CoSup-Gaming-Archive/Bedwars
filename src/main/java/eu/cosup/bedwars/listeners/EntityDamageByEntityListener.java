@@ -1,6 +1,7 @@
 package eu.cosup.bedwars.listeners;
 
 import eu.cosup.bedwars.Game;
+import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.managers.PlayerDamageManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -17,6 +18,11 @@ public class EntityDamageByEntityListener implements Listener {
 
     @EventHandler
     private void onEntityDamageEntity(@NotNull EntityDamageByEntityEvent event) {
+
+        if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.ACTIVE) {
+            event.setCancelled(true);
+            return;
+        }
 
         if (event.getDamager().getType() == EntityType.PRIMED_TNT) {
             // we want less damage from tnt
