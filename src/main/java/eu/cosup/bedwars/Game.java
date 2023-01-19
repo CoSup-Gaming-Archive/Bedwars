@@ -95,9 +95,7 @@ public class Game {
     }
 
     public void finishGame(TeamColor winner) {
-
         new GameEndTask(winner).runTask(Bedwars.getInstance());
-
     }
 
     public ArrayList<Player> getJoinedPlayers() {
@@ -109,32 +107,34 @@ public class Game {
     // to check how many players are on the Bedwars game
     public void refreshPlayerCount() {
 
-        // if the game already started
-        if (
-                gameStateManager.getGameState() != GameStateManager.GameState.JOINING &&
-                gameStateManager.getGameState() != GameStateManager.GameState.STARTING
-        ) {
-            return;
-        }
-
-        if (joinedPlayers.size() < Bedwars.getInstance().getConfig().getInt("required-player-count")) {
-            // this means there is already a countdown going
-            if (Game.gameInstance.gameStateManager.getGameState() == GameStateManager.GameState.STARTING) {
-                Component msg = Component.text().content("Stopping!").color(NamedTextColor.YELLOW).build();
-
-                Bedwars.getInstance().getServer().broadcast(msg);
+        if (TeamManager.randomTeams) {
+            if (
+                    gameStateManager.getGameState() != GameStateManager.GameState.JOINING &&
+                            gameStateManager.getGameState() != GameStateManager.GameState.STARTING
+            ) {
+                return;
             }
-            Component msg = Component.text().content("Not enough players: (").color(NamedTextColor.RED)
-                    .append(Component.text().content(String.valueOf(joinedPlayers.size())).color(NamedTextColor.RED))
-                    .append(Component.text().content("/").color(NamedTextColor.RED))
-                    .append(Component.text().content(String.valueOf(Bedwars.getInstance().getConfig().getInt("required-player-count"))).color(NamedTextColor.RED)
-                            .append(Component.text().content(")").color(NamedTextColor.RED))).build();
-            Bedwars.getInstance().getServer().broadcast(msg);
-            Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.JOINING);
+
+            if (joinedPlayers.size() < Bedwars.getInstance().getConfig().getInt("required-player-count")) {
+                // this means there is already a countdown going
+                if (Game.gameInstance.gameStateManager.getGameState() == GameStateManager.GameState.STARTING) {
+                    Component msg = Component.text().content("Stopping!").color(NamedTextColor.YELLOW).build();
+
+                    Bedwars.getInstance().getServer().broadcast(msg);
+                }
+                Component msg = Component.text().content("Not enough players: (").color(NamedTextColor.RED)
+                        .append(Component.text().content(String.valueOf(joinedPlayers.size())).color(NamedTextColor.RED))
+                        .append(Component.text().content("/").color(NamedTextColor.RED))
+                        .append(Component.text().content(String.valueOf(Bedwars.getInstance().getConfig().getInt("required-player-count"))).color(NamedTextColor.RED)
+                                .append(Component.text().content(")").color(NamedTextColor.RED))).build();
+                Bedwars.getInstance().getServer().broadcast(msg);
+                Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.JOINING);
+                return;
+            }
+
+            // just saving so we can cancel it later
+            new StartCountdownTask().runTask(Bedwars.getInstance());
             return;
         }
-
-        // just saving so we can cancel it later
-        new StartCountdownTask().runTask(Bedwars.getInstance());
     }
 }
