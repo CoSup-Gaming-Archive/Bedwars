@@ -22,7 +22,6 @@ public class StartCountdownTask extends BukkitRunnable {
             Bukkit.getLogger().severe("Start countdown cannot be that low, defaulting to 10");
             startCountdown = 10;
         }
-
     }
 
     @Override
@@ -42,14 +41,13 @@ public class StartCountdownTask extends BukkitRunnable {
 
                     // at the alst second
                     if (finalI <= 0) {
-                        Game.getGameInstance().getTeamManager().makeTeams(Game.getGameInstance().getJoinedPlayers());
+                        Game.getGameInstance().getTeamManager().makeTeams();
 
                         Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.ACTIVE);
 
                         Bedwars.getInstance().getServer().broadcast(
                                 Component.text("STARTING").color(NamedTextColor.YELLOW)
                         );
-
                         return;
                     }
 

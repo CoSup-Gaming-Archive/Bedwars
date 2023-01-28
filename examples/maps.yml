@@ -1,90 +1,205 @@
-TestMap:
-  maxHeight: 53
-  minHeight: 0
-  deathHeight: -10
-  xMin: -35
-  xMax: 252
-  zMin: 248
-  zMax: 536
-  chests:
+maxHeight: 103
+minHeight: 51
+deathHeight: 38
+xMin: -140
+xMax: 140
+zMin: -29
+zMax: 29
+chests:
     team:
-      yellow:
-        ==: org.bukkit.Location
-        world: world
-        x: 105.0
-        y: 14.0
-        z: 518.0
-        pitch: 0.0
-        yaw: 0.0
-  generators:
-    yellow-spawn-iron:
-      maxLevel: 3
-      item: IRON_INGOT
-      dropAmount: 20
-      location:
-        ==: org.bukkit.Location
-        world: world
-        x: 105.0
-        y: 14.0
-        z: 517.0
-        pitch: 0.0
-        yaw: 0.0
-      dropTime: 1.0
-      percentTimeDecreaseLevel: 0.2
-    yellow-spawn-gold:
-      maxLevel: 3
-      item: GOLD_INGOT
-      dropAmount: 20
-      location:
-        ==: org.bukkit.Location
-        world: world
-        x: 105.0
-        y: 14.0
-        z: 517.0
-        pitch: 0.0
-        yaw: 0.0
-      dropTime: 1.0
-      percentTimeDecreaseLevel: 0.2
-  spectatorSpawn:
+        blue:
+            ==: org.bukkit.Location
+            world: world
+            x: -112.0
+            y: 66.0
+            z: -6.0
+            pitch: 0.0
+            yaw: 0.0
+        red:
+            ==: org.bukkit.Location
+            world: world
+            x: 111.0
+            y: 66.0
+            z: 6.0
+            pitch: 0.0
+            yaw: 0.0
+    private:
+        blue:
+            ==: org.bukkit.Location
+            world: world
+            x: 112.0
+            y: 66.0
+            z: 6.0
+            pitch: 0.0
+            yaw: 0.0
+        red:
+            ==: org.bukkit.Location
+            world: world
+            x: 111.0
+            y: 66.0
+            z: -6.0
+            pitch: 0.0
+            yaw: 0.0
+
+generators:
+    emerald-spawn-one:
+        maxLevel: 3
+        item: EMERALD
+        dropAmount: 1
+        location:
+            ==: org.bukkit.Location
+            world: world
+            x: -5.4
+            y: 85.0
+            z: -5.3
+            pitch: 0.0
+            yaw: 0.0
+        dropTime: 25
+        percentTimeDecreaseLevel: 0.2
+    
+    emerald-spawn-two:
+        maxLevel: 3
+        item: EMERALD
+        dropAmount: 1
+        location:
+            ==: org.bukkit.Location
+            world: world
+            x: 6.8
+            y: 85.0
+            z: 6.5
+            pitch: 0.0
+            yaw: 0.0
+        dropTime: 25
+        percentTimeDecreaseLevel: 0.2
+
+    blue-spawn-diamond:
+        maxLevel: 3
+        item: DIAMOND
+        dropAmount: 1
+        location:
+            ==: org.bukkit.Location
+            world: world
+            x: -66.0
+            y: 66.0
+            z: 0.0
+            pitch: 0.0
+            yaw: 0.0
+        dropTime: 16
+        percentTimeDecreaseLevel: 0.2
+
+    red-spawn-diamond:
+        maxLevel: 3
+        item: DIAMOND
+        dropAmount: 1
+        location:
+            ==: org.bukkit.Location
+            world: world
+            x: 66.0
+            y: 66.0
+            z: 0.0
+            pitch: 0.0
+            yaw: 0.0
+        dropTime: 16
+        percentTimeDecreaseLevel: 0.2
+
+    blue-spawn-iron:
+        maxLevel: 3
+        item: IRON_INGOT
+        dropAmount: 8
+        location:
+            ==: org.bukkit.Location
+            world: world
+            x: -122.0
+            y: 65.0
+            z: 0.0
+            pitch: 0.0
+            yaw: 0.0
+        dropTime: 4
+        percentTimeDecreaseLevel: 0.2
+    blue-spawn-gold:
+        maxLevel: 3
+        item: GOLD_INGOT
+        dropAmount: 1
+        location:
+            ==: org.bukkit.Location
+            world: world
+            x: -122.0
+            y: 65.0
+            z: 0.0
+            pitch: 0.0
+            yaw: 0.0
+        dropTime: 4.0
+        percentTimeDecreaseLevel: 0.2
+    
+    red-spawn-iron:
+        maxLevel: 3
+        item: IRON_INGOT
+        dropAmount: 8
+        location:
+            ==: org.bukkit.Location
+            world: world
+            x: 123.0
+            y: 65.0
+            z: 0.0
+            pitch: 0.0
+            yaw: 0.0
+        dropTime: 4
+        percentTimeDecreaseLevel: 0.2
+    red-spawn-gold:
+        maxLevel: 3
+        item: GOLD_INGOT
+        dropAmount: 1
+        location:
+            ==: org.bukkit.Location
+            world: world
+            x: 123.0
+            y: 65.0
+            z: 0.0
+            pitch: 0.0
+            yaw: 0.0
+        dropTime: 4.0
+        percentTimeDecreaseLevel: 0.2
+
+spectatorSpawn:
     ==: org.bukkit.Location
     world: world
-    x: 108.0
-    y: 37.0
-    z: 382.0
+    x: 0.0
+    y: 108.0
+    z: 0.0
     pitch: 0.0
     yaw: 0.0
-  teams:
-    yellow:
-      spawn:
-        ==: org.bukkit.Location
-        world: world
-        x: 105.0
-        y: 9.0
-        z: 518.0
-        pitch: 0.0
-        yaw: 0.0
-      bed:
-        ==: org.bukkit.Location
-        world: world
-        x: 105.0
-        y: 14.0
-        z: 520.0
-        pitch: 0.0
-        yaw: 0.0
-    green:
-      spawn:
-        ==: org.bukkit.Location
-        world: world
-        x: 113.0
-        y: 9.0
-        z: 262.0
-        pitch: 0.0
-        yaw: 0.0
-      bed:
-        ==: org.bukkit.Location
-        world: world
-        x: 113.0
-        y: 14.0
-        z: 260.0
-        pitch: 0.0
-        yaw: 0.0
+teams:
+    red:
+        spawn:
+            ==: org.bukkit.Location
+            world: world
+            x: 117.0
+            y: 65.0
+            z: 0.0
+            pitch: 0.0
+            yaw: 0.0
+        bed:
+            ==: org.bukkit.Location
+            world: world
+            x: 105.0
+            y: 66.0
+            z: 0.0
+            pitch: 0.0
+            yaw: 0.0
+    blue:
+        spawn:
+            ==: org.bukkit.Location
+            world: world
+            x: -117.0
+            y: 66.0
+            z: 262.0
+            pitch: 0.0
+            yaw: 0.0
+        bed:
+            ==: org.bukkit.Location
+            world: world
+            x: -107.0
+            y: 66.0
+            z: 0.0
+            pitch: 0.0
+            yaw: 0.0

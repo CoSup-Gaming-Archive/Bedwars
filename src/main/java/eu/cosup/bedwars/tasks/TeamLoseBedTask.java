@@ -30,7 +30,12 @@ public class TeamLoseBedTask extends BukkitRunnable {
     @Override
     public void run() {
 
-        Team playerTeam = Game.getGameInstance().getTeamManager().whichTeam(killer);
+        Team playerTeam = null;
+
+        if (killer != null) {
+            playerTeam = Game.getGameInstance().getTeamManager().whichTeam(killer.getUniqueId());
+        }
+
 
         TeamColor playerTeamColor = null;
 

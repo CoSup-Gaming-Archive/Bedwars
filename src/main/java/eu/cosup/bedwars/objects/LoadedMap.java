@@ -18,7 +18,6 @@ import java.util.*;
 
 public class LoadedMap {
 
-    private final String name;
     private final Location spectatorSpawn;
 
     private final int maxHeight;
@@ -37,14 +36,12 @@ public class LoadedMap {
     private ArrayList<TeamChest> teamChests;
     private HashMap<TeamColor, ArrayList<Location>> teamBedsFull;
 
-    public LoadedMap(String name, HashMap<TeamColor, Location> teamSpawns, HashMap<TeamColor, Location> teamBeds, Location spectatorSpawn, int maxHeight, int minHeight, int deathHeight
+    public LoadedMap(HashMap<TeamColor, Location> teamSpawns, HashMap<TeamColor, Location> teamBeds, Location spectatorSpawn, int maxHeight, int minHeight, int deathHeight
                     , int xMax, int xMin, int zMax, int zMin, ArrayList<ItemGenerator> itemGenerators,
                      ArrayList<PrivateChest> privateChests, ArrayList<TeamChest> teamChests
     ) {
-
         this.teamSpawns = teamSpawns;
         this.teamBeds = teamBeds;
-        this.name = name;
         this.spectatorSpawn = spectatorSpawn;
         this.maxHeight = maxHeight;
         this.minHeight = minHeight;
@@ -110,10 +107,6 @@ public class LoadedMap {
         return teamSpawns;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public int getDeathHeight() {
         return deathHeight;
     }
@@ -148,7 +141,7 @@ public class LoadedMap {
 
     public Location getSpawnByPlayer(Player player) {
 
-        TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player).getColor();
+        TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
 
         return teamSpawns.get(teamColor);
     }
@@ -172,7 +165,7 @@ public class LoadedMap {
         return teamSpawns.get(teamColor);
     }
 
-    public static LoadedMap loadMapFromConfig(String name) {
+    public static LoadedMap loadMapFromConfig() {
 
         File configFile = new File(Bedwars.getInstance().getDataFolder(), "maps.yml");
 
@@ -183,33 +176,25 @@ public class LoadedMap {
 
         YamlConfiguration customConfig = YamlConfiguration.loadConfiguration(configFile);
 
-        if (!customConfig.contains(name)) {
-            Bukkit.getLogger().severe("The map that we are trying to load does not exists in maps.yml");
-            return null;
-        }
 
-        Bukkit.getLogger().info("-------------------LOADING HEIGHTS: "+name+"-------------------");
-
-        int maxHeight = customConfig.getInt(name + ".maxHeight");
-        int minHeight = customConfig.getInt(name + ".minHeight");
-        int deathHeight = customConfig.getInt(name + ".deathHeight");
+        int maxHeight = customConfig.getInt("maxHeight");
+        int minHeight = customConfig.getInt("minHeight");
+        int deathHeight = customConfig.getInt("deathHeight");
 
         // idk this is not mandatory
         if (minHeight == maxHeight) {
-            Bukkit.getLogger().severe(name + "   minHeight cannot be the same as the maxHeight plase change that");
+            Bukkit.getLogger().severe("   minHeight cannot be the same as the maxHeight plase change that");
             return null;
         }
 
-        Bukkit.getLogger().info("-------------------LOADING TEAM SPAWNS AND BEDS: "+name+"-------------------");
-
-        Location spectatorSpawn = customConfig.getLocation(name + ".spectatorSpawn");
+        Location spectatorSpawn = customConfig.getLocation("spectatorSpawn");
 
         if (spectatorSpawn == null) {
-            Bukkit.getLogger().severe("spectator spawn for " + name + " was not loaded corectly");
+            Bukkit.getLogger().severe("spectator spawn for " + " was not loaded corectly");
             return null;
         }
 
-        ConfigurationSection teamSpawnsSection = customConfig.getConfigurationSection(name+".teams");
+        ConfigurationSection teamSpawnsSection = customConfig.getConfigurationSection("teams");
 
         HashMap<TeamColor, Location> spawns = new HashMap<>();
         HashMap<TeamColor, Location> beds= new HashMap<>();
@@ -225,7 +210,7 @@ public class LoadedMap {
             try {
                 teamColor = TeamColor.valueOf(teamKey.toUpperCase());
             } catch (IllegalArgumentException exception) {
-                Bukkit.getLogger().severe("No such team color exists as: " + teamKey + " from map: " + name+" therefore we didnt register map");
+                Bukkit.getLogger().severe("No such team color exists as: " + teamKey + " from map: "+" therefore we didnt register map");
                 return null;
             }
 
@@ -240,27 +225,24 @@ public class LoadedMap {
             return null;
         }
 
-        Bukkit.getLogger().info("-------------------LOADING BOUNDARIES: "+name+"-------------------");
 
-        int xMax = customConfig.getInt(name + ".xMax");
-        int zMax = customConfig.getInt(name + ".zMax");
-        int zMin = customConfig.getInt(name + ".zMin");
-        int xMin = customConfig.getInt(name + ".xMin");
+        int xMax = customConfig.getInt(".xMax");
+        int zMax = customConfig.getInt(".zMax");
+        int zMin = customConfig.getInt(".zMin");
+        int xMin = customConfig.getInt(".xMin");
 
         if (xMax == xMin || zMax == zMin) {
-            Bukkit.getLogger().severe("Acording to your configuration for "+name+" players not by able to place blocks anywhere");
             Bukkit.getLogger().severe("Make sure you have the correct version of maps.yml (check in repository)");
         }
 
-        Bukkit.getLogger().info("-------------------LOADING GENERATORS: "+name+"-------------------");
 
-        ConfigurationSection generatorsList = customConfig.getConfigurationSection(name+".generators");
+        ConfigurationSection generatorsList = customConfig.getConfigurationSection("generators");
 
         ArrayList<ItemGenerator> generators = new ArrayList<>();
 
         if (generatorsList != null) {
             for (String key : generatorsList.getKeys(false)) {
-                ConfigurationSection itemGeneratorSection = customConfig.getConfigurationSection(name+".generators."+key);
+                ConfigurationSection itemGeneratorSection = customConfig.getConfigurationSection("generators."+key);
                 if (itemGeneratorSection == null) {
                     Bukkit.getLogger().severe("Didnt load generator by name: "+key);
                     continue;
@@ -268,14 +250,13 @@ public class LoadedMap {
                 generators.add(ItemGenerator.deserialize(itemGeneratorSection));
             }
         } else {
-            Bukkit.getLogger().severe("There was no generators path in your maps.yml for map: "+name);
+            Bukkit.getLogger().severe("There was no generators path in your maps.yml");
         }
 
-        Bukkit.getLogger().info("-------------------LOADING PRIVATE CHESTS: "+name+"-------------------");
 
         ArrayList<PrivateChest> privateChests = new ArrayList<>();
 
-        ConfigurationSection privateChestConfiguration = customConfig.getConfigurationSection(name+".chests.private");
+        ConfigurationSection privateChestConfiguration = customConfig.getConfigurationSection("chests.private");
 
         if (privateChestConfiguration == null) {
             Bukkit.getLogger().severe("Cannot load private chests");
@@ -286,11 +267,10 @@ public class LoadedMap {
             }
         }
 
-        Bukkit.getLogger().info("-------------------LOADING TEAM CHESTS: "+name+"-------------------");
 
         ArrayList<TeamChest> teamChests = new ArrayList<>();
 
-        ConfigurationSection teamChestConfiguration = customConfig.getConfigurationSection(name+".chests.team");
+        ConfigurationSection teamChestConfiguration = customConfig.getConfigurationSection("chests.team");
 
         if (teamChestConfiguration == null) {
             Bukkit.getLogger().severe("Cannot load team chests");
@@ -302,7 +282,6 @@ public class LoadedMap {
         }
 
         return new LoadedMap(
-                name,
                 spawns,
                 beds,
                 spectatorSpawn,
@@ -317,36 +296,5 @@ public class LoadedMap {
                 privateChests,
                 teamChests
         );
-    }
-
-    public static ArrayList<LoadedMap> getLoadedMapsFromConfig() {
-
-        ArrayList<LoadedMap> loadedMaps = new ArrayList<>();
-
-        File configFile = new File(Bedwars.getInstance().getDataFolder(), "maps.yml");
-
-        if (!configFile.exists()) {
-            Bukkit.getLogger().severe("There is no maps.yml in datafolder while trying to load a map");
-            return null;
-        }
-
-        YamlConfiguration customConfig = YamlConfiguration.loadConfiguration(configFile);
-
-        Set<String> mapNames = customConfig.getKeys(false);
-
-        if (mapNames.size() == 0) {
-            Bukkit.getLogger().severe("There are no maps in maps.yml");
-            return null;
-        }
-
-        for (String name : mapNames) {
-
-            LoadedMap loadedMap = LoadedMap.loadMapFromConfig(name);
-            if (loadedMap != null) {
-                loadedMaps.add(loadedMap);
-            }
-        }
-
-        return loadedMaps;
     }
 }

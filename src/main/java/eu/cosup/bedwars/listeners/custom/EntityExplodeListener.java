@@ -4,7 +4,10 @@ import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.utility.BlockUtility;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.util.RayTraceResult;
@@ -16,37 +19,49 @@ import java.util.ArrayList;
 public class EntityExplodeListener implements Listener {
 
     @EventHandler
-    public void onEntityExplode(@NotNull EntityExplodeEvent event){
+    public void onEntityExplode(@NotNull EntityExplodeEvent event) {
+
+        if (event.getEntity().getType() == EntityType.FIREBALL) {
+            TNTPrimed tnt = (TNTPrimed) event.getLocation().getWorld().spawnEntity(event.getLocation(), EntityType.PRIMED_TNT);
+            tnt.setFuseTicks(0);
+            tnt.setGravity(false);
             event.setCancelled(true);
+            return;
+        }
 
-            ArrayList<Material> searchedTargets=new ArrayList<>();
-            searchedTargets.add(Material.RED_STAINED_GLASS);
-            searchedTargets.add(Material.YELLOW_STAINED_GLASS);
-            searchedTargets.add(Material.BLUE_STAINED_GLASS);
-            searchedTargets.add(Material.GREEN_STAINED_GLASS);
-            searchedTargets.add(Material.GLASS);
+        ArrayList<Material> searchedTargets=new ArrayList<>();
+        searchedTargets.add(Material.RED_STAINED_GLASS);
+        searchedTargets.add(Material.YELLOW_STAINED_GLASS);
+        searchedTargets.add(Material.BLUE_STAINED_GLASS);
+        searchedTargets.add(Material.GREEN_STAINED_GLASS);
+        searchedTargets.add(Material.GLASS);
 
-            for (Block block : event.blockList()) {
+        ArrayList<Block> nonBreakableBlock = new ArrayList<>();
 
-                if (searchedTargets.contains(block.getType()) || !Game.getGameInstance().getBlockManager().isBlockPlaced(block)){
-                    continue;
-                }
+        for (Block block : event.blockList()) {
 
-                int distance = (int) event.getLocation().distance(block.getLocation());
+            if (searchedTargets.contains(block.getType()) || !Game.getGameInstance().getBlockManager().isBlockPlaced(block)){
+                nonBreakableBlock.add(block);
+                continue;
+            }
 
-                Vector direction = new Vector(
-                        event.getLocation().getX() - block.getLocation().getX() + 0.0001,
-                        event.getLocation().getY() - block.getLocation().getY() + 0.0001,
-                        event.getLocation().getZ() - block.getLocation().getZ() + 0.0001
-                );
+            int distance = (int) event.getLocation().distance(block.getLocation());
 
-                direction = direction.normalize();
+            Vector direction = new Vector(
+                    event.getLocation().getX() - block.getLocation().getX() + 0.0001,
+                    event.getLocation().getY() - block.getLocation().getY() + 0.0001,
+                    event.getLocation().getZ() - block.getLocation().getZ() + 0.0001
+            );
 
-                RayTraceResult rayTraceResult = BlockUtility.rayTrace(block.getLocation(), direction, distance, searchedTargets);
+            direction = direction.normalize();
 
-                if (rayTraceResult == null) {
-                    block.breakNaturally();
-                }
+            RayTraceResult rayTraceResult = BlockUtility.rayTrace(block.getLocation(), direction, distance, searchedTargets);
+
+            if (rayTraceResult != null) {
+                nonBreakableBlock.add(block);
             }
         }
+
+        event.blockList().removeAll(nonBreakableBlock);
+    }
 }

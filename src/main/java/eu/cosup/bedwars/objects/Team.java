@@ -6,19 +6,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class Team {
 
-    ArrayList<Player> players;
+    private List<Player> players;
     private final TeamColor color;
     private boolean isAlive;
     private final HashMap<String, Boolean> deathList = new HashMap<>();
 
-    public Team(TeamColor teamColor, ArrayList<Player> players, boolean isAlive) {
+    public Team(TeamColor teamColor, List<Player> players, boolean isAlive) {
         this.players = players;
         this.color = teamColor;
         this.isAlive = isAlive;
@@ -41,7 +43,7 @@ public class Team {
         deathList.put(player.getName(), dead);
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -53,9 +55,10 @@ public class Team {
         return color;
     }
 
-    public boolean isPlayerInTeam(Player player) {
+    public boolean isPlayerInTeam(@NotNull UUID playerUUID) {
         for (Player player1 : players) {
-            if (player1.getName().equalsIgnoreCase(player.getName())) {
+
+            if (player1.getUniqueId().equals(playerUUID)) {
                 return true;
             }
         }

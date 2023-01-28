@@ -3,8 +3,11 @@ package eu.cosup.bedwars.tasks;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.objects.PrivateChest;
+import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamChest;
 import eu.cosup.bedwars.objects.TeamColor;
+import eu.cosup.tournament.common.objects.GameTeam;
+import eu.cosup.tournament.server.TournamentServer;
 import org.bukkit.*;
 import org.bukkit.block.Bed;
 import org.bukkit.block.data.BlockData;
@@ -17,18 +20,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class ActivateGameTask extends BukkitRunnable {
-
-    private ArrayList<Player> joinedPlayers;
 
     private static final List<String> armorPeaces = Bedwars.getInstance().getConfig().getStringList("armor");
     private static final ConfigurationSection hotbar = Bedwars.getInstance().getConfig().getConfigurationSection("hotbar");
 
-    public ActivateGameTask(ArrayList<Player> joinedPlayers) {
-
-        this.joinedPlayers = joinedPlayers;
-
+    public ActivateGameTask() {
     }
 
     @Override
@@ -37,7 +37,6 @@ public class ActivateGameTask extends BukkitRunnable {
         prepareEnviroment();
         preparePlayers();
         spawnGenerators();
-        spawnChests();
     }
 
     private void prepareEnviroment() {
@@ -59,14 +58,14 @@ public class ActivateGameTask extends BukkitRunnable {
     }
 
     private void preparePlayers() {
-        for (Player player : joinedPlayers) {
-            preparePlayerFull(player);
+        for (Team team : Game.getGameInstance().getTeamManager().getTeams()) {
+            team.getPlayers().forEach(ActivateGameTask::preparePlayerFull);
         }
     }
 
     // ooo so juicy
     public static void preparePlayerFull(Player player) {
-        TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player).getColor();
+        TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
         // TODO NameTagEditor nameTagEditor = new NameTagEditor(player);
         // TODO nameTagEditor.setNameColor(TeamColor.getChatColor(teamColor)).setPrefix(teamColor.toString()+" ").setTabName(TeamColor.getChatColor(teamColor)+player.getName()).setChatName((TeamColor.getChatColor(teamColor)+player.getName()));
         preparePlayerStats(player);
@@ -92,11 +91,11 @@ public class ActivateGameTask extends BukkitRunnable {
 
         for (String armorPeaceName : armorPeaces) {
 
-            ItemStack armorPeace = new ItemStack(Material.getMaterial(armorPeaceName));
+            ItemStack armorPeace = new ItemStack(Objects.requireNonNull(Material.getMaterial(armorPeaceName)));
             ItemMeta meta = armorPeace.hasItemMeta() ? armorPeace.getItemMeta() : Bukkit.getItemFactory().getItemMeta(armorPeace.getType());
             LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) meta;
             // from Color:
-            leatherArmorMeta.setColor(TeamColor.getColor(Game.getGameInstance().getTeamManager().whichTeam(player).getColor()));
+            leatherArmorMeta.setColor(TeamColor.getColor(Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor()));
             armorPeace.setItemMeta(leatherArmorMeta);
 
             // cheeky way but maybe there is a better method
