@@ -3,8 +3,11 @@ package eu.cosup.bedwars.tasks;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.objects.PrivateChest;
+import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamChest;
 import eu.cosup.bedwars.objects.TeamColor;
+import eu.cosup.tournament.common.objects.GameTeam;
+import eu.cosup.tournament.server.TournamentServer;
 import org.bukkit.*;
 import org.bukkit.block.Bed;
 import org.bukkit.block.data.BlockData;
@@ -18,18 +21,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class ActivateGameTask extends BukkitRunnable {
-
-    private ArrayList<Player> joinedPlayers;
 
     private static final List<String> armorPeaces = Bedwars.getInstance().getConfig().getStringList("armor");
     private static final ConfigurationSection hotbar = Bedwars.getInstance().getConfig().getConfigurationSection("hotbar");
 
-    public ActivateGameTask(ArrayList<Player> joinedPlayers) {
-
-        this.joinedPlayers = joinedPlayers;
-
+    public ActivateGameTask() {
     }
 
     @Override
@@ -59,8 +58,8 @@ public class ActivateGameTask extends BukkitRunnable {
     }
 
     private void preparePlayers() {
-        for (Player player : joinedPlayers) {
-            preparePlayerFull(player);
+        for (Team team : Game.getGameInstance().getTeamManager().getTeams()) {
+            team.getPlayers().forEach(ActivateGameTask::preparePlayerFull);
         }
     }
 

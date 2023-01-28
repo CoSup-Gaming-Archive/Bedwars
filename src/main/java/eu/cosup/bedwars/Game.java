@@ -7,6 +7,7 @@ import eu.cosup.bedwars.tasks.ActivateGameTask;
 import eu.cosup.bedwars.tasks.GameEndTask;
 import eu.cosup.bedwars.tasks.GameTimerTask;
 import eu.cosup.bedwars.tasks.StartCountdownTask;
+import eu.cosup.tournament.server.TournamentServer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 public class Game {
 
     private static Game gameInstance;
-    private ArrayList<Player> joinedPlayers = new ArrayList<>();
     private GameStateManager gameStateManager;
     private TeamManager teamManager;
     private ShopManager shopManager;
@@ -36,9 +36,6 @@ public class Game {
         shopManager=new ShopManager();
         shopManager.loadConfig();
         chestManager = new ChestManager();
-
-
-        joinedPlayers = new ArrayList<>(Bedwars.getInstance().getServer().getOnlinePlayers());
 
         initGame();
     }
@@ -88,7 +85,7 @@ public class Game {
     // active phase
     public void activateGame() {
 
-        new ActivateGameTask(joinedPlayers).runTask(Bedwars.getInstance());
+        new ActivateGameTask().runTask(Bedwars.getInstance());
         GameTimerTask.resetTimer();
         new GameTimerTask().runTask(Bedwars.getInstance());
 
@@ -96,45 +93,5 @@ public class Game {
 
     public void finishGame(TeamColor winner) {
         new GameEndTask(winner).runTask(Bedwars.getInstance());
-    }
-
-    public ArrayList<Player> getJoinedPlayers() {
-        return joinedPlayers;
-    }
-
-
-    // returns boolean -> is the joined players > required players
-    // to check how many players are on the Bedwars game
-    public void refreshPlayerCount() {
-
-        if (TeamManager.randomTeams) {
-            if (
-                    gameStateManager.getGameState() != GameStateManager.GameState.JOINING &&
-                            gameStateManager.getGameState() != GameStateManager.GameState.STARTING
-            ) {
-                return;
-            }
-
-            if (joinedPlayers.size() < Bedwars.getInstance().getConfig().getInt("required-player-count")) {
-                // this means there is already a countdown going
-                if (Game.gameInstance.gameStateManager.getGameState() == GameStateManager.GameState.STARTING) {
-                    Component msg = Component.text().content("Stopping!").color(NamedTextColor.YELLOW).build();
-
-                    Bedwars.getInstance().getServer().broadcast(msg);
-                }
-                Component msg = Component.text().content("Not enough players: (").color(NamedTextColor.RED)
-                        .append(Component.text().content(String.valueOf(joinedPlayers.size())).color(NamedTextColor.RED))
-                        .append(Component.text().content("/").color(NamedTextColor.RED))
-                        .append(Component.text().content(String.valueOf(Bedwars.getInstance().getConfig().getInt("required-player-count"))).color(NamedTextColor.RED)
-                                .append(Component.text().content(")").color(NamedTextColor.RED))).build();
-                Bedwars.getInstance().getServer().broadcast(msg);
-                Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.JOINING);
-                return;
-            }
-
-            // just saving so we can cancel it later
-            new StartCountdownTask().runTask(Bedwars.getInstance());
-            return;
-        }
     }
 }
