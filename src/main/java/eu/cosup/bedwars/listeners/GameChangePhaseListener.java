@@ -33,7 +33,7 @@ public class GameChangePhaseListener implements GameListener {
 
         if (event.newGamePhase() == GameStateManager.GamePhase.BED_DESTRUCTION) {
 
-            Component msg = Component.text().content("All beds have destroyed!" ).color(NamedTextColor.RED).build();
+            Component msg = Component.text().content("All beds have been destroyed!").color(NamedTextColor.RED).build();
 
             Title title = Title.title(msg, Component.text().build());
 
