@@ -15,12 +15,12 @@ import java.util.UUID;
 
 public class Team {
 
-    private ArrayList<Player> players;
+    private List<Player> players;
     private final TeamColor color;
     private boolean isAlive;
     private final HashMap<String, Boolean> deathList = new HashMap<>();
 
-    public Team(TeamColor teamColor, ArrayList<Player> players, boolean isAlive) {
+    public Team(TeamColor teamColor, List<Player> players, boolean isAlive) {
         this.players = players;
         this.color = teamColor;
         this.isAlive = isAlive;
@@ -43,7 +43,7 @@ public class Team {
         deathList.put(player.getName(), dead);
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 

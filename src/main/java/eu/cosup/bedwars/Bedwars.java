@@ -1,9 +1,8 @@
 package eu.cosup.bedwars;
 
-import eu.cosup.bedwars.commands.ForceStartCommand;
+import eu.cosup.bedwars.listeners.StartGameCommandListener;
 import eu.cosup.bedwars.listeners.*;
 import eu.cosup.bedwars.listeners.custom.*;
-import eu.cosup.bedwars.commands.OpenShopCommand;
 import eu.cosup.bedwars.listeners.PlayerDeathListener;
 import eu.cosup.bedwars.listeners.PlayerJoinListener;
 import eu.cosup.bedwars.listeners.PlayerLeaveListener;
@@ -14,8 +13,6 @@ import eu.cosup.bedwars.objects.LoadedMap;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Objects;
 
 public final class Bedwars extends JavaPlugin {
 
@@ -66,13 +63,11 @@ public final class Bedwars extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PearlTeleportListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerShootFireballListener(), this);
 
+        new StartGameCommandListener();
+        new EndGameCommandListener();
 
         new GameChangePhaseListener();
         new TeamChangeAliveListener();
-
-        // these are mostly for testing only and will probably be removed in the actualy tournament
-        Objects.requireNonNull(getCommand("forcestart")).setExecutor(new ForceStartCommand());
-        Objects.requireNonNull(getCommand("openshop")).setExecutor(new OpenShopCommand());
     }
 
     @Override

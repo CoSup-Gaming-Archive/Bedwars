@@ -4,9 +4,12 @@ import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamColor;
+import eu.cosup.tournament.common.objects.GameTeam;
+import eu.cosup.tournament.server.TournamentServer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.Buffer;
 import java.util.ArrayList;
@@ -17,7 +20,6 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class TeamManager {
 
-    public static boolean randomTeams = Bedwars.getInstance().getConfig().getBoolean("random-teams");
     private ArrayList<Team> teams = new ArrayList<>();
 
     public ArrayList<Team> getTeams() {
@@ -25,41 +27,20 @@ public class TeamManager {
     }
 
     // this will probably be thrown away later
-    public void makeTeams(ArrayList<Player> players) {
+    public void makeTeams() {
 
-        if (randomTeams) {
-            int index = 0;
-            for (TeamColor teamColor : Game.getGameInstance().getSelectedMap().getTeamSpawns().keySet()) {
+        List<GameTeam> gameTeams = TournamentServer.getInstance().getTeams();
 
-                if (players.size() == 1) {
-                    teams.add(new Team(teamColor, new ArrayList<>(players), true));
-                    break;
-                }
-
-                if (players.size() > 1) {
-
-                    List<Player> teamPlayers = players.subList(index, players.size() / Game.getGameInstance().getSelectedMap().getTeamSpawns().keySet().size() + index);
-
-                    ArrayList<Player> teamPlayersArrayList = new ArrayList<>(teamPlayers.stream().filter(player -> whichTeam(player.getUniqueId()) == null).toList());
-
-                    if (teamPlayersArrayList.size() > 0) {
-                        teams.add(new Team(teamColor, teamPlayersArrayList, true));
-                    } else {
-                        teams.add(new Team(teamColor, new ArrayList<>(), false));
-                    }
-
-                    index+=players.size() / Game.getGameInstance().getSelectedMap().getTeamSpawns().keySet().size();
+        for (int i = 0; i < gameTeams.size()-1; i++) {
+            TeamColor teamColor = TeamColor.values()[i];
+            List<Player> teamPlayers = new ArrayList<>();
+            for (UUID playerUUID : gameTeams.get(i).getPlayerUUIDs()) {
+                Player player = Bedwars.getInstance().getServer().getPlayer(playerUUID);
+                if (player != null) {
+                    teamPlayers.add(player);
                 }
             }
-        }
-
-        // TODO add non random teams
-
-        for (TeamColor teamColor : TeamColor.values()) {
-            // add all the dead teams
-            if (Game.getGameInstance().getTeamManager().getTeamByColor(teamColor) == null) {
-                teams.add(new Team(teamColor, new ArrayList<>(), false));
-            }
+            teams.add(new Team(teamColor, teamPlayers, true));
         }
     }
 
@@ -106,7 +87,7 @@ public class TeamManager {
         return null;
     }
 
-    public Team getTeamByColor(TeamColor teamColor) {
+    public @Nullable Team getTeamByColor(TeamColor teamColor) {
 
         for (Team team : teams) {
             if (Objects.equals(team.getColor().toString(), teamColor.toString())) {

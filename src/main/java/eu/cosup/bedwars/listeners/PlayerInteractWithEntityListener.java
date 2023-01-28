@@ -1,8 +1,6 @@
 package eu.cosup.bedwars.listeners;
 
 import eu.cosup.bedwars.Game;
-import eu.cosup.bedwars.managers.ShopManager;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -18,7 +16,6 @@ public class PlayerInteractWithEntityListener implements Listener {
 
         Entity entity = event.getRightClicked();
         if (!(entity instanceof Villager)){
-
             return;
         }
 

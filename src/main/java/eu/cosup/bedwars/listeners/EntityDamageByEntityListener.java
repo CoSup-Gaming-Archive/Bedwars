@@ -19,17 +19,21 @@ public class EntityDamageByEntityListener implements Listener {
     @EventHandler
     private void onEntityDamageEntity(@NotNull EntityDamageByEntityEvent event) {
 
-        if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.ACTIVE) {
-            event.setCancelled(true);
-            return;
-        }
-
         if (event.getDamager().getType() == EntityType.PRIMED_TNT) {
             // we want less damage from tnt
             event.setDamage(event.getDamage()/8);
         }
 
+        if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.ACTIVE) {
+            event.setCancelled(true);
+            return;
+        }
+
         if (!(event.getDamager() instanceof Player damager)) {
+            return;
+        }
+
+        if (!(event.getEntity() instanceof Player damaged)) {
             return;
         }
 
@@ -38,7 +42,7 @@ public class EntityDamageByEntityListener implements Listener {
             return;
         }
 
-        if (!(event.getEntity() instanceof Player damaged)) {
+        if (Game.getGameInstance().getTeamManager().whichTeam(damaged.getUniqueId()) == null || Game.getGameInstance().getTeamManager().whichTeam(damaged.getUniqueId()) == null) {
             return;
         }
 

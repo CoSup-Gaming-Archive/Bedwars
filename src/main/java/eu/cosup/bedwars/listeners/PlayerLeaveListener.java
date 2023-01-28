@@ -30,11 +30,6 @@ public class PlayerLeaveListener implements Listener {
                     Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer().getUniqueId()).setAlive(false);
                 }
             }
-
-            return;
         }
-
-        game.getJoinedPlayers().remove(event.getPlayer());
-        game.refreshPlayerCount();
     }
 }

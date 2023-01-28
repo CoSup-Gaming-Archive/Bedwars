@@ -40,6 +40,6 @@ public class PlayerJoinListener implements Listener {
             event.getPlayer().setGameMode(GameMode.ADVENTURE);
         }
 
-        //new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
+        new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
     }
 }
