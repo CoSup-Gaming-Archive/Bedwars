@@ -38,7 +38,6 @@ public class ActivateGameTask extends BukkitRunnable {
         prepareEnviroment();
         preparePlayers();
         spawnGenerators();
-        spawnChests();
     }
 
     private void prepareEnviroment() {
