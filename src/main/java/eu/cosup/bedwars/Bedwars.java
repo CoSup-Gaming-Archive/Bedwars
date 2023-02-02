@@ -65,6 +65,8 @@ public final class Bedwars extends JavaPlugin {
 
         new StartGameCommandListener();
         new EndGameCommandListener();
+        new GameFreezeListener();
+        new GameUnfreezeListener();
 
         new GameChangePhaseListener();
         new TeamChangeAliveListener();
