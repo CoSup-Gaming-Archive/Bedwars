@@ -61,7 +61,7 @@ public class SpectatorTask extends BukkitRunnable {
 
                     player.showTitle(title);
 
-                    player.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_STEP, 1, finalI);
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, finalI);
                 }
             }.runTaskLater(Bedwars.getInstance(), i*20L);
         }
