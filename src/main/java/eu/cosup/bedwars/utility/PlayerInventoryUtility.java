@@ -1,5 +1,6 @@
 package eu.cosup.bedwars.utility;
 
+import eu.cosup.bedwars.Game;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

@@ -1,5 +1,7 @@
 package eu.cosup.bedwars;
 
+import eu.cosup.bedwars.commands.OpenShopCommand;
+import eu.cosup.bedwars.commands.OpenUpgradesCommand;
 import eu.cosup.bedwars.listeners.StartGameCommandListener;
 import eu.cosup.bedwars.listeners.*;
 import eu.cosup.bedwars.listeners.custom.*;
@@ -70,6 +72,11 @@ public final class Bedwars extends JavaPlugin {
 
         new GameChangePhaseListener();
         new TeamChangeAliveListener();
+
+        getCommand("os").setExecutor(new OpenShopCommand());
+        getCommand("openshop").setExecutor(new OpenShopCommand());
+        getCommand("ou").setExecutor(new OpenUpgradesCommand());
+        getCommand("openupgrades").setExecutor(new OpenUpgradesCommand());
     }
 
     @Override

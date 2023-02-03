@@ -19,6 +19,7 @@ public class Team {
     private final TeamColor color;
     private boolean isAlive;
     private final HashMap<String, Boolean> deathList = new HashMap<>();
+    public TeamUpgrades upgrades = new TeamUpgrades();
 
     public Team(TeamColor teamColor, List<Player> players, boolean isAlive) {
         this.players = players;

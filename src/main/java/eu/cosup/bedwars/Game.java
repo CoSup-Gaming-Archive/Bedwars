@@ -20,6 +20,7 @@ public class Game {
     private GameStateManager gameStateManager;
     private TeamManager teamManager;
     private ShopManager shopManager;
+    private UpgradesManager upgradesManager;
     private LoadedMap selectedMap;
     private BlockManager blockManager;
     private ItemGeneratorManager itemGeneratorManager;
@@ -36,12 +37,17 @@ public class Game {
         shopManager=new ShopManager();
         shopManager.loadConfig();
         chestManager = new ChestManager();
+        upgradesManager=new UpgradesManager();
 
         initGame();
     }
 
     public ShopManager getShopManager() {
         return shopManager;
+    }
+
+    public UpgradesManager getUpgradesManager(){
+        return upgradesManager;
     }
 
     public ChestManager getChestManager() {
