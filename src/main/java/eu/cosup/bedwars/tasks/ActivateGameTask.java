@@ -17,6 +17,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -84,6 +86,10 @@ public class ActivateGameTask extends BukkitRunnable {
         player.setGameMode(GameMode.SURVIVAL);
         player.setFoodLevel(Integer.MAX_VALUE);
         player.setHealth(20);
+        player.removePotionEffect(PotionEffectType.FAST_DIGGING);
+        if (upgradeLevel > 0) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, upgradeLevel, false, false, false));
+        }
     }
 
     public static void teleportPlayerToSpawn(@NotNull Player player) {
