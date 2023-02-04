@@ -81,10 +81,8 @@ public class SpectatorTask extends BukkitRunnable {
 
                 player.teleport(Game.getGameInstance().getSelectedMap().getSpawnByPlayer(player));
 
-                ActivateGameTask.preparePlayerFull(player, 0, Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()));
+                ActivateGameTask.preparePlayerFull(player, Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(player.getName()), Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()));
 
-                // TODO: 2/4/2023 UPDATE THIS SO ITS ACTUALY CORRECT
-                
                 Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).setPlayerDead(player, false);
 
                 player.sendMessage(Component.text().content("You are alive!").color(TeamColor.getNamedTextColor(team)));
