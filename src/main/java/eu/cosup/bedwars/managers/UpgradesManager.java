@@ -50,12 +50,12 @@ public class UpgradesManager {
         );
         List<Component> sharpLore = new ArrayList<>(sharpLoreList);
         int diamondAmount = PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND);
-        if (diamondAmount<8){
-            sharpLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
-            sharpLore.add(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
-        } else if (playerTeam.getUpgrades().getSharpness()==1){
+        if (playerTeam.getUpgrades().getSharpness()==1){
             sharpLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
             sharpLore.add(Component.text("Your team already owns this upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+        } else if (diamondAmount<8){
+            sharpLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            sharpLore.add(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
         }
         sharpnessMeta.lore(sharpLore);
         sharpnessMeta.displayName(sharpTitle);
@@ -67,7 +67,7 @@ public class UpgradesManager {
         //Protection Upgrade
 
         ItemStack protection = new ItemStack(Material.IRON_CHESTPLATE);
-        ItemMeta protectionMeta = sharpness.getItemMeta();
+        ItemMeta protectionMeta = protection.getItemMeta();
         String add=String.valueOf(playerTeam.getUpgrades().getProtection()+1);
         if (playerTeam.getUpgrades().getProtection()==4){
             add="";
@@ -81,17 +81,20 @@ public class UpgradesManager {
         int requiredDiamonds=5;
         if (playerTeam.getUpgrades().getProtection()>=4){
             strike4=true;
-            requiredDiamonds=0;
-        }
-        if (playerTeam.getUpgrades().getProtection()>=3){
             strike3=true;
-            requiredDiamonds=30;
-        }
-        if (playerTeam.getUpgrades().getProtection()>=2){
             strike2=true;
+            strike1=true;
+            requiredDiamonds=0;
+        }else if (playerTeam.getUpgrades().getProtection()>=3){
+            strike3=true;
+            strike2=true;
+            strike1=true;
+            requiredDiamonds=30;
+        } else if (playerTeam.getUpgrades().getProtection()>=2){
+            strike2=true;
+            strike1=true;
             requiredDiamonds=20;
-        }
-        if (playerTeam.getUpgrades().getProtection()>=1){
+        } else if (playerTeam.getUpgrades().getProtection()>=1){
             strike1=true;
             requiredDiamonds=10;
         }
@@ -99,16 +102,16 @@ public class UpgradesManager {
                 Component.text("Your team permanently gains").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
                 Component.text("Protection on all armor pieces!").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
                 Component.text(" ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
-                Component.text("Tier 1 Protection I, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike1).append(
+                Component.text("Tier 1: Protection I, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike1).append(
                         Component.text("5 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike1)
                 ),
-                Component.text("Tier 2 Protection II, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike2).append(
+                Component.text("Tier 2: Protection II, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike2).append(
                         Component.text("10 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike2)
                 ),
-                Component.text("Tier 3 Protection III, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike3).append(
+                Component.text("Tier 3: Protection III, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike3).append(
                         Component.text("20 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike3)
                 ),
-                Component.text("Tier 4 Protection IV, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike4).append(
+                Component.text("Tier 4: Protection IV, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike4).append(
                         Component.text("30 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike4)
                 )
         );
@@ -117,11 +120,11 @@ public class UpgradesManager {
 
         diamondAmount = PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND);
         if (diamondAmount<requiredDiamonds ){
-            sharpLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
-            sharpLore.add(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
-        } else if (playerTeam.getUpgrades().getSharpness()==1){
-            sharpLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
-            sharpLore.add(Component.text("Your team already owns this upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+            protectionLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            protectionLore.add(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+        } else if (playerTeam.getUpgrades().getProtection()>=4){
+            protectionLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            protectionLore.add(Component.text("Your team already owns this upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
         }
         protectionMeta.lore(protectionLore);
         protectionMeta.displayName(protectionTitle);
@@ -129,8 +132,150 @@ public class UpgradesManager {
         gui.setItem(11, protection);
 
 
+        //Haste Upgrade
+
+        ItemStack haste = new ItemStack(Material.GOLDEN_PICKAXE);
+        ItemMeta hasteMeta = haste.getItemMeta();
+        add=String.valueOf(playerTeam.getUpgrades().getHaste()+1);
+        if (playerTeam.getUpgrades().getHaste()>=2){
+            add="";
+        }
+        Component hasteTitle = Component.text("Reinforced Armor "+add).color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false);
+        //so the tiers u already have are like stikedthru
+        strike1=false;
+        strike2=false;
+        requiredDiamonds=4;
+        if (playerTeam.getUpgrades().getHaste()>=2){
+            strike2=true;
+            strike1=true;
+            requiredDiamonds=0;
+        }else if (playerTeam.getUpgrades().getHaste()>=1){
+            strike1=true;
+            requiredDiamonds=6;
+        }
+        List<Component> hasteLoreList = List.of(
+                Component.text("All players on your team").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text("permanently gain Haste.").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text(" ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text("Tier 1: Haste I, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike1).append(
+                        Component.text("4 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike1)
+                ),
+                Component.text("Tier 2: Haste II, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike2).append(
+                        Component.text("6 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike2)
+                )
+        );
+        List<Component> hasteLore = new ArrayList<>(hasteLoreList);
 
 
+        diamondAmount = PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND);
+        if (diamondAmount<requiredDiamonds ){
+            hasteLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            hasteLore.add(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+        } else if (playerTeam.getUpgrades().getHaste()>=2){
+            hasteLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            hasteLore.add(Component.text("Your team already owns this upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+        }
+        hasteMeta.lore(hasteLore);
+        hasteMeta.displayName(hasteTitle);
+        haste.setItemMeta(hasteMeta);
+        gui.setItem(12, haste);
+
+
+        //Forge Upgrade
+
+        ItemStack forge = new ItemStack(Material.FURNACE);
+        ItemMeta forgeMeta = forge.getItemMeta();
+        add=String.valueOf(playerTeam.getUpgrades().getRessources()+1);
+        if (playerTeam.getUpgrades().getRessources()>=4){
+            add="";
+        }
+        Component forgeTitle = Component.text("Iron Forge "+add).color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false);
+        //so the tiers u already have are like stikedthru
+        strike1=false;
+        strike2=false;
+        strike3=false;
+        strike4=false;
+        requiredDiamonds=4;
+        if (playerTeam.getUpgrades().getRessources()>=4){
+            strike4=true;
+            strike3=true;
+            strike2=true;
+            strike1=true;
+            requiredDiamonds=0;
+        }else if (playerTeam.getUpgrades().getRessources()>=3){
+            strike3=true;
+            strike2=true;
+            strike1=true;
+            requiredDiamonds=16;
+        }else if (playerTeam.getUpgrades().getRessources()>=2){
+            strike2=true;
+            strike1=true;
+            requiredDiamonds=12;
+        } else if (playerTeam.getUpgrades().getRessources()>=1){
+            strike1=true;
+            requiredDiamonds=8;
+        }
+        List<Component> forgeLoreList = List.of(
+                Component.text("Upgrade resource spawning on").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text("your island.").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text(" ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text("Tier 1: +50% Resources, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike1).append(
+                        Component.text("4 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike1)
+                ),
+                Component.text("Tier 2: +100% Resources, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike2).append(
+                        Component.text("8 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike2)
+                ),
+                Component.text("Tier 3: Spawn emeralds, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike3).append(
+                        Component.text("12 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike3)
+                ),
+                Component.text("Tier 4: +200% Resources, ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike4).append(
+                        Component.text("16 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, strike4)
+                )
+        );
+        List<Component> forgeLore = new ArrayList<>(forgeLoreList);
+
+
+        diamondAmount = PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND);
+        if (diamondAmount<requiredDiamonds ){
+            forgeLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            forgeLore.add(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+        } else if (playerTeam.getUpgrades().getRessources()>=4){
+            forgeLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            forgeLore.add(Component.text("Your team already owns this upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+        }
+        forgeMeta.lore(forgeLore);
+        forgeMeta.displayName(forgeTitle);
+        forge.setItemMeta(forgeMeta);
+        gui.setItem(19, forge);
+
+
+        //Heal Pool Upgrade
+
+        ItemStack heal = new ItemStack(Material.BEACON);
+        ItemMeta healMeta = heal.getItemMeta();
+        Component healTitle = Component.text("Heal Pool").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false);
+        //im doing it a little weird because the list doesnt support .add() so ye :)
+        List<Component> healLoreList = List.of(
+                Component.text("Creates a Regeneration field").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text("around your base!").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text(" ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text("Cost: ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).append(
+                        Component.text("3 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false)
+                )
+        );
+        List<Component> healLore = new ArrayList<>(healLoreList);
+        int healAmount = PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND);
+        if (playerTeam.getUpgrades().getHeal()==true){
+            healLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            healLore.add(Component.text("Your team already owns this upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+        } else if (healAmount<3){
+            healLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            healLore.add(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+        }
+        healMeta.lore(healLore);
+        healMeta.displayName(healTitle);
+        heal.setItemMeta(healMeta);
+        gui.setItem(20, heal);
 
         //=====================================
         //            Active Traps
@@ -345,7 +490,7 @@ public class UpgradesManager {
             } else if (shop.getItem(slot).getType()==Material.IRON_CHESTPLATE){
 
 
-                if (playerTeam.getUpgrades().getSharpness()>=4){
+                if (playerTeam.getUpgrades().getProtection()>=4){
                     player.sendMessage(Component.text("You already own that team upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
                     openGUIForPlayer(player);
                     return;
@@ -369,6 +514,89 @@ public class UpgradesManager {
                             Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().putIfAbsent(player.getName(), 0);
                             ActivateGameTask.givePlayerArmor(player, Game.getGameInstance().getTeamManager().whichTeam(teamPlayer.getUniqueId()).getUpgrades().getProtection(), Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(teamPlayer.getName()));
                             teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Reinforced Armor "+ String.valueOf(playerTeam.getUpgrades().getProtection())+" for the whole team").color(TextColor.color(85, 255, 85))));
+                        }
+                        openGUIForPlayer(player);
+                    } else {
+                        player.sendMessage(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+                        openGUIForPlayer(player);
+                        return;
+                    }
+                }
+
+            } else if (shop.getItem(slot).getType()==Material.GOLDEN_PICKAXE){
+
+
+                if (playerTeam.getUpgrades().getHaste()>=2){
+                    player.sendMessage(Component.text("You already own that team upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+                    openGUIForPlayer(player);
+                    return;
+                } else {
+                    int reqDiamonds=0;
+                    if (playerTeam.getUpgrades().getHaste()==0){
+                        reqDiamonds=4;
+                    } else if (playerTeam.getUpgrades().getHaste()==1){
+                        reqDiamonds=6;
+                    }
+                    if (PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND)>=reqDiamonds){
+                        PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, reqDiamonds);
+                        playerTeam.getUpgrades().setHaste(playerTeam.getUpgrades().getHaste() + 1);
+                        for ( Player teamPlayer : playerTeam.getAlivePlayers()){
+                            teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Maniac Miner "+ String.valueOf(playerTeam.getUpgrades().getHaste())+" for the whole team").color(TextColor.color(85, 255, 85))));
+                        }
+                        openGUIForPlayer(player);
+                    } else {
+                        player.sendMessage(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+                        openGUIForPlayer(player);
+                        return;
+                    }
+                }
+
+            } else if (shop.getItem(slot).getType()==Material.FURNACE){
+
+
+                if (playerTeam.getUpgrades().getRessources()>=4){
+                    player.sendMessage(Component.text("You already own that team upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+                    openGUIForPlayer(player);
+                    return;
+                } else {
+                    int reqDiamonds=0;
+                    if (playerTeam.getUpgrades().getRessources()==0){
+                        reqDiamonds=4;
+                    } else if (playerTeam.getUpgrades().getRessources()==1){
+                        reqDiamonds=8;
+                    } else if (playerTeam.getUpgrades().getRessources()==2){
+                        reqDiamonds=12;
+                    } else if (playerTeam.getUpgrades().getRessources()==3){
+                        reqDiamonds=16;
+                    }
+                    if (PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND)>=reqDiamonds){
+                        PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, reqDiamonds);
+                        playerTeam.getUpgrades().setRessources(playerTeam.getUpgrades().getRessources() + 1);
+                        for ( Player teamPlayer : playerTeam.getAlivePlayers()){
+                            teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Iron Forge "+ String.valueOf(playerTeam.getUpgrades().getRessources())+" for the whole team").color(TextColor.color(85, 255, 85))));
+                        }
+                        openGUIForPlayer(player);
+                    } else {
+                        player.sendMessage(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+                        openGUIForPlayer(player);
+                        return;
+                    }
+                }
+
+            } else if (shop.getItem(slot).getType()==Material.BEACON){
+
+
+                if (playerTeam.getUpgrades().getHeal()){
+                    player.sendMessage(Component.text("You already own that team upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+                    openGUIForPlayer(player);
+                    return;
+                } else {
+
+                    if (PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND)>=3){
+                        PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, 3);
+                        playerTeam.getUpgrades().setHeal(true);
+                        for ( Player teamPlayer : playerTeam.getAlivePlayers()){
+                            teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Heal Pool for the whole team").color(TextColor.color(85, 255, 85))));
                         }
                         openGUIForPlayer(player);
                     } else {
