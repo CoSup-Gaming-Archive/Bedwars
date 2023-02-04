@@ -27,9 +27,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import javax.annotation.Nullable;
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /*
 Format in Config:
@@ -44,15 +42,32 @@ public class ShopManager {
     public HashMap<String, ShopTabUtility> items=new HashMap<>();
     public YamlConfiguration shopConfig;
     public Component title;
+    private HashMap<String, Integer> playerSwordUpgrades = new HashMap();
+    private HashMap<String, Integer> playerArmorUpgrade = new HashMap();
+    private HashMap<String, HashMap<String, Integer>> playerTools = new HashMap();
+
     public int offset=0;
     private PlayerInventoryUtility playerInventoryUtility = new PlayerInventoryUtility();
     public ShopManager(){
 
     }
+
+    public HashMap<String, Integer> getPlayerArmorUpgrade() {
+        return playerArmorUpgrade;
+    }
+
+    public HashMap<String, Integer> getPlayerSwordUpgrades() {
+        return playerSwordUpgrades;
+    }
+
+    public HashMap<String, HashMap<String, Integer>> getPlayerTools() {
+        return playerTools;
+    }
+
     public void loadConfig(){
         //load the configs from shop.yml
         File shopConfigFile = new File(Bedwars.getInstance().getDataFolder(), "shop.yml");
-        if (shopConfigFile==null){
+        if (!shopConfigFile.exists()){
             Bukkit.getLogger().severe("We were not able to find a shop configuration file");
             return;
         }
@@ -184,6 +199,7 @@ public class ShopManager {
             openShopForPlayer(player, openTab);
 
         } else if ((slot>27 && slot<35) || (slot>36 && slot<44)){
+          assert shop.getItem(slot) != null;
           if (shop.getItem(slot).getType()==Material.GRAY_STAINED_GLASS_PANE){
               openShopForPlayer(player, getOpenedTab(shop));
           } else {
@@ -195,11 +211,61 @@ public class ShopManager {
                       name= name.replaceFirst("WHITE", Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor().toString().toUpperCase());
                       boughtItem.setType(Material.getMaterial(name));
                   }
-                  HashMap<Integer, ItemStack> itemThatDidntFit= player.getInventory().addItem(boughtItem);
 
-                  Bukkit.getLogger().info(String.valueOf(itemThatDidntFit));
+                  HashMap<Integer, ItemStack> itemThatDidntFit = new HashMap<>();
 
-                  // TODO: 2/4/2023 ADD THE ARMOR AND SWORD UPGRADE LEVELS HERE HIGH
+                  Game.getGameInstance().getShopManager().getPlayerTools().computeIfAbsent(player.getName(), k -> new HashMap());
+                  Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().putIfAbsent(player.getName(), 0);
+                  Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().putIfAbsent(player.getName(), 0);
+
+
+                  if (boughtItem.getType().toString().contains("BOOTS")) {
+                      switch (boughtItem.getType()) {
+                          case DIAMOND_BOOTS -> {
+                              if (Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().get(player.getName()) < 3) {
+                                  Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().put(player.getName(), 3);
+                              }
+                          }
+                          case IRON_BOOTS -> {
+                              if (Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().get(player.getName()) < 2) {
+                                  Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().put(player.getName(), 2);
+                              }
+                          }
+                          case CHAINMAIL_BOOTS -> {
+                              if (Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().get(player.getName()) < 1) {
+                                  Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().put(player.getName(), 1);
+                              }
+                          }
+                      }
+
+                      ActivateGameTask.givePlayerArmor(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getProtection(), getPlayerArmorUpgrade().get(player.getName()));
+
+                  } else if (boughtItem.getType().toString().contains("SHEARS") || boughtItem.getType().toString().contains("AXE")) {
+                      switch (boughtItem.getType()) {
+                          case IRON_PICKAXE, IRON_AXE -> {
+                              if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString()) < 1) {
+                                  Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString().replace("IRON_", ""), 1);
+                              }
+                          }
+                          case GOLDEN_PICKAXE, GOLDEN_AXE -> {
+                              if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString()) < 2) {
+                                  Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString().replace("GOLDEN_", ""), 2);
+                              }
+                          }
+                          case DIAMOND_PICKAXE, DIAMOND_AXE -> {
+                              if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString()) < 3) {
+                                  Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString().replace("DIAMOND_", ""), 3);
+                              }
+                          }
+                          case SHEARS -> {
+                              Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString(), 1);
+                          }
+                      }
+                      ActivateGameTask.givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()));
+                  } else {
+                      // its just an item
+                      itemThatDidntFit = player.getInventory().addItem(boughtItem);
+                  }
 
                   for (ItemStack itemToDrop :itemThatDidntFit.values()){
                       player.getWorld().dropItemNaturally(player.getLocation(), itemToDrop);
@@ -210,8 +276,6 @@ public class ShopManager {
                   player.sendMessage(Component.text("You can't afford this item").color(TextColor.color(255, 85, 85)));
               }
               openShopForPlayer(player, getOpenedTab(shop));
-              //Material priceItem=
-              //if (PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, ))
           }
         } else {
             openShopForPlayer(player, getOpenedTab(shop));

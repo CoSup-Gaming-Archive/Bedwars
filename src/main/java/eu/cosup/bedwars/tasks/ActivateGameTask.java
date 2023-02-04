@@ -21,10 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class ActivateGameTask extends BukkitRunnable {
 
@@ -59,12 +56,12 @@ public class ActivateGameTask extends BukkitRunnable {
 
     private void preparePlayers() {
         for (Team team : Game.getGameInstance().getTeamManager().getTeams()) {
-            team.getPlayers().forEach(player -> preparePlayerFull(player, 0, new ArrayList<>()));
+            team.getPlayers().forEach(player -> preparePlayerFull(player, 0, new HashMap<>()));
         }
     }
 
     // ooo so juicy
-    public static void preparePlayerFull(@NotNull Player player, int armorLevel, @Nullable List<String> tools) {
+    public static void preparePlayerFull(@NotNull Player player, int armorLevel, @Nullable HashMap<String, Integer> tools) {
         TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
         // TODO NameTagEditor nameTagEditor = new NameTagEditor(player);
         // TODO nameTagEditor.setNameColor(TeamColor.getChatColor(teamColor)).setPrefix(teamColor.toString()+" ").setTabName(TeamColor.getChatColor(teamColor)+player.getName()).setChatName((TeamColor.getChatColor(teamColor)+player.getName()));
@@ -74,7 +71,7 @@ public class ActivateGameTask extends BukkitRunnable {
         teleportPlayerToSpawn(player);
 
         if (tools == null) {
-            givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), new ArrayList<>());
+            givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), new HashMap<>());
             return;
         }
 
@@ -144,10 +141,24 @@ public class ActivateGameTask extends BukkitRunnable {
         armorPeace.setItemMeta(leatherArmorMeta);
     }
 
-    public static void givePlayerTools(@NotNull Player player, int swordLevel, List<String> tools) {
+    public static void givePlayerTools(@NotNull Player player, int swordLevel, HashMap<String, Integer> tools) {
 
         // TODO: 2/4/2023 rework this so its nicer
         // TODO: 2/4/2023 add tools
+
+        player.getInventory().remove(Material.DIAMOND_SWORD);
+        player.getInventory().remove(Material.IRON_SWORD);
+        player.getInventory().remove(Material.WOODEN_SWORD);
+
+        player.getInventory().remove(Material.DIAMOND_PICKAXE);
+        player.getInventory().remove(Material.IRON_PICKAXE);
+        player.getInventory().remove(Material.WOODEN_PICKAXE);
+
+        player.getInventory().remove(Material.DIAMOND_AXE);
+        player.getInventory().remove(Material.IRON_AXE);
+        player.getInventory().remove(Material.WOODEN_AXE);
+
+        player.getInventory().remove(Material.SHEARS);
 
         ItemStack sword;
 
@@ -160,7 +171,6 @@ public class ActivateGameTask extends BukkitRunnable {
             }
             case 2 -> {
                 sword = new ItemStack(Material.DIAMOND_SWORD, 1);
-
             }
         }
 
@@ -169,8 +179,26 @@ public class ActivateGameTask extends BukkitRunnable {
         }
         player.getInventory().setItem(0, sword);
 
-        for (String tool : tools) {
-            ItemStack item = new ItemStack(Objects.requireNonNull(Material.getMaterial(tool.toUpperCase())));
+        for (String tool : tools.keySet()) {
+
+            Material material;
+
+            switch (tools.get(tool)) {
+                case 1 -> {
+                    material = Material.getMaterial("IRON_"+tool);
+                }
+                case 2 -> {
+                    material = Material.getMaterial("GOLDEN_"+tool);
+                }
+                case 3 -> {
+                    material = Material.getMaterial("DIAMOND_"+tool);
+                }
+                default -> {
+                    material = Material.AIR;
+                }
+            }
+
+            ItemStack item = new ItemStack(material);
             player.getInventory().addItem(item);
         }
     }
