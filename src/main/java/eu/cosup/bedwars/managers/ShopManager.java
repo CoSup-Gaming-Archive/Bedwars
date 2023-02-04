@@ -245,6 +245,7 @@ public class ShopManager {
                   } else if (boughtItem.getType().toString().contains("SHEARS") || boughtItem.getType().toString().contains("AXE")) {
                       switch (boughtItem.getType()) {
                           case WOODEN_AXE, WOODEN_PICKAXE -> {
+                              Game.getGameInstance().getShopManager().getPlayerTools().putIfAbsent(player.getName(), new HashMap<>());
                               if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString()) < 1) {
                                   Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString().replace("WOODEN_", ""),
                                           Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString().replace("WOODEN_", "") + 1));
