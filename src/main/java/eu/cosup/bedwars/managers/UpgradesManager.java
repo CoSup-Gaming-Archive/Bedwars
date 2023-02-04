@@ -51,7 +51,7 @@ public class UpgradesManager {
         if (diamondAmount<8){
             sharpLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
             sharpLore.add(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
-        } else if (playerTeam.upgrades.sharpness==1){
+        } else if (playerTeam.getUpgrades().getSharpness()==1){
             sharpLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
             sharpLore.add(Component.text("Your team already owns this upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
         }
@@ -66,8 +66,8 @@ public class UpgradesManager {
 
         ItemStack protection = new ItemStack(Material.IRON_CHESTPLATE);
         ItemMeta protectionMeta = sharpness.getItemMeta();
-        String add=String.valueOf(playerTeam.upgrades.protection+1);
-        if (playerTeam.upgrades.protection==4){
+        String add=String.valueOf(playerTeam.getUpgrades().getProtection()+1);
+        if (playerTeam.getUpgrades().getProtection()==4){
             add="";
         }
         Component protectionTitle = Component.text("Reinforced Armor "+add).color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false);
@@ -77,19 +77,19 @@ public class UpgradesManager {
         boolean strike3=false;
         boolean strike4=false;
         int requiredDiamonds=5;
-        if (playerTeam.upgrades.protection>=4){
+        if (playerTeam.getUpgrades().getProtection()>=4){
             strike4=true;
             requiredDiamonds=0;
         }
-        if (playerTeam.upgrades.protection>=3){
+        if (playerTeam.getUpgrades().getProtection()>=3){
             strike3=true;
             requiredDiamonds=30;
         }
-        if (playerTeam.upgrades.protection>=2){
+        if (playerTeam.getUpgrades().getProtection()>=2){
             strike2=true;
             requiredDiamonds=20;
         }
-        if (playerTeam.upgrades.protection>=1){
+        if (playerTeam.getUpgrades().getProtection()>=1){
             strike1=true;
             requiredDiamonds=10;
         }
@@ -114,12 +114,12 @@ public class UpgradesManager {
 
 
         diamondAmount = PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND);
-        if (playerTeam.upgrades.protection>=4){
-            protectionLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
-            protectionLore.add(Component.text("Your team already owns this upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
-        } else if (diamondAmount<requiredDiamonds ){
-            protectionLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
-            protectionLore.add(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+        if (diamondAmount<requiredDiamonds ){
+            sharpLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            sharpLore.add(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+        } else if (playerTeam.getUpgrades().getSharpness()==1){
+            sharpLore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            sharpLore.add(Component.text("Your team already owns this upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
         }
         protectionMeta.lore(protectionLore);
         protectionMeta.displayName(protectionTitle);
@@ -171,9 +171,9 @@ public class UpgradesManager {
 
         ArrayList<ItemStack> showItems = new ArrayList<>();
         for (int index=0; index<3; index++){
-            if (playerTeam.upgrades.activatedTraps.size()>=index+1){
+            if (playerTeam.getUpgrades().getActivatedTraps().size()>=index+1){
 
-                switch (playerTeam.upgrades.activatedTraps.get(index)){
+                switch (playerTeam.getUpgrades().getActivatedTraps().get(index)){
                     case ALARM -> {
                         showItems.add(getAlarmTrap());
                     }
@@ -245,14 +245,14 @@ public class UpgradesManager {
             Team playerTeam = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId());
             if (shop.getItem(slot).getType()==Material.IRON_SWORD){
 
-                if (playerTeam.upgrades.sharpness==1){
+                if (playerTeam.getUpgrades().getSharpness()==1){
                     player.sendMessage(Component.text("You already own that team upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
                     openGUIForPlayer(player);
                     return;
                 }
                 if (PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND)>=8){
                     PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, 8);
-                    playerTeam.upgrades.sharpness=1;
+                    playerTeam.getUpgrades().setSharpness(playerTeam.getUpgrades().getSharpness() + 1);
                     for ( Player teamPlayer : playerTeam.getAlivePlayers()){
                         teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Sharpened Swords for the whole team").color(TextColor.color(85, 255, 85))));
                     }
@@ -265,26 +265,26 @@ public class UpgradesManager {
             } else if (shop.getItem(slot).getType()==Material.IRON_CHESTPLATE){
 
 
-                if (playerTeam.upgrades.protection>=4){
+                if (playerTeam.getUpgrades().getSharpness()>=4){
                     player.sendMessage(Component.text("You already own that team upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
                     openGUIForPlayer(player);
                     return;
                 } else {
                     int reqDiamonds=0;
-                    if (playerTeam.upgrades.protection==0){
+                    if (playerTeam.getUpgrades().getProtection()==0){
                         reqDiamonds=5;
-                    } else if (playerTeam.upgrades.protection==1){
+                    } else if (playerTeam.getUpgrades().getProtection()==1){
                         reqDiamonds=10;
-                    } else if (playerTeam.upgrades.protection==2){
+                    } else if (playerTeam.getUpgrades().getProtection()==2){
                         reqDiamonds=20;
-                    } else if (playerTeam.upgrades.protection==3){
+                    } else if (playerTeam.getUpgrades().getProtection()==3){
                         reqDiamonds=30;
                     }
                     if (PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND)>=reqDiamonds){
                         PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, reqDiamonds);
-                        playerTeam.upgrades.protection+=1;
+                        playerTeam.getUpgrades().setProtection(playerTeam.getUpgrades().getProtection() + 1);
                         for ( Player teamPlayer : playerTeam.getAlivePlayers()){
-                            teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Reinforced Armor "+ String.valueOf(playerTeam.upgrades.protection)+" for the whole team").color(TextColor.color(85, 255, 85))));
+                            teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Reinforced Armor "+ String.valueOf(playerTeam.getUpgrades().getProtection())+" for the whole team").color(TextColor.color(85, 255, 85))));
                         }
                         openGUIForPlayer(player);
                     } else {
@@ -295,14 +295,14 @@ public class UpgradesManager {
                 }
 
             } else if (shop.getItem(slot).getType()==Material.REDSTONE_TORCH){
-                if (playerTeam.upgrades.activatedTraps.size()>=3){
+                if (playerTeam.getUpgrades().getActivatedTraps().size()>=3){
                     player.sendMessage(Component.text("You already have 3 traps equiped").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
                     openGUIForPlayer(player);
                     return;
                 } else {
                     if (PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND)>=2){
                         PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, 2);
-                        playerTeam.upgrades.activatedTraps.add(TeamUpgrades.traps.ALARM);
+                        playerTeam.getUpgrades().getActivatedTraps().add(TeamUpgrades.traps.ALARM);
                         for ( Player teamPlayer : playerTeam.getAlivePlayers()){
                             teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Alarm Trap for the whole team").color(TextColor.color(85, 255, 85))));
                         }
@@ -315,14 +315,14 @@ public class UpgradesManager {
                 }
 
             } else if (shop.getItem(slot).getType()==Material.TRIPWIRE_HOOK){
-                if (playerTeam.upgrades.activatedTraps.size()>=3){
+                if (playerTeam.getUpgrades().getActivatedTraps().size()>=3){
                     player.sendMessage(Component.text("You already have 3 traps equiped").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
                     openGUIForPlayer(player);
                     return;
                 } else {
                     if (PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND)>=2){
                         PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, 2);
-                        playerTeam.upgrades.activatedTraps.add(TeamUpgrades.traps.BLINDNESS);
+                        playerTeam.getUpgrades().getActivatedTraps().add(TeamUpgrades.traps.BLINDNESS);
                         for ( Player teamPlayer : playerTeam.getAlivePlayers()){
                             teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought It's a trap! for the whole team").color(TextColor.color(85, 255, 85))));
                         }

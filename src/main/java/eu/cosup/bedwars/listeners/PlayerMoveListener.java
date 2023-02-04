@@ -2,6 +2,7 @@ package eu.cosup.bedwars.listeners;
 
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.objects.Team;
+import eu.cosup.tournament.common.utility.PlayerUtility;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,6 +13,11 @@ public class PlayerMoveListener implements Listener {
 
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent event) {
+
+        if (PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
+            return;
+        }
+
         Player player = event.getPlayer();
         int x=player.getLocation().getBlockX();
         int y=player.getLocation().getBlockY();
@@ -32,11 +38,6 @@ public class PlayerMoveListener implements Listener {
             } else {
                 team.base.playersInRange.remove(player);
             }
-            /*player.sendMessage(String.valueOf(distance));
-            player.sendMessage(String.valueOf(x)+","+String.valueOf(y)+","+String.valueOf(z));
-            player.sendMessage(String.valueOf(tx)+","+String.valueOf(ty)+","+String.valueOf(tz));
-            player.sendMessage(String.valueOf(dx)+","+String.valueOf(dy)+","+String.valueOf(dz));
-            player.sendMessage(String.valueOf(Math.pow(dx, 2))+","+String.valueOf(Math.pow(dy, 2))+","+String.valueOf(Math.pow(dz, 2)));*/
         }
         double playerY = event.getTo().getY();
 

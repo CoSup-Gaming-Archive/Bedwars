@@ -31,7 +31,7 @@ public class TeamBase {
         }
     }
     public void enemyEnterEvent(Player player){
-        switch (team.upgrades.activatedTraps.get(0)){
+        switch (team.getUpgrades().getActivatedTraps().get(0)){
             //TODO traps ignore staff members
             case BLINDNESS -> {
                 PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 20*8, 0);
@@ -55,6 +55,6 @@ public class TeamBase {
                 }
             }
         }
-        team.upgrades.activatedTraps.remove(0);
+        team.getUpgrades().getActivatedTraps().remove(0);
     }
 }

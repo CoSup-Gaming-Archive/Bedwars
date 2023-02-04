@@ -21,8 +21,8 @@ public class Team {
     private final TeamColor color;
     private boolean isAlive;
     private final HashMap<String, Boolean> deathList = new HashMap<>();
-    public TeamUpgrades upgrades = new TeamUpgrades();
     public TeamBase base;
+    private TeamUpgrades upgrades = new TeamUpgrades();
 
     public Team(TeamColor teamColor, List<Player> players, boolean isAlive) {
         this.players = players;
@@ -33,6 +33,10 @@ public class Team {
             isPlayerDead(player);
         }
     }
+    public TeamUpgrades getUpgrades() {
+        return upgrades;
+    }
+
     // keep track of all the dead players in the taem
     public boolean isPlayerDead(Player player) {
         if (deathList.get(player.getName()) == null) {
