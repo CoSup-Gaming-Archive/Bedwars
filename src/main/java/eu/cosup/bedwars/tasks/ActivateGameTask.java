@@ -64,6 +64,7 @@ public class ActivateGameTask extends BukkitRunnable {
 
     // ooo so juicy
     public static void preparePlayerFull(@NotNull Player player, int armorLevel, @Nullable HashMap<String, Integer> tools) {
+        player.getInventory().clear();
         TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
         // TODO NameTagEditor nameTagEditor = new NameTagEditor(player);
         // TODO nameTagEditor.setNameColor(TeamColor.getChatColor(teamColor)).setPrefix(teamColor.toString()+" ").setTabName(TeamColor.getChatColor(teamColor)+player.getName()).setChatName((TeamColor.getChatColor(teamColor)+player.getName()));
@@ -82,7 +83,6 @@ public class ActivateGameTask extends BukkitRunnable {
 
     // prepare player stats
     public static void preparePlayerStats(@NotNull Player player, int upgradeLevel) {
-        player.getInventory().clear();
         player.setGameMode(GameMode.SURVIVAL);
         player.setFoodLevel(Integer.MAX_VALUE);
         player.setHealth(20);
