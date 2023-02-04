@@ -70,7 +70,7 @@ public class ActivateGameTask extends BukkitRunnable {
 
         preparePlayerStats(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getHaste());
         givePlayerArmor(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getProtection(), armorLevel);
-        givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), 0);
+        givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), 0, new ArrayList<>());
         teleportPlayerToSpawn(player);
 
     }
@@ -115,13 +115,17 @@ public class ActivateGameTask extends BukkitRunnable {
         addColor(helmet, player);
         addColor(chestplate, player);
 
-        if (upgradeLevel != 0) {
+        if (upgradeLevel > 0) {
             leggings.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
             boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
             chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
             helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
         }
 
+        player.getInventory().setHelmet(helmet);
+        player.getInventory().setChestplate(chestplate);
+        player.getInventory().setLeggings(leggings);
+        player.getInventory().setBoots(boots);
     }
 
 
@@ -134,31 +138,30 @@ public class ActivateGameTask extends BukkitRunnable {
         armorPeace.setItemMeta(leatherArmorMeta);
     }
 
-    public static void givePlayerTools(@NotNull Player player, int upgradeLevel, int swordLevel) {
+    public static void givePlayerTools(@NotNull Player player, int upgradeLevel, int swordLevel, List<String> tools) {
+
+        // TODO: 2/4/2023 rework this so its nicer
+        // TODO: 2/4/2023 add tools
+
+        ItemStack sword;
 
         switch (swordLevel) {
-            case 0 -> {
-                ItemStack itemStack = new ItemStack(Material.WOODEN_SWORD, 0);
-                if (upgradeLevel != 0) {
-                    itemStack.addEnchantment(Enchantment.DAMAGE_ALL, upgradeLevel);
-                }
-                player.getInventory().setItem(1, itemStack);
+            default -> {
+                sword = new ItemStack(Material.WOODEN_SWORD, 1);
             }
             case 1 -> {
-                ItemStack itemStack = new ItemStack(Material.IRON_SWORD, 0);
-                if (upgradeLevel != 0) {
-                    itemStack.addEnchantment(Enchantment.DAMAGE_ALL, upgradeLevel);
-                }
-                player.getInventory().setItem(1, itemStack);
+                sword = new ItemStack(Material.IRON_SWORD, 1);
             }
             case 2 -> {
-                ItemStack itemStack = new ItemStack(Material.DIAMOND_SWORD, 0);
-                if (upgradeLevel != 0) {
-                    itemStack.addEnchantment(Enchantment.DAMAGE_ALL, upgradeLevel);
-                }
-                player.getInventory().setItem(1, itemStack);
+                sword = new ItemStack(Material.DIAMOND_SWORD, 1);
+
             }
         }
+
+        if (upgradeLevel > 0) {
+            sword.addEnchantment(Enchantment.DAMAGE_ALL, upgradeLevel);
+        }
+        player.getInventory().setItem(1, sword);
     }
 
     private void spawnGenerators() {
