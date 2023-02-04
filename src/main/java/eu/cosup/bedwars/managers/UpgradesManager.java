@@ -362,7 +362,9 @@ public class UpgradesManager {
                     }
                     if (PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND)>=reqDiamonds){
                         PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, reqDiamonds);
-                        playerTeam.getUpgrades().setProtection(playerTeam.getUpgrades().getProtection() + 1);
+                        if (playerTeam.getUpgrades().getProtection() < 4) {
+                            playerTeam.getUpgrades().setProtection(playerTeam.getUpgrades().getProtection() + 1);
+                        }
                         for ( Player teamPlayer : playerTeam.getAlivePlayers()){
                             Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().putIfAbsent(player.getName(), 0);
                             ActivateGameTask.givePlayerArmor(player, Game.getGameInstance().getTeamManager().whichTeam(teamPlayer.getUniqueId()).getUpgrades().getProtection(), Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(teamPlayer.getName()));
