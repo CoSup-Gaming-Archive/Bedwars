@@ -76,7 +76,6 @@ public class ScoreBoardManager {
             registerScoreBoard(this.name);
         }
 
-        // TODO idk if this works so i kept the assert
         assert scoreboard != null;
         objective = scoreboard.registerNewObjective(id, Criteria.create("dummy"), name);
     }

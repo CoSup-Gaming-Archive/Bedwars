@@ -56,6 +56,17 @@ public class TeamManager {
         return aliveTeams;
     }
 
+    public @Nullable Team getTeamWithName(@NotNull String name) {
+
+        for (Team team : teams) {
+            if (name.toLowerCase().contains(team.getColor().toString().toLowerCase())) {
+                return team;
+            }
+        }
+
+        return null;
+    }
+
     public boolean onlyOneTeamAlive() {
         return getAliveTeams().size() < 2;
     }

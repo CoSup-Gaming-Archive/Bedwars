@@ -16,26 +16,11 @@ public class ItemThrowListener implements Listener {
     @EventHandler
     private void onPlayerThrow(PlayerDropItemEvent event) {
 
-        Material thrownMaterialName = event.getItemDrop().getItemStack().getType();
 
         if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
-            if (ActivateGameTask.isItemDefault(thrownMaterialName)) {
-                event.setCancelled(true);
-                return;
-            }
-
             if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.ACTIVE) {
                 event.setCancelled(true);
             }
         }
-
-
-        // TODO decide question bellow
-        // do we want despawning in the tournament?
-        //event.getItemDrop().setUnlimitedLifetime(true);
-
-        // KeinOptifine: definetly worth checking, but we probably cant/dont need to prevent despawning, because the maps are small
-        // enough that a player is always close by, which means the items will not despawn.
-
     }
 }

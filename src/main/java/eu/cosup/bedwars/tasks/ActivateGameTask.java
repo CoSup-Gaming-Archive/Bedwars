@@ -12,21 +12,20 @@ import org.bukkit.*;
 import org.bukkit.block.Bed;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class ActivateGameTask extends BukkitRunnable {
-
-    private static final List<String> armorPeaces = Bedwars.getInstance().getConfig().getStringList("armor");
-    private static final ConfigurationSection hotbar = Bedwars.getInstance().getConfig().getConfigurationSection("hotbar");
 
     public ActivateGameTask() {
     }
@@ -40,12 +39,12 @@ public class ActivateGameTask extends BukkitRunnable {
     }
 
     private void prepareEnviroment() {
-        
 
         Bedwars.getInstance().getGameWorld().setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
         Bedwars.getInstance().getGameWorld().setGameRule(GameRule.DO_MOB_SPAWNING, false);
         Bedwars.getInstance().getGameWorld().setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         Bedwars.getInstance().getGameWorld().setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+        Bedwars.getInstance().getGameWorld().setStorm(false);
 
         // im pretty sure this is right
         Bedwars.getInstance().getGameWorld().setGameRule(GameRule.NATURAL_REGENERATION, false);
@@ -59,100 +58,165 @@ public class ActivateGameTask extends BukkitRunnable {
 
     private void preparePlayers() {
         for (Team team : Game.getGameInstance().getTeamManager().getTeams()) {
-            team.getPlayers().forEach(ActivateGameTask::preparePlayerFull);
+            team.getPlayers().forEach(player -> preparePlayerFull(player, 0, new HashMap<>()));
         }
     }
 
     // ooo so juicy
-    public static void preparePlayerFull(Player player) {
+    public static void preparePlayerFull(@NotNull Player player, int armorLevel, @Nullable HashMap<String, Integer> tools) {
+        player.getInventory().clear();
         TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
         // TODO NameTagEditor nameTagEditor = new NameTagEditor(player);
         // TODO nameTagEditor.setNameColor(TeamColor.getChatColor(teamColor)).setPrefix(teamColor.toString()+" ").setTabName(TeamColor.getChatColor(teamColor)+player.getName()).setChatName((TeamColor.getChatColor(teamColor)+player.getName()));
-        preparePlayerStats(player);
-        givePlayerArmor(player);
-        givePlayerTools(player);
+
+        preparePlayerStats(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getHaste());
+        givePlayerArmor(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getProtection(), armorLevel);
         teleportPlayerToSpawn(player);
 
-    }
-
-    // prepare player stats
-    public static void preparePlayerStats(Player player) {
-        player.getInventory().clear();
-        player.setGameMode(GameMode.SURVIVAL);
-        player.setFoodLevel(Integer.MAX_VALUE);
-        player.setHealth(20);
-    }
-
-    public static void teleportPlayerToSpawn(Player player) {
-        player.teleport(Game.getGameInstance().getSelectedMap().getSpawnByPlayer(player));
-    }
-
-    public static void givePlayerArmor(Player player) {
-
-        for (String armorPeaceName : armorPeaces) {
-
-            ItemStack armorPeace = new ItemStack(Objects.requireNonNull(Material.getMaterial(armorPeaceName)));
-            ItemMeta meta = armorPeace.hasItemMeta() ? armorPeace.getItemMeta() : Bukkit.getItemFactory().getItemMeta(armorPeace.getType());
-            LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) meta;
-            // from Color:
-            leatherArmorMeta.setColor(TeamColor.getColor(Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor()));
-            armorPeace.setItemMeta(leatherArmorMeta);
-
-            // cheeky way but maybe there is a better method
-            if (armorPeaceName.toLowerCase().contains("helmet")) {
-                player.getInventory().setHelmet(armorPeace);
-            }
-
-
-            if (armorPeaceName.toLowerCase().contains("chestplate")) {
-                player.getInventory().setChestplate(armorPeace);
-            }
-
-
-            if (armorPeaceName.toLowerCase().contains("leggings")) {
-                player.getInventory().setLeggings(armorPeace);
-            }
-
-
-            if (armorPeaceName.toLowerCase().contains("boots")) {
-                player.getInventory().setBoots(armorPeace);
-            }
-        }
-    }
-
-    public static void givePlayerTools(Player player) {
-
-        if (hotbar == null) {
+        if (tools == null) {
+            givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), new HashMap<>());
             return;
         }
 
-        int i = 0;
-        for (String itemName : hotbar.getKeys(false)) {
+        givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), tools);
+    }
 
-            Material material = Material.getMaterial(itemName);
-            if (material != null) {
-                player.getInventory().setItem(i, new ItemStack(material, hotbar.getInt(itemName)));
-                i++;
-            }
+    // prepare player stats
+    public static void preparePlayerStats(@NotNull Player player, int upgradeLevel) {
+        player.setGameMode(GameMode.SURVIVAL);
+        player.setFoodLevel(Integer.MAX_VALUE);
+        player.setHealth(20);
+        player.removePotionEffect(PotionEffectType.FAST_DIGGING);
+        if (upgradeLevel > 0) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, upgradeLevel, false, false, false));
         }
     }
 
-    public static boolean isItemDefault(Material item) {
+    public static void teleportPlayerToSpawn(@NotNull Player player) {
+        player.teleport(Game.getGameInstance().getSelectedMap().getSpawnByPlayer(player));
+    }
 
-        for (String itemName : hotbar.getKeys(false)) {
+    public static void givePlayerArmor(@NotNull Player player, int upgradeLevel, int armorLevel) {
 
-            if (item == Material.getMaterial(itemName)) {
-                return true;
+        ItemStack leggings;
+        ItemStack boots;
+
+        switch (armorLevel) {
+            default -> {
+                leggings = new ItemStack(Material.LEATHER_LEGGINGS);
+                boots = new ItemStack(Material.LEATHER_BOOTS);
+                addColor(leggings, player);
+                addColor(boots, player);
+            }
+            case 1 -> {
+                leggings = new ItemStack(Material.CHAINMAIL_LEGGINGS);
+                boots = new ItemStack(Material.CHAINMAIL_BOOTS);
+            }
+            case 2 -> {
+                leggings = new ItemStack(Material.IRON_LEGGINGS);
+                boots = new ItemStack(Material.IRON_BOOTS);
+            }
+            case 3 -> {
+                leggings = new ItemStack(Material.DIAMOND_LEGGINGS);
+                boots = new ItemStack(Material.DIAMOND_BOOTS);
             }
         }
 
-        for (String inventoryItem : armorPeaces) {
+        ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
+        ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
 
-            if (Material.getMaterial(inventoryItem) == item) {
-                return true;
+        addColor(helmet, player);
+        addColor(chestplate, player);
+
+        if (upgradeLevel > 0) {
+            leggings.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
+            boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
+            chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
+            helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
+        }
+
+        player.getInventory().setHelmet(helmet);
+        player.getInventory().setChestplate(chestplate);
+        player.getInventory().setLeggings(leggings);
+        player.getInventory().setBoots(boots);
+    }
+
+
+    private static void addColor(@NotNull ItemStack armorPeace, @NotNull Player player) {
+        ItemMeta meta = armorPeace.hasItemMeta() ? armorPeace.getItemMeta() : Bukkit.getItemFactory().getItemMeta(armorPeace.getType());
+        LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) meta;
+        // from Color:
+        leatherArmorMeta.setColor(TeamColor.getColor(Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor()));
+        leatherArmorMeta.setUnbreakable(true);
+        armorPeace.setItemMeta(leatherArmorMeta);
+    }
+
+    public static void givePlayerTools(@NotNull Player player, int swordLevel, @NotNull HashMap<String, Integer> tools) {
+
+        player.getInventory().remove(Material.DIAMOND_SWORD);
+        player.getInventory().remove(Material.GOLDEN_SWORD);
+        player.getInventory().remove(Material.IRON_SWORD);
+        player.getInventory().remove(Material.WOODEN_SWORD);
+
+        player.getInventory().remove(Material.DIAMOND_PICKAXE);
+        player.getInventory().remove(Material.GOLDEN_PICKAXE);
+        player.getInventory().remove(Material.IRON_PICKAXE);
+        player.getInventory().remove(Material.WOODEN_PICKAXE);
+
+        player.getInventory().remove(Material.DIAMOND_AXE);
+        player.getInventory().remove(Material.GOLDEN_AXE);
+        player.getInventory().remove(Material.IRON_AXE);
+        player.getInventory().remove(Material.WOODEN_AXE);
+
+        player.getInventory().remove(Material.SHEARS);
+
+        ItemStack sword;
+
+        switch (swordLevel) {
+            default -> {
+                sword = new ItemStack(Material.WOODEN_SWORD, 1);
+            }
+            case 1 -> {
+                sword = new ItemStack(Material.IRON_SWORD, 1);
+            }
+            case 2 -> {
+                sword = new ItemStack(Material.DIAMOND_SWORD, 1);
             }
         }
-        return false;
+
+        if (swordLevel > 0) {
+            sword.addEnchantment(Enchantment.DAMAGE_ALL, swordLevel);
+        }
+        player.getInventory().addItem(sword);
+
+        for (String tool : tools.keySet()) {
+
+            if (tool.toUpperCase().contains("SHEAR")) {
+                ItemStack item = new ItemStack(Material.SHEARS);
+                player.getInventory().addItem(item);
+                continue;
+            }
+
+            Material material = Material.AIR;
+
+            switch (tools.get(tool)) {
+                case 1 -> {
+                    material = Material.getMaterial("WOODEN_"+tool.toUpperCase());
+                }
+                case 2 -> {
+                    material = Material.getMaterial("IRON_"+tool.toUpperCase());
+                }
+                case 3 -> {
+                    material = Material.getMaterial("GOLDEN_"+tool.toUpperCase());
+                }
+                case 4 -> {
+                    material = Material.getMaterial("DIAMOND_"+tool.toUpperCase());
+                }
+            }
+
+            ItemStack item = new ItemStack(material);
+            player.getInventory().addItem(item);
+        }
     }
 
     private void spawnGenerators() {

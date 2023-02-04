@@ -3,6 +3,7 @@ package eu.cosup.bedwars.tasks;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
+import eu.cosup.bedwars.managers.ShopManager;
 import eu.cosup.bedwars.objects.TeamColor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -13,6 +14,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
 
 public class SpectatorTask extends BukkitRunnable {
 
@@ -78,7 +81,7 @@ public class SpectatorTask extends BukkitRunnable {
 
                 player.teleport(Game.getGameInstance().getSelectedMap().getSpawnByPlayer(player));
 
-                ActivateGameTask.preparePlayerFull(player);
+                ActivateGameTask.preparePlayerFull(player, Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(player.getName()), Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()));
 
                 Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).setPlayerDead(player, false);
 

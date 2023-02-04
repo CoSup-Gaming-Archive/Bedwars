@@ -63,7 +63,7 @@ shop:
           meta:
             meta-type: UNSPECIFIC
         priceItem: IRON_INGOT
-        respectTeamColor: false
+        respectTeamColor: true
         price: 4
       TERRACOTTA:
         item:
@@ -81,7 +81,7 @@ shop:
           meta:
             meta-type: UNSPECIFIC
         priceItem: IRON_INGOT
-        respectTeamColor: false
+        respectTeamColor: true
         price: 12
       END_STONE:
         item:

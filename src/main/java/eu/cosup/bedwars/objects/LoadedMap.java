@@ -35,10 +35,11 @@ public class LoadedMap {
     private ArrayList<PrivateChest> privateChests;
     private ArrayList<TeamChest> teamChests;
     private HashMap<TeamColor, ArrayList<Location>> teamBedsFull;
+    private int baseDetectionRadius;
 
     public LoadedMap(HashMap<TeamColor, Location> teamSpawns, HashMap<TeamColor, Location> teamBeds, Location spectatorSpawn, int maxHeight, int minHeight, int deathHeight
                     , int xMax, int xMin, int zMax, int zMin, ArrayList<ItemGenerator> itemGenerators,
-                     ArrayList<PrivateChest> privateChests, ArrayList<TeamChest> teamChests
+                     ArrayList<PrivateChest> privateChests, ArrayList<TeamChest> teamChests, int baseDetectionRadius
     ) {
         this.teamSpawns = teamSpawns;
         this.teamBeds = teamBeds;
@@ -53,6 +54,10 @@ public class LoadedMap {
         this.itemGenerators = itemGenerators;
         this.privateChests = privateChests;
         this.teamChests = teamChests;
+        this.baseDetectionRadius=baseDetectionRadius;
+    }
+    public int getBaseDetectionRadius() {
+        return baseDetectionRadius;
     }
 
     public HashMap<TeamColor, Location> getTeamBeds() {
@@ -230,6 +235,7 @@ public class LoadedMap {
         int zMax = customConfig.getInt(".zMax");
         int zMin = customConfig.getInt(".zMin");
         int xMin = customConfig.getInt(".xMin");
+        int baseDetectionRadius = customConfig.getInt(".baseRadius", 15);
 
         if (xMax == xMin || zMax == zMin) {
             Bukkit.getLogger().severe("Make sure you have the correct version of maps.yml (check in repository)");
@@ -247,7 +253,7 @@ public class LoadedMap {
                     Bukkit.getLogger().severe("Didnt load generator by name: "+key);
                     continue;
                 }
-                generators.add(ItemGenerator.deserialize(itemGeneratorSection));
+                generators.add(ItemGenerator.deserialize(key, itemGeneratorSection));
             }
         } else {
             Bukkit.getLogger().severe("There was no generators path in your maps.yml");
@@ -294,7 +300,8 @@ public class LoadedMap {
                 zMin,
                 generators,
                 privateChests,
-                teamChests
+                teamChests,
+                baseDetectionRadius
         );
     }
 }

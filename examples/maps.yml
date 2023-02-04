@@ -5,6 +5,7 @@ xMin: -140
 xMax: 140
 zMin: -29
 zMax: 29
+baseRadius: 10
 chests:
     team:
         blue:

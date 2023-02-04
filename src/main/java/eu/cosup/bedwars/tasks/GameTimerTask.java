@@ -3,6 +3,7 @@ package eu.cosup.bedwars.tasks;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
+import eu.cosup.bedwars.objects.ItemGenerator;
 import eu.cosup.bedwars.objects.SideBarInformation;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -28,12 +29,12 @@ public class GameTimerTask extends BukkitRunnable {
 
         if (secondsElapsed == timeToFirstUpgrade) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.FIRST_UPGRADE);
-            Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(Material.DIAMOND);
+            Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.DIAMOND);
         }
 
         if (secondsElapsed == timeToSecondUpgrade) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.SECOND_UPGRADE);
-            Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(Material.EMERALD);
+            Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.EMERALD);
         }
 
         if (secondsElapsed == timeToBedDestruction) {

@@ -1,7 +1,10 @@
 package eu.cosup.bedwars.listeners;
 
 import eu.cosup.bedwars.Game;
+import eu.cosup.bedwars.objects.Team;
+import eu.cosup.tournament.common.utility.PlayerUtility;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -11,6 +14,31 @@ public class PlayerMoveListener implements Listener {
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent event) {
 
+        if (PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
+            return;
+        }
+
+        Player player = event.getPlayer();
+        int x=player.getLocation().getBlockX();
+        int y=player.getLocation().getBlockY();
+        int z=player.getLocation().getBlockZ();
+        for (Team team: Game.getGameInstance().getTeamManager().getTeams()){
+            if (team == Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId())){
+                continue;
+            }
+            int tx = team.getBase().getCenter().getBlockX();
+            int ty = team.getBase().getCenter().getBlockY();
+            int tz = team.getBase().getCenter().getBlockZ();
+            int dx = tx-x;
+            int dy = ty-y;
+            int dz = tz-z;  //           x²   + y²   + z²
+            double distance = Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2)+Math.pow(dz, 2));
+            if (distance<=team.getBase().getRadius()){
+                team.getBase().checkIfEnteredBase(player);
+            } else {
+                team.getBase().removePlayerFromRange(player);
+            }
+        }
         double playerY = event.getTo().getY();
 
         if (
