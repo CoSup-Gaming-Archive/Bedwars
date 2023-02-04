@@ -1,7 +1,5 @@
 package eu.cosup.bedwars;
 
-import eu.cosup.bedwars.commands.OpenShopCommand;
-import eu.cosup.bedwars.commands.OpenUpgradesCommand;
 import eu.cosup.bedwars.listeners.StartGameCommandListener;
 import eu.cosup.bedwars.listeners.*;
 import eu.cosup.bedwars.listeners.custom.*;
@@ -15,6 +13,7 @@ import eu.cosup.bedwars.objects.LoadedMap;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
+
 
 public final class Bedwars extends JavaPlugin {
 
@@ -73,10 +72,6 @@ public final class Bedwars extends JavaPlugin {
         new GameChangePhaseListener();
         new TeamChangeAliveListener();
 
-        getCommand("os").setExecutor(new OpenShopCommand());
-        getCommand("openshop").setExecutor(new OpenShopCommand());
-        getCommand("ou").setExecutor(new OpenUpgradesCommand());
-        getCommand("openupgrades").setExecutor(new OpenUpgradesCommand());
     }
 
     @Override

@@ -39,12 +39,12 @@ public class ActivateGameTask extends BukkitRunnable {
     }
 
     private void prepareEnviroment() {
-        
 
         Bedwars.getInstance().getGameWorld().setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
         Bedwars.getInstance().getGameWorld().setGameRule(GameRule.DO_MOB_SPAWNING, false);
         Bedwars.getInstance().getGameWorld().setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         Bedwars.getInstance().getGameWorld().setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+        Bedwars.getInstance().getGameWorld().setStorm(false);
 
         // im pretty sure this is right
         Bedwars.getInstance().getGameWorld().setGameRule(GameRule.NATURAL_REGENERATION, false);

@@ -218,8 +218,6 @@ public class ShopManager {
                   Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().putIfAbsent(player.getName(), 0);
                   Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().putIfAbsent(player.getName(), 0);
 
-
-
                   if (boughtItem.getType().toString().contains("BOOTS")) {
                       switch (boughtItem.getType()) {
                           case DIAMOND_BOOTS -> {

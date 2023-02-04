@@ -25,7 +25,6 @@ public class PlayerInteractWithInventoryListener implements Listener {
         if (event.getView().title()== Game.getGameInstance().getShopManager().title) {
             if (event.getClickedInventory() != event.getView().getPlayer().getInventory()) {
                 Game.getGameInstance().getShopManager().interactWithShop(event.getSlot(), (Player) event.getWhoClicked(), event.getClickedInventory());
-
             }
         }
     }
