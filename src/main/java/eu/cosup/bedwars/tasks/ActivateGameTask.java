@@ -148,14 +148,17 @@ public class ActivateGameTask extends BukkitRunnable {
     public static void givePlayerTools(@NotNull Player player, int swordLevel, @NotNull HashMap<String, Integer> tools) {
 
         player.getInventory().remove(Material.DIAMOND_SWORD);
+        player.getInventory().remove(Material.GOLDEN_SWORD);
         player.getInventory().remove(Material.IRON_SWORD);
         player.getInventory().remove(Material.WOODEN_SWORD);
 
         player.getInventory().remove(Material.DIAMOND_PICKAXE);
+        player.getInventory().remove(Material.GOLDEN_PICKAXE);
         player.getInventory().remove(Material.IRON_PICKAXE);
         player.getInventory().remove(Material.WOODEN_PICKAXE);
 
         player.getInventory().remove(Material.DIAMOND_AXE);
+        player.getInventory().remove(Material.GOLDEN_AXE);
         player.getInventory().remove(Material.IRON_AXE);
         player.getInventory().remove(Material.WOODEN_AXE);
 
@@ -178,11 +181,17 @@ public class ActivateGameTask extends BukkitRunnable {
         if (swordLevel > 0) {
             sword.addEnchantment(Enchantment.DAMAGE_ALL, swordLevel);
         }
-        player.getInventory().setItem(0, sword);
+        player.getInventory().addItem(sword);
 
         for (String tool : tools.keySet()) {
 
-            Material material = Material.SHEARS;
+            if (tool.toUpperCase().contains("SHEAR")) {
+                ItemStack item = new ItemStack(Material.SHEARS);
+                player.getInventory().addItem(item);
+                continue;
+            }
+
+            Material material = Material.AIR;
 
             switch (tools.get(tool)) {
                 case 1 -> {
