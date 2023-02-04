@@ -26,6 +26,6 @@ public class GameUnfreezeListener implements Consumer<CommandSender> {
 
         new GameTimerTask().runTask(Bedwars.getInstance());
 
-        commandSender.getServer().broadcast(Component.text(commandSender.getName()+" has frozen the server").color(NamedTextColor.RED));
+        commandSender.getServer().broadcast(Component.text(commandSender.getName()+" has unfrozen the server").color(NamedTextColor.RED));
     }
 }

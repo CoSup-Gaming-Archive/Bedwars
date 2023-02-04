@@ -2,6 +2,7 @@ package eu.cosup.bedwars;
 
 import eu.cosup.bedwars.managers.*;
 import eu.cosup.bedwars.objects.LoadedMap;
+import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamColor;
 import eu.cosup.bedwars.tasks.ActivateGameTask;
 import eu.cosup.bedwars.tasks.GameEndTask;
@@ -11,6 +12,8 @@ import eu.cosup.tournament.server.TournamentServer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,7 @@ public class Game {
     private GameStateManager gameStateManager;
     private TeamManager teamManager;
     private ShopManager shopManager;
+    private UpgradesManager upgradesManager;
     private LoadedMap selectedMap;
     private BlockManager blockManager;
     private ItemGeneratorManager itemGeneratorManager;
@@ -36,12 +40,17 @@ public class Game {
         shopManager=new ShopManager();
         shopManager.loadConfig();
         chestManager = new ChestManager();
+        upgradesManager=new UpgradesManager();
 
         initGame();
     }
 
     public ShopManager getShopManager() {
         return shopManager;
+    }
+
+    public UpgradesManager getUpgradesManager(){
+        return upgradesManager;
     }
 
     public ChestManager getChestManager() {
@@ -67,6 +76,7 @@ public class Game {
     public TeamManager getTeamManager() {
         return teamManager;
     }
+
 
     public LoadedMap getSelectedMap() {
         return selectedMap;

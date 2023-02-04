@@ -31,7 +31,7 @@ public class TeamManager {
 
         List<GameTeam> gameTeams = TournamentServer.getInstance().getTeams();
 
-        for (int i = 0; i < gameTeams.size()-1; i++) {
+        for (int i = 0; i < gameTeams.size(); i++) {
             TeamColor teamColor = TeamColor.values()[i];
             List<Player> teamPlayers = new ArrayList<>();
             for (UUID playerUUID : gameTeams.get(i).getPlayerUUIDs()) {
@@ -54,6 +54,17 @@ public class TeamManager {
         }
 
         return aliveTeams;
+    }
+
+    public @Nullable Team getTeamWithName(@NotNull String name) {
+
+        for (Team team : teams) {
+            if (name.toLowerCase().contains(team.getColor().toString().toLowerCase())) {
+                return team;
+            }
+        }
+
+        return null;
     }
 
     public boolean onlyOneTeamAlive() {
