@@ -246,7 +246,9 @@ public class ShopManager {
                       switch (boughtItem.getType()) {
                           case WOODEN_AXE, WOODEN_PICKAXE -> {
                               Game.getGameInstance().getShopManager().getPlayerTools().putIfAbsent(player.getName(), new HashMap<>());
-                              if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString()) < 1) {
+                              Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).putIfAbsent("AXE", 0);
+                              Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).putIfAbsent("PICKAXE", 0);
+                              if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString().replace("WOODEN_", "")) < 1) {
                                   Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString().replace("WOODEN_", ""),
                                           Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString().replace("WOODEN_", "") + 1));
 
