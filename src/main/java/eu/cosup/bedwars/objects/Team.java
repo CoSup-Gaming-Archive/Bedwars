@@ -1,9 +1,11 @@
 package eu.cosup.bedwars.objects;
 
+import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.events.TeamChangeAliveEvent;
 import it.unimi.dsi.fastutil.Hash;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -20,17 +22,17 @@ public class Team {
     private boolean isAlive;
     private final HashMap<String, Boolean> deathList = new HashMap<>();
     public TeamUpgrades upgrades = new TeamUpgrades();
+    public TeamBase base;
 
     public Team(TeamColor teamColor, List<Player> players, boolean isAlive) {
         this.players = players;
         this.color = teamColor;
         this.isAlive = isAlive;
-
+        this.base= new TeamBase(this, Game.getGameInstance().getSelectedMap().getTeamBeds().get(this.color), Game.getGameInstance().getSelectedMap().getBaseDetectionRadius());
         for (Player player : players) {
             isPlayerDead(player);
         }
     }
-
     // keep track of all the dead players in the taem
     public boolean isPlayerDead(Player player) {
         if (deathList.get(player.getName()) == null) {

@@ -1,7 +1,9 @@
 package eu.cosup.bedwars.listeners;
 
 import eu.cosup.bedwars.Game;
+import eu.cosup.bedwars.objects.Team;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -10,7 +12,32 @@ public class PlayerMoveListener implements Listener {
 
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent event) {
-
+        Player player = event.getPlayer();
+        int x=player.getLocation().getBlockX();
+        int y=player.getLocation().getBlockY();
+        int z=player.getLocation().getBlockZ();
+        for (Team team: Game.getGameInstance().getTeamManager().getTeams()){
+            if (team == Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId())){
+                continue;
+            }
+            int tx = team.base.center.getBlockX();
+            int ty = team.base.center.getBlockY();
+            int tz = team.base.center.getBlockZ();
+            int dx = tx-x;
+            int dy = ty-y;
+            int dz = tz-z;  //           x²   + y²   + z²
+            double distance = Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2)+Math.pow(dz, 2));
+            if (distance<=team.base.radius){
+                team.base.checkIfEnteredBase(player);
+            } else {
+                team.base.playersInRange.remove(player);
+            }
+            /*player.sendMessage(String.valueOf(distance));
+            player.sendMessage(String.valueOf(x)+","+String.valueOf(y)+","+String.valueOf(z));
+            player.sendMessage(String.valueOf(tx)+","+String.valueOf(ty)+","+String.valueOf(tz));
+            player.sendMessage(String.valueOf(dx)+","+String.valueOf(dy)+","+String.valueOf(dz));
+            player.sendMessage(String.valueOf(Math.pow(dx, 2))+","+String.valueOf(Math.pow(dy, 2))+","+String.valueOf(Math.pow(dz, 2)));*/
+        }
         double playerY = event.getTo().getY();
 
         if (

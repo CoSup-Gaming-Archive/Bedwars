@@ -31,7 +31,7 @@ public class TeamManager {
 
         List<GameTeam> gameTeams = TournamentServer.getInstance().getTeams();
 
-        for (int i = 0; i < gameTeams.size()-1; i++) {
+        for (int i = 0; i < gameTeams.size(); i++) {
             TeamColor teamColor = TeamColor.values()[i];
             List<Player> teamPlayers = new ArrayList<>();
             for (UUID playerUUID : gameTeams.get(i).getPlayerUUIDs()) {
