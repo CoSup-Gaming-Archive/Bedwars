@@ -141,7 +141,7 @@ public class ActivateGameTask extends BukkitRunnable {
         armorPeace.setItemMeta(leatherArmorMeta);
     }
 
-    public static void givePlayerTools(@NotNull Player player, int swordLevel, HashMap<String, Integer> tools) {
+    public static void givePlayerTools(@NotNull Player player, int swordLevel, @NotNull HashMap<String, Integer> tools) {
 
         // TODO: 2/4/2023 rework this so its nicer
         // TODO: 2/4/2023 add tools
