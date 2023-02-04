@@ -81,7 +81,7 @@ public class SpectatorTask extends BukkitRunnable {
 
                 player.teleport(Game.getGameInstance().getSelectedMap().getSpawnByPlayer(player));
 
-                ActivateGameTask.preparePlayerFull(player, 0, 0, Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()));
+                ActivateGameTask.preparePlayerFull(player, 0, Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()));
 
                 // TODO: 2/4/2023 UPDATE THIS SO ITS ACTUALY CORRECT
                 

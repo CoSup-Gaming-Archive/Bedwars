@@ -59,12 +59,12 @@ public class ActivateGameTask extends BukkitRunnable {
 
     private void preparePlayers() {
         for (Team team : Game.getGameInstance().getTeamManager().getTeams()) {
-            team.getPlayers().forEach(player -> preparePlayerFull(player, 0, 0, new ArrayList<>()));
+            team.getPlayers().forEach(player -> preparePlayerFull(player, 0, new ArrayList<>()));
         }
     }
 
     // ooo so juicy
-    public static void preparePlayerFull(@NotNull Player player, int armorLevel, int swordLevel, @Nullable List<String> tools) {
+    public static void preparePlayerFull(@NotNull Player player, int armorLevel, @Nullable List<String> tools) {
         TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
         // TODO NameTagEditor nameTagEditor = new NameTagEditor(player);
         // TODO nameTagEditor.setNameColor(TeamColor.getChatColor(teamColor)).setPrefix(teamColor.toString()+" ").setTabName(TeamColor.getChatColor(teamColor)+player.getName()).setChatName((TeamColor.getChatColor(teamColor)+player.getName()));
@@ -74,11 +74,11 @@ public class ActivateGameTask extends BukkitRunnable {
         teleportPlayerToSpawn(player);
 
         if (tools == null) {
-            givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), swordLevel, new ArrayList<>());
+            givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), new ArrayList<>());
             return;
         }
 
-        givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), swordLevel, tools);
+        givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), tools);
     }
 
     // prepare player stats
@@ -144,7 +144,7 @@ public class ActivateGameTask extends BukkitRunnable {
         armorPeace.setItemMeta(leatherArmorMeta);
     }
 
-    public static void givePlayerTools(@NotNull Player player, int upgradeLevel, int swordLevel, List<String> tools) {
+    public static void givePlayerTools(@NotNull Player player, int swordLevel, List<String> tools) {
 
         // TODO: 2/4/2023 rework this so its nicer
         // TODO: 2/4/2023 add tools
@@ -164,8 +164,8 @@ public class ActivateGameTask extends BukkitRunnable {
             }
         }
 
-        if (upgradeLevel > 0) {
-            sword.addEnchantment(Enchantment.DAMAGE_ALL, upgradeLevel);
+        if (swordLevel > 0) {
+            sword.addEnchantment(Enchantment.DAMAGE_ALL, swordLevel);
         }
         player.getInventory().setItem(0, sword);
 

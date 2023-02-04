@@ -256,7 +256,7 @@ public class UpgradesManager {
                     playerTeam.getUpgrades().setSharpness(playerTeam.getUpgrades().getSharpness() + 1);
                     for ( Player teamPlayer : playerTeam.getAlivePlayers()){
                         // TODO: 2/4/2023 chage this to correct
-                        ActivateGameTask.givePlayerTools(player, 0, 0, Game.getGameInstance().getShopManager().getPlayerTools().get(teamPlayer.getName()));
+                        ActivateGameTask.givePlayerTools(player, 0, Game.getGameInstance().getShopManager().getPlayerTools().get(teamPlayer.getName()));
                         teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Sharpened Swords for the whole team").color(TextColor.color(85, 255, 85))));
                     }
                     openGUIForPlayer(player);
