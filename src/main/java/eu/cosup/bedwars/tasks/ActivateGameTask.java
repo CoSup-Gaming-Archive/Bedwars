@@ -182,7 +182,7 @@ public class ActivateGameTask extends BukkitRunnable {
 
         for (String tool : tools.keySet()) {
 
-            Material material;
+            Material material = Material.SHEARS;
 
             switch (tools.get(tool)) {
                 case 1 -> {
@@ -196,9 +196,6 @@ public class ActivateGameTask extends BukkitRunnable {
                 }
                 case 4 -> {
                     material = Material.getMaterial("DIAMOND_"+tool.toUpperCase());
-                }
-                default -> {
-                    material = Material.SHEARS;
                 }
             }
 

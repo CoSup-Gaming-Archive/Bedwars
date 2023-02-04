@@ -249,13 +249,13 @@ public class ShopManager {
                               Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).putIfAbsent("AXE", 0);
                               Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).putIfAbsent("PICKAXE", 0);
                               Bukkit.getLogger().info(Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).toString());
-                              if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString().replace("WOODEN_", "")) < 1) {
+                              if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString().replace("WOODEN_", "")) < 4) {
                                   Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString().replace("WOODEN_", ""),
                                           Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString().replace("WOODEN_", "")) + 1);
 
                               }
                           }
-                          case SHEARS -> Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString(), 0);
+                          case SHEARS -> Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString(), 5);
                       }
                       ActivateGameTask.givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()));
                   } else {
