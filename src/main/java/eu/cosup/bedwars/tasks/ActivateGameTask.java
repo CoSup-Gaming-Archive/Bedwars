@@ -147,9 +147,6 @@ public class ActivateGameTask extends BukkitRunnable {
 
     public static void givePlayerTools(@NotNull Player player, int swordLevel, @NotNull HashMap<String, Integer> tools) {
 
-        // TODO: 2/4/2023 rework this so its nicer
-        // TODO: 2/4/2023 add tools
-
         player.getInventory().remove(Material.DIAMOND_SWORD);
         player.getInventory().remove(Material.IRON_SWORD);
         player.getInventory().remove(Material.WOODEN_SWORD);
@@ -189,16 +186,16 @@ public class ActivateGameTask extends BukkitRunnable {
 
             switch (tools.get(tool)) {
                 case 1 -> {
-                    material = Material.getMaterial("IRON_"+tool);
+                    material = Material.getMaterial("IRON_"+tool.toUpperCase());
                 }
                 case 2 -> {
-                    material = Material.getMaterial("GOLDEN_"+tool);
+                    material = Material.getMaterial("GOLDEN_"+tool.toUpperCase());
                 }
                 case 3 -> {
-                    material = Material.getMaterial("DIAMOND_"+tool);
+                    material = Material.getMaterial("DIAMOND_"+tool.toUpperCase());
                 }
                 default -> {
-                    material = Material.AIR;
+                    material = Material.SHEARS;
                 }
             }
 
