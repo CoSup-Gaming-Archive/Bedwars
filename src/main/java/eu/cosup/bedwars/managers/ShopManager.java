@@ -219,24 +219,26 @@ public class ShopManager {
                   Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().putIfAbsent(player.getName(), 0);
 
 
+
                   if (boughtItem.getType().toString().contains("BOOTS")) {
                       switch (boughtItem.getType()) {
                           case DIAMOND_BOOTS -> {
-                              if (Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().get(player.getName()) < 3) {
-                                  Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().put(player.getName(), 3);
+                              if (Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(player.getName()) < 3) {
+                                  Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().put(player.getName(), 3);
                               }
                           }
                           case IRON_BOOTS -> {
-                              if (Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().get(player.getName()) < 2) {
-                                  Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().put(player.getName(), 2);
+                              if (Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(player.getName()) < 2) {
+                                  Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().put(player.getName(), 2);
                               }
                           }
                           case CHAINMAIL_BOOTS -> {
-                              if (Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().get(player.getName()) < 1) {
-                                  Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().put(player.getName(), 1);
+                              if (Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(player.getName()) < 1) {
+                                  Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().put(player.getName(), 1);
                               }
                           }
                       }
+
 
                       ActivateGameTask.givePlayerArmor(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getProtection(), getPlayerArmorUpgrade().get(player.getName()));
 

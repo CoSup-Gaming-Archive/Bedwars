@@ -103,10 +103,14 @@ public class ActivateGameTask extends BukkitRunnable {
                 addColor(boots, player);
             }
             case 1 -> {
+                leggings = new ItemStack(Material.CHAINMAIL_LEGGINGS);
+                boots = new ItemStack(Material.CHAINMAIL_BOOTS);
+            }
+            case 2 -> {
                 leggings = new ItemStack(Material.IRON_LEGGINGS);
                 boots = new ItemStack(Material.IRON_BOOTS);
             }
-            case 2 -> {
+            case 3 -> {
                 leggings = new ItemStack(Material.DIAMOND_LEGGINGS);
                 boots = new ItemStack(Material.DIAMOND_BOOTS);
             }
