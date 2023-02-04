@@ -3,6 +3,7 @@ package eu.cosup.bedwars.managers;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.objects.Team;
+import eu.cosup.bedwars.tasks.ActivateGameTask;
 import eu.cosup.bedwars.utility.PlayerInventoryUtility;
 import eu.cosup.bedwars.utility.ShopItemsUtility;
 import eu.cosup.bedwars.utility.ShopTabUtility;
@@ -191,10 +192,15 @@ public class ShopManager {
                   ItemStack boughtItem=itemsUtility.getItem().clone();
                   if (itemsUtility.isRespectTeamColor()){
                       String name = boughtItem.getType().name();
-                      name= name.replaceFirst("WHITE", getTeamColor(player));
+                      name= name.replaceFirst("WHITE", Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor().toString().toUpperCase());
                       boughtItem.setType(Material.getMaterial(name));
                   }
                   HashMap<Integer, ItemStack> itemThatDidntFit= player.getInventory().addItem(boughtItem);
+
+                  Bukkit.getLogger().info(String.valueOf(itemThatDidntFit));
+
+                  // TODO: 2/4/2023 ADD THE ARMOR AND SWORD UPGRADE LEVELS HERE HIGH
+
                   for (ItemStack itemToDrop :itemThatDidntFit.values()){
                       player.getWorld().dropItemNaturally(player.getLocation(), itemToDrop);
                   }

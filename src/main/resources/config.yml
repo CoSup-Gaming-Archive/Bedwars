@@ -9,7 +9,3 @@ time-to-bed-destruction-phase : 300
 time-to-sudden-death-phase : 360
 
 random-teams: true
-
-armor : ["LEATHER_BOOTS", "LEATHER_LEGGINGS", "LEATHER_CHESTPLATE", "LEATHER_HELMET"]
-hotbar :
-  WOODEN_SWORD: 1

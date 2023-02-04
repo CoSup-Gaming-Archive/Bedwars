@@ -16,14 +16,8 @@ public class ItemThrowListener implements Listener {
     @EventHandler
     private void onPlayerThrow(PlayerDropItemEvent event) {
 
-        Material thrownMaterialName = event.getItemDrop().getItemStack().getType();
 
         if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
-            if (ActivateGameTask.isItemDefault(thrownMaterialName)) {
-                event.setCancelled(true);
-                return;
-            }
-
             if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.ACTIVE) {
                 event.setCancelled(true);
             }
