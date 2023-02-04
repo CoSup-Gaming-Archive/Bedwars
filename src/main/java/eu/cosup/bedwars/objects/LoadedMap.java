@@ -253,7 +253,7 @@ public class LoadedMap {
                     Bukkit.getLogger().severe("Didnt load generator by name: "+key);
                     continue;
                 }
-                generators.add(ItemGenerator.deserialize(itemGeneratorSection));
+                generators.add(ItemGenerator.deserialize(key, itemGeneratorSection));
             }
         } else {
             Bukkit.getLogger().severe("There was no generators path in your maps.yml");

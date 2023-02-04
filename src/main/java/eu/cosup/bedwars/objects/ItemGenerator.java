@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import eu.cosup.bedwars.Bedwars;
+import eu.cosup.bedwars.Game;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.key.Keyed;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -40,12 +41,14 @@ public class ItemGenerator implements ConfigurationSerializable {
     private final Location location;
     private int currentLevel = 1;
     private GeneratorType type;
+    private String name;
 
     private SpawnerTask spawnerTask;
 
-    public ItemGenerator(Location location, GeneratorType type) {
+    public ItemGenerator(String name, Location location, GeneratorType type) {
         this.location = location;
         this.type = type;
+        this.name = name;
     }
 
     public void startSpawning() {
@@ -68,19 +71,27 @@ public class ItemGenerator implements ConfigurationSerializable {
     private void dropItem() {
         switch (type) {
             case SPAWN -> {
-                switch (currentLevel) {
+                Team team = Game.getGameInstance().getTeamManager().getTeamWithName(name);
+                assert team != null;
+
+                switch (team.getUpgrades().getRessources()) {
                     default -> {
                         location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 10));
                         location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 1));
                     }
-                    case 2 -> {
+                    case 1 -> {
                         location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 20));
                         location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 5));
                     }
-                    case 3 -> {
+                    case 2 -> {
                         location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 20));
                         location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 5));
                         location.getWorld().dropItem(location, new ItemStack(Material.EMERALD_BLOCK, 1));
+                    }
+                    case 3 -> {
+                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 40));
+                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 10));
+                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD_BLOCK, 2));
                     }
                 }
 
@@ -112,13 +123,14 @@ public class ItemGenerator implements ConfigurationSerializable {
         return map;
     }
 
-    public static ItemGenerator deserialize(ConfigurationSection configurationSection) {
+    public static ItemGenerator deserialize(@NotNull String name, @NotNull ConfigurationSection configurationSection) {
 
         if (configurationSection.getString("type") == null) {
             throw new RuntimeException("While loading a generator material was a null string or material does not exist");
         }
 
         return new ItemGenerator(
+                name,
                 configurationSection.getLocation("location"),
                 GeneratorType.valueOf(configurationSection.getString("type").toUpperCase())
         );
