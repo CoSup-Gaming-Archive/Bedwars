@@ -148,10 +148,10 @@ public class UpgradesManager {
         alertTrap.setItemMeta(alertTrapMeta);
         gui.setItem(16, alertTrap);
 
-        //Alert Trap
+        //Blindness and Slowness Trap
 
         ItemStack bsTrap = getBlindnessTrapItemStack();
-        ItemMeta bsTrapMeta = alertTrap.getItemMeta();
+        ItemMeta bsTrapMeta = bsTrap.getItemMeta();
         lore =bsTrapMeta.lore();
         diamondAmount = PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND);
         if (diamondAmount<2){
@@ -161,6 +161,34 @@ public class UpgradesManager {
         bsTrapMeta.lore(lore);
         bsTrap.setItemMeta(bsTrapMeta);
         gui.setItem(14, bsTrap);
+
+        //Mining Fatigue Trap
+
+        ItemStack mfTrap = getMiningFatigueTrapItemStack();
+        ItemMeta mfTrapMeta = mfTrap.getItemMeta();
+        lore =mfTrapMeta.lore();
+        diamondAmount = PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND);
+        if (diamondAmount<2){
+            lore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            lore.add(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+        }
+        mfTrapMeta.lore(lore);
+        mfTrap.setItemMeta(mfTrapMeta);
+        gui.setItem(23, mfTrap);
+
+        //Counter-Offensive Trap
+
+        ItemStack COTrap = getCounterOffensiveTrapItemStack();
+        ItemMeta COTrapMeta = COTrap.getItemMeta();
+        lore =COTrapMeta.lore();
+        diamondAmount = PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND);
+        if (diamondAmount<2){
+            lore.add(Component.text("").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false));
+            lore.add(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+        }
+        COTrapMeta.lore(lore);
+        COTrap.setItemMeta(COTrapMeta);
+        gui.setItem(15, COTrap);
 
 
 
@@ -179,6 +207,12 @@ public class UpgradesManager {
                     }
                     case BLINDNESS -> {
                         showItems.add(getBlindnessTrapItemStack());
+                    }
+                    case MINING_FATIGUE -> {
+                        showItems.add(getMiningFatigueTrapItemStack());
+                    }
+                    case OFFENSIVE -> {
+                        showItems.add(getCounterOffensiveTrapItemStack());
                     }
 
                 }
@@ -239,6 +273,48 @@ public class UpgradesManager {
         return itemStack;
 
     }
+    public ItemStack getMiningFatigueTrapItemStack(){
+        ItemStack itemStack = new ItemStack(Material.IRON_PICKAXE);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Component itemName = Component.text("Miner Fatigue Trap").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false);
+        //im doing it a little weird because the list doesnt support .add() so ye :)
+        List<Component> itemLoreList = List.of(
+                Component.text("Inflict Mining Fatigue for 10").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text("10 seconds.").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text(" ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text("Cost: ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).append(
+                        Component.text("2 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false)
+                )
+        );
+        List<Component> itemLore = new ArrayList<>(itemLoreList);
+        itemMeta.lore(itemLore);
+        itemMeta.displayName(itemName);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+    public ItemStack getCounterOffensiveTrapItemStack(){
+        ItemStack itemStack = new ItemStack(Material.FEATHER);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        Component itemName = Component.text("Counter-Offensive Trap").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false);
+        //im doing it a little weird because the list doesnt support .add() so ye :)
+        List<Component> itemLoreList = List.of(
+                Component.text("Grants Speed II and Jump Boost").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text("II for 15 seconds to allied").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text("players near your base.").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text(" ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false),
+                Component.text("Cost: ").color(TextColor.color(170, 170, 170)).decoration(TextDecoration.ITALIC, false).append(
+                        Component.text("2 diamonds").color(TextColor.color(85, 255, 255)).decoration(TextDecoration.ITALIC, false)
+                )
+        );
+        List<Component> itemLore = new ArrayList<>(itemLoreList);
+        itemMeta.lore(itemLore);
+        itemMeta.displayName(itemName);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+    public boolean checkForFreeTrapSlots(Team team){
+        return team.getUpgrades().getActivatedTraps().size()>=3;
+    }
     public void onClick(int slot, Player player, Inventory shop){
 
         if (shop.getItem(slot).getType()!=Material.BLACK_STAINED_GLASS_PANE && shop.getItem(slot).getType()!=Material.LIGHT_GRAY_STAINED_GLASS_PANE && slot<36){
@@ -295,7 +371,7 @@ public class UpgradesManager {
                 }
 
             } else if (shop.getItem(slot).getType()==Material.REDSTONE_TORCH){
-                if (playerTeam.getUpgrades().getActivatedTraps().size()>=3){
+                if (checkForFreeTrapSlots(playerTeam)){
                     player.sendMessage(Component.text("You already have 3 traps equiped").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
                     openGUIForPlayer(player);
                     return;
@@ -315,7 +391,7 @@ public class UpgradesManager {
                 }
 
             } else if (shop.getItem(slot).getType()==Material.TRIPWIRE_HOOK){
-                if (playerTeam.getUpgrades().getActivatedTraps().size()>=3){
+                if (checkForFreeTrapSlots(playerTeam)){
                     player.sendMessage(Component.text("You already have 3 traps equiped").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
                     openGUIForPlayer(player);
                     return;
@@ -325,6 +401,46 @@ public class UpgradesManager {
                         playerTeam.getUpgrades().getActivatedTraps().add(TeamUpgrades.traps.BLINDNESS);
                         for ( Player teamPlayer : playerTeam.getAlivePlayers()){
                             teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought It's a trap! for the whole team").color(TextColor.color(85, 255, 85))));
+                        }
+                        openGUIForPlayer(player);
+                    } else {
+                        player.sendMessage(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+                        openGUIForPlayer(player);
+                        return;
+                    }
+                }
+
+            } else if (shop.getItem(slot).getType()==Material.IRON_PICKAXE){
+                if (checkForFreeTrapSlots(playerTeam)){
+                    player.sendMessage(Component.text("You already have 3 traps equiped").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+                    openGUIForPlayer(player);
+                    return;
+                } else {
+                    if (PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND)>=2){
+                        PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, 2);
+                        playerTeam.getUpgrades().getActivatedTraps().add(TeamUpgrades.traps.MINING_FATIGUE);
+                        for ( Player teamPlayer : playerTeam.getAlivePlayers()){
+                            teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Miner Fatigue Trap for the whole team").color(TextColor.color(85, 255, 85))));
+                        }
+                        openGUIForPlayer(player);
+                    } else {
+                        player.sendMessage(Component.text("You don't have enough Diamonds!").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+                        openGUIForPlayer(player);
+                        return;
+                    }
+                }
+
+            } else if (shop.getItem(slot).getType()==Material.FEATHER){
+                if (checkForFreeTrapSlots(playerTeam)){
+                    player.sendMessage(Component.text("You already have 3 traps equiped").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
+                    openGUIForPlayer(player);
+                    return;
+                } else {
+                    if (PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND)>=2){
+                        PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, 2);
+                        playerTeam.getUpgrades().getActivatedTraps().add(TeamUpgrades.traps.OFFENSIVE);
+                        for ( Player teamPlayer : playerTeam.getAlivePlayers()){
+                            teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Counter-Offensive Trap for the whole team").color(TextColor.color(85, 255, 85))));
                         }
                         openGUIForPlayer(player);
                     } else {
