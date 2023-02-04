@@ -21,7 +21,7 @@ public class Team {
     private final TeamColor color;
     private boolean isAlive;
     private final HashMap<String, Boolean> deathList = new HashMap<>();
-    public TeamBase base;
+    private TeamBase base;
     private TeamUpgrades upgrades = new TeamUpgrades();
 
     public Team(TeamColor teamColor, List<Player> players, boolean isAlive) {
@@ -60,6 +60,10 @@ public class Team {
         }
 
         return color;
+    }
+
+    public TeamBase getBase() {
+        return base;
     }
 
     public boolean isPlayerInTeam(@NotNull UUID playerUUID) {

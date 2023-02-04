@@ -26,7 +26,7 @@ public class TeamBase {
         this.radius=radius;
     }
     public void checkIfEnteredBase(Player player){
-        if (!(this.team.base.playersInRange.contains(player))){
+        if (!(this.team.getBase().playersInRange.contains(player))){
             playersInRange.add(player);
             long now = System.currentTimeMillis();
             if (now-20*1000>=lastBaseEntering){
@@ -69,9 +69,9 @@ public class TeamBase {
             case OFFENSIVE -> {
                 PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, 20*15, 1);
                 PotionEffect jump = new PotionEffect(PotionEffectType.JUMP, 20*15, 1);
-                int tx = team.base.center.getBlockX();
-                int ty = team.base.center.getBlockY();
-                int tz = team.base.center.getBlockZ();
+                int tx = team.getBase().center.getBlockX();
+                int ty = team.getBase().center.getBlockY();
+                int tz = team.getBase().center.getBlockZ();
                 for (Player teamPlayer: team.getAlivePlayers()){
                     int x = teamPlayer.getLocation().getBlockX();
                     int y = teamPlayer.getLocation().getBlockY();
