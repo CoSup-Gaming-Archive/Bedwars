@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,21 +59,26 @@ public class ActivateGameTask extends BukkitRunnable {
 
     private void preparePlayers() {
         for (Team team : Game.getGameInstance().getTeamManager().getTeams()) {
-            team.getPlayers().forEach(player -> preparePlayerFull(player, 0, 0));
+            team.getPlayers().forEach(player -> preparePlayerFull(player, 0, 0, new ArrayList<>()));
         }
     }
 
     // ooo so juicy
-    public static void preparePlayerFull(@NotNull Player player, int armorLevel, int swordLevel) {
+    public static void preparePlayerFull(@NotNull Player player, int armorLevel, int swordLevel, @Nullable List<String> tools) {
         TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
         // TODO NameTagEditor nameTagEditor = new NameTagEditor(player);
         // TODO nameTagEditor.setNameColor(TeamColor.getChatColor(teamColor)).setPrefix(teamColor.toString()+" ").setTabName(TeamColor.getChatColor(teamColor)+player.getName()).setChatName((TeamColor.getChatColor(teamColor)+player.getName()));
 
         preparePlayerStats(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getHaste());
         givePlayerArmor(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getProtection(), armorLevel);
-        givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), 0, new ArrayList<>());
         teleportPlayerToSpawn(player);
 
+        if (tools == null) {
+            givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), swordLevel, new ArrayList<>());
+            return;
+        }
+
+        givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), swordLevel, tools);
     }
 
     // prepare player stats
@@ -161,7 +167,12 @@ public class ActivateGameTask extends BukkitRunnable {
         if (upgradeLevel > 0) {
             sword.addEnchantment(Enchantment.DAMAGE_ALL, upgradeLevel);
         }
-        player.getInventory().setItem(1, sword);
+        player.getInventory().setItem(0, sword);
+
+        for (String tool : tools) {
+            ItemStack item = new ItemStack(Objects.requireNonNull(Material.getMaterial(tool.toUpperCase())));
+            player.getInventory().addItem(item);
+        }
     }
 
     private void spawnGenerators() {
