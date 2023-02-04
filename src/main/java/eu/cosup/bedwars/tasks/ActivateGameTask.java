@@ -186,12 +186,15 @@ public class ActivateGameTask extends BukkitRunnable {
 
             switch (tools.get(tool)) {
                 case 1 -> {
-                    material = Material.getMaterial("IRON_"+tool.toUpperCase());
+                    material = Material.getMaterial("WOODEN_"+tool.toUpperCase());
                 }
                 case 2 -> {
-                    material = Material.getMaterial("GOLDEN_"+tool.toUpperCase());
+                    material = Material.getMaterial("IRON_"+tool.toUpperCase());
                 }
                 case 3 -> {
+                    material = Material.getMaterial("GOLDEN_"+tool.toUpperCase());
+                }
+                case 4 -> {
                     material = Material.getMaterial("DIAMOND_"+tool.toUpperCase());
                 }
                 default -> {

@@ -248,9 +248,10 @@ public class ShopManager {
                               Game.getGameInstance().getShopManager().getPlayerTools().putIfAbsent(player.getName(), new HashMap<>());
                               Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).putIfAbsent("AXE", 0);
                               Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).putIfAbsent("PICKAXE", 0);
+                              Bukkit.getLogger().info(Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).toString());
                               if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString().replace("WOODEN_", "")) < 1) {
                                   Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString().replace("WOODEN_", ""),
-                                          Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString().replace("WOODEN_", "") + 1));
+                                          Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString().replace("WOODEN_", "")) + 1);
 
                               }
                           }
