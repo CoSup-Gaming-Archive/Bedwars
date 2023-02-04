@@ -80,7 +80,7 @@ public class SpectatorTask extends BukkitRunnable {
 
                 ActivateGameTask.preparePlayerFull(player, 0, 0);
 
-                // TODO: 2/4/2023 UPDATE THIS SO ITS ACTUALY CORRECt 
+                // TODO: 2/4/2023 UPDATE THIS SO ITS ACTUALY CORRECt
                 
                 Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).setPlayerDead(player, false);
 

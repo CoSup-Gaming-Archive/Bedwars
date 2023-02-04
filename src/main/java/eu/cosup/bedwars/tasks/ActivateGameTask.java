@@ -115,10 +115,12 @@ public class ActivateGameTask extends BukkitRunnable {
         addColor(helmet, player);
         addColor(chestplate, player);
 
-        leggings.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
-        boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
-        chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
-        helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
+        if (upgradeLevel != 0) {
+            leggings.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
+            boots.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
+            chestplate.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
+            helmet.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, upgradeLevel);
+        }
 
     }
 
@@ -137,17 +139,23 @@ public class ActivateGameTask extends BukkitRunnable {
         switch (swordLevel) {
             case 0 -> {
                 ItemStack itemStack = new ItemStack(Material.WOODEN_SWORD, 0);
-                itemStack.addEnchantment(Enchantment.DAMAGE_ALL, upgradeLevel);
+                if (upgradeLevel != 0) {
+                    itemStack.addEnchantment(Enchantment.DAMAGE_ALL, upgradeLevel);
+                }
                 player.getInventory().setItem(1, itemStack);
             }
             case 1 -> {
                 ItemStack itemStack = new ItemStack(Material.IRON_SWORD, 0);
-                itemStack.addEnchantment(Enchantment.DAMAGE_ALL, upgradeLevel);
+                if (upgradeLevel != 0) {
+                    itemStack.addEnchantment(Enchantment.DAMAGE_ALL, upgradeLevel);
+                }
                 player.getInventory().setItem(1, itemStack);
             }
             case 2 -> {
                 ItemStack itemStack = new ItemStack(Material.DIAMOND_SWORD, 0);
-                itemStack.addEnchantment(Enchantment.DAMAGE_ALL, upgradeLevel);
+                if (upgradeLevel != 0) {
+                    itemStack.addEnchantment(Enchantment.DAMAGE_ALL, upgradeLevel);
+                }
                 player.getInventory().setItem(1, itemStack);
             }
         }
