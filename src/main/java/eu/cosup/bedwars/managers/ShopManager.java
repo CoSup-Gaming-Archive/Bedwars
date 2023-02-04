@@ -219,47 +219,43 @@ public class ShopManager {
                   Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().putIfAbsent(player.getName(), 0);
 
 
+
                   if (boughtItem.getType().toString().contains("BOOTS")) {
                       switch (boughtItem.getType()) {
                           case DIAMOND_BOOTS -> {
-                              if (Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().get(player.getName()) < 3) {
-                                  Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().put(player.getName(), 3);
+                              if (Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(player.getName()) < 3) {
+                                  Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().put(player.getName(), 3);
                               }
                           }
                           case IRON_BOOTS -> {
-                              if (Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().get(player.getName()) < 2) {
-                                  Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().put(player.getName(), 2);
+                              if (Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(player.getName()) < 2) {
+                                  Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().put(player.getName(), 2);
                               }
                           }
                           case CHAINMAIL_BOOTS -> {
-                              if (Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().get(player.getName()) < 1) {
-                                  Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().put(player.getName(), 1);
+                              if (Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(player.getName()) < 1) {
+                                  Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().put(player.getName(), 1);
                               }
                           }
                       }
+
 
                       ActivateGameTask.givePlayerArmor(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getProtection(), getPlayerArmorUpgrade().get(player.getName()));
 
                   } else if (boughtItem.getType().toString().contains("SHEARS") || boughtItem.getType().toString().contains("AXE")) {
                       switch (boughtItem.getType()) {
-                          case IRON_PICKAXE, IRON_AXE -> {
-                              if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString()) < 1) {
-                                  Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString().replace("IRON_", ""), 1);
+                          case WOODEN_AXE, WOODEN_PICKAXE -> {
+                              Game.getGameInstance().getShopManager().getPlayerTools().putIfAbsent(player.getName(), new HashMap<>());
+                              Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).putIfAbsent("AXE", 0);
+                              Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).putIfAbsent("PICKAXE", 0);
+                              Bukkit.getLogger().info(Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).toString());
+                              if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString().replace("WOODEN_", "")) < 4) {
+                                  Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString().replace("WOODEN_", ""),
+                                          Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString().replace("WOODEN_", "")) + 1);
+
                               }
                           }
-                          case GOLDEN_PICKAXE, GOLDEN_AXE -> {
-                              if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString()) < 2) {
-                                  Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString().replace("GOLDEN_", ""), 2);
-                              }
-                          }
-                          case DIAMOND_PICKAXE, DIAMOND_AXE -> {
-                              if (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(boughtItem.getType().toString()) < 3) {
-                                  Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString().replace("DIAMOND_", ""), 3);
-                              }
-                          }
-                          case SHEARS -> {
-                              Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString(), 1);
-                          }
+                          case SHEARS -> Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).put(boughtItem.getType().toString(), 5);
                       }
                       ActivateGameTask.givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()));
                   } else {
