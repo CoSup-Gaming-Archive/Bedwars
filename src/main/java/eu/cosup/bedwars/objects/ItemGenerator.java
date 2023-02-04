@@ -71,7 +71,6 @@ public class ItemGenerator implements ConfigurationSerializable {
     private void dropItem() {
         switch (type) {
             case SPAWN -> {
-                Bukkit.getLogger().info(name);
                 Team team = Game.getGameInstance().getTeamManager().getTeamWithName(name);
 
                 if (team == null) {
