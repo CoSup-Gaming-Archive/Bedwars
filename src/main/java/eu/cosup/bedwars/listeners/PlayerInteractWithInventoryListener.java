@@ -19,11 +19,7 @@ public class PlayerInteractWithInventoryListener implements Listener {
             if (!(event.getClickedInventory()==null)){
                 if (!(event.getClickedInventory().equals(event.getWhoClicked().getInventory()))){
                     Game.getGameInstance().getUpgradesManager().onClick(event.getSlot(), (Player) event.getWhoClicked(), event.getClickedInventory());
-                } else {
-                    Bukkit.broadcast(Component.text("clicked own inv"));
                 }
-            } else {
-                Bukkit.broadcast(Component.text("clicked outside"));
             }
         }
         if (event.getView().title()== Game.getGameInstance().getShopManager().title) {
