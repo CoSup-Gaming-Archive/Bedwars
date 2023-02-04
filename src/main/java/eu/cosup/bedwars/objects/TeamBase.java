@@ -10,37 +10,66 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class TeamBase {
-    public ArrayList<Player> playersInRange = new ArrayList<>();
-    public Location center;
-    public Team team;
-    public int radius;
-    public long lastBaseEntering=0;
+    private ArrayList<Player> playersInRange = new ArrayList<>();
+    private Location center;
+    private Team team;
+    private int radius;
+    private long lastBaseEntering=0;
     public TeamBase(Team team, Location location, int radius){
         this.team=team;
         this.center=location;
         this.radius=radius;
     }
-    public void checkIfEnteredBase(Player player){
+    public void checkIfEnteredBase(@NotNull Player player){
         if (!(this.team.getBase().playersInRange.contains(player))){
             playersInRange.add(player);
             long now = System.currentTimeMillis();
             if (now-20*1000>=lastBaseEntering){
                 lastBaseEntering=now;
+                if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor() == team.getColor()) {
+                    if (team.getUpgrades().getHeal()) {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Integer.MAX_VALUE, 1, false, false, false));
+                    }
+                    return;
+                }
                 this.enemyEnterEvent(player);
             }
-
-        } else {
-
         }
     }
+
+    public ArrayList<Player> getPlayersInRange() {
+        return playersInRange;
+    }
+
+    public void removePlayerFromRange(@NotNull Player player) {
+        playersInRange.remove(player);
+        player.removePotionEffect(PotionEffectType.REGENERATION);
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public Location getCenter() {
+        return center;
+    }
+
+    public long getLastBaseEntering() {
+        return lastBaseEntering;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
     public void enemyEnterEvent(Player player){
         switch (team.getUpgrades().getActivatedTraps().get(0)){
-            //TODO traps ignore staff members
             case BLINDNESS -> {
                 PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 20*8, 0);
                 PotionEffect slowness = new PotionEffect(PotionEffectType.SLOW, 20*8, 3);

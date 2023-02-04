@@ -574,7 +574,6 @@ public class UpgradesManager {
                         PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, reqDiamonds);
                         playerTeam.getUpgrades().setRessources(playerTeam.getUpgrades().getRessources() + 1);
                         for ( Player teamPlayer : playerTeam.getAlivePlayers()){
-
                             teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Iron Forge "+ String.valueOf(playerTeam.getUpgrades().getRessources())+" for the whole team").color(TextColor.color(85, 255, 85))));
                         }
                         openGUIForPlayer(player);
@@ -597,7 +596,7 @@ public class UpgradesManager {
                     if (PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND)>=3){
                         PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, 3);
                         playerTeam.getUpgrades().setHeal(true);
-                        for ( Player teamPlayer : playerTeam.getAlivePlayers()){
+                        for (Player teamPlayer : playerTeam.getAlivePlayers()){
                             teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Heal Pool for the whole team").color(TextColor.color(85, 255, 85))));
                         }
                         openGUIForPlayer(player);

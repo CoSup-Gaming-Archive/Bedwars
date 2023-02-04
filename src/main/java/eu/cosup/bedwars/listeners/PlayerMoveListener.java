@@ -26,17 +26,17 @@ public class PlayerMoveListener implements Listener {
             if (team == Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId())){
                 continue;
             }
-            int tx = team.getBase().center.getBlockX();
-            int ty = team.getBase().center.getBlockY();
-            int tz = team.getBase().center.getBlockZ();
+            int tx = team.getBase().getCenter().getBlockX();
+            int ty = team.getBase().getCenter().getBlockY();
+            int tz = team.getBase().getCenter().getBlockZ();
             int dx = tx-x;
             int dy = ty-y;
             int dz = tz-z;  //           x²   + y²   + z²
             double distance = Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2)+Math.pow(dz, 2));
-            if (distance<=team.getBase().radius){
+            if (distance<=team.getBase().getRadius()){
                 team.getBase().checkIfEnteredBase(player);
             } else {
-                team.getBase().playersInRange.remove(player);
+                team.getBase().removePlayerFromRange(player);
             }
         }
         double playerY = event.getTo().getY();
