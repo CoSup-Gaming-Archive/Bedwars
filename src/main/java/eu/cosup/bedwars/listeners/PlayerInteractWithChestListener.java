@@ -67,6 +67,10 @@ public class PlayerInteractWithChestListener implements Listener {
             return;
         }
 
+        if (event.getClickedBlock().getType() == PrivateChest.CHEST_BLOCK) {
+            return;
+        }
+
         if (!Game.getGameInstance().getChestManager().isGameChest(event.getClickedBlock().getLocation())) {
             event.setCancelled(true);
             return;

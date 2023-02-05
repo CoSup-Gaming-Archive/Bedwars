@@ -8,13 +8,14 @@ import eu.cosup.bedwars.tasks.TeamLoseBedTask;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockBreakListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     private void onBlockBreak(@NotNull BlockBreakEvent event) {
 
         Block block = event.getBlock();

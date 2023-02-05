@@ -27,12 +27,6 @@ public class PlayerJoinListener implements Listener {
 
         // if game has already started
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
-            Team playerTeam = game.getTeamManager().whichTeam(event.getPlayer().getUniqueId());
-
-            Component msg = Component.text().content("You joined as ").color(NamedTextColor.YELLOW)
-                            .append(Component.text().content(TeamColor.getFormattedTeamColor(playerTeam.getColor())).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer().getUniqueId()).getColor()))).build();
-
-            event.getPlayer().sendMessage(msg);
             event.getPlayer().setHealth(0);
             return;
         }
@@ -40,7 +34,7 @@ public class PlayerJoinListener implements Listener {
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.JOINING) {
             event.getPlayer().teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
             if (!PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
-                new SpectatorTask(event.getPlayer(), true).runTask(Bedwars.getInstance());
+                new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
                 return;
             }
 
