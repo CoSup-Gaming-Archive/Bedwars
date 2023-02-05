@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
+import eu.cosup.bedwars.managers.GameStateManager;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.key.Keyed;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -22,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -78,22 +80,22 @@ public class ItemGenerator implements ConfigurationSerializable {
                 }
                 switch (team.getUpgrades().getRessources()) {
                     default -> {
-                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 10));
-                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 1));
+                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 10)).setVelocity(new Vector().zero());
+                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 1)).setVelocity(new Vector().zero());
                     }
                     case 2 -> {
-                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 20));
-                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 5));
+                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 20)).setVelocity(new Vector().zero());
+                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 5)).setVelocity(new Vector().zero());
                     }
                     case 3 -> {
-                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 20));
-                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 5));
-                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD_BLOCK, 1));
+                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 20)).setVelocity(new Vector().zero());
+                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 5)).setVelocity(new Vector().zero());
+                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD, 1)).setVelocity(new Vector().zero());
                     }
                     case 4 -> {
-                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 40));
-                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 10));
-                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD_BLOCK, 2));
+                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 40)).setVelocity(new Vector().zero());
+                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 10)).setVelocity(new Vector().zero());
+                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD, 2)).setVelocity(new Vector().zero());
                     }
                 }
 
@@ -156,7 +158,7 @@ public class ItemGenerator implements ConfigurationSerializable {
                     }
                 }
                 case SPAWN -> {
-                    this.runTaskLater(Bedwars.getInstance(), (long) 8*20L);
+                    this.runTaskLater(Bedwars.getInstance(), (long) 10*20L);
                 }
             }
         }

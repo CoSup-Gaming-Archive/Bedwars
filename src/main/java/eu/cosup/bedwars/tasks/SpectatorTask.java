@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SpectatorTask extends BukkitRunnable {
 
@@ -81,7 +82,13 @@ public class SpectatorTask extends BukkitRunnable {
 
                 player.teleport(Game.getGameInstance().getSelectedMap().getSpawnByPlayer(player));
 
-                ActivateGameTask.preparePlayerFull(player, Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(player.getName()), Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()));
+                Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().putIfAbsent(player.getName(), 0);
+                Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().putIfAbsent(player.getName(), 0);
+                Game.getGameInstance().getShopManager().getPlayerTools().putIfAbsent(player.getName(), new HashMap<>());
+
+                ActivateGameTask.preparePlayerFull(player
+                        , Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(player.getName())
+                        , Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()));
 
                 Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).setPlayerDead(player, false);
 

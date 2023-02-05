@@ -42,16 +42,12 @@ public class ShopManager {
     public HashMap<String, ShopTabUtility> items=new HashMap<>();
     public YamlConfiguration shopConfig;
     public Component title;
-    private HashMap<String, Integer> playerSwordUpgrades = new HashMap<>();
-    private HashMap<String, Integer> playerArmorUpgrade = new HashMap<>();
-    private HashMap<String, HashMap<String, Integer>> playerTools = new HashMap<>();
+    private final HashMap<String, Integer> playerSwordUpgrades = new HashMap<>();
+    private final HashMap<String, Integer> playerArmorUpgrade = new HashMap<>();
+    private final HashMap<String, HashMap<String, Integer>> playerTools = new HashMap<>();
 
     public int offset=0;
-    private PlayerInventoryUtility playerInventoryUtility = new PlayerInventoryUtility();
-    public ShopManager(){
-
-    }
-
+    private final PlayerInventoryUtility playerInventoryUtility = new PlayerInventoryUtility();
     public HashMap<String, Integer> getPlayerArmorUpgrade() {
         return playerArmorUpgrade;
     }

@@ -1,13 +1,25 @@
 package eu.cosup.bedwars.listeners;
 
+import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
+import eu.cosup.bedwars.managers.ItemGeneratorManager;
+import eu.cosup.bedwars.objects.ItemGenerator;
 import eu.cosup.bedwars.tasks.ActivateGameTask;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.inventory.ItemStack;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class ItemThrowListener implements Listener {
 
@@ -20,6 +32,73 @@ public class ItemThrowListener implements Listener {
         if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
             if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.ACTIVE) {
                 event.setCancelled(true);
+                return;
+            }
+
+            event.getItemDrop().getItemStack().lore(new ArrayList<>());
+        }
+    }
+
+    @EventHandler
+    private void onItemStack(ItemMergeEvent event) {
+        for (ItemGenerator itemGenerator : Game.getGameInstance().getSelectedMap().getItemGenerators()) {
+            if (itemGenerator.getType().equals(ItemGenerator.GeneratorType.SPAWN)) {
+
+
+                if (event.getTarget().getLocation().toVector().distance(itemGenerator.getLocation().toVector()) > 5) {
+                    continue;
+                }
+
+                if (event.getEntity().getItemStack().getType() == Material.GOLD_INGOT) {
+                    if (event.getTarget().getItemStack().getAmount() + event.getEntity().getItemStack().getAmount() > 10) {
+                        event.getEntity().remove();
+                        event.getTarget().setItemStack(new ItemStack(Material.GOLD_INGOT, 10));
+                        event.setCancelled(true);
+                    }
+                }
+
+                if (event.getEntity().getItemStack().getType() == Material.IRON_INGOT) {
+                    if (event.getTarget().getItemStack().getAmount() + event.getEntity().getItemStack().getAmount() > 50) {
+                        event.getEntity().remove();
+                        event.getTarget().setItemStack(new ItemStack(Material.IRON_INGOT, 50));
+                        event.setCancelled(true);
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    private void onPlayerPickUp(EntityPickupItemEvent event) {
+
+        if (!(event.getEntity() instanceof Player player)) {
+            return;
+        }
+
+        for (ItemGenerator itemGenerator : Game.getGameInstance().getSelectedMap().getItemGenerators()) {
+            if (itemGenerator.getType().equals(ItemGenerator.GeneratorType.SPAWN)) {
+
+                if (player.getLocation().toVector().distance(itemGenerator.getLocation().toVector()) > 3) {
+                    continue;
+                }
+
+                if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()) == null) {
+                    return;
+                }
+
+                // important since this prevents duping
+                if (event.getItem().getItemStack().getItemMeta().hasLore()) {
+                    return;
+                }
+
+                event.setCancelled(true);
+                event.getItem().remove();
+
+                for (Player teammate : Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getPlayers()) {
+                    if (teammate.getLocation().toVector().distance(itemGenerator.getLocation().toVector()) < 3) {
+                        teammate.getInventory().addItem(event.getItem().getItemStack());
+                    }
+                }
             }
         }
     }

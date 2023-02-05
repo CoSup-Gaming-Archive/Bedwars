@@ -5,15 +5,13 @@ import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.objects.ItemGenerator;
 import eu.cosup.bedwars.objects.SideBarInformation;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
+import org.bukkit.block.Bed;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameTimerTask extends BukkitRunnable {
-
-    public static final int timeToFirstUpgrade = Bedwars.getInstance().getConfig().getInt("time-to-first-phase");
-    public static final int timeToSecondUpgrade = Bedwars.getInstance().getConfig().getInt("time-to-second-phase");
-    public static final int timeToBedDestruction = Bedwars.getInstance().getConfig().getInt("time-to-bed-destruction-phase");
-    public static final int timeToSuddenDeath = Bedwars.getInstance().getConfig().getInt("time-to-sudden-death-phase");
 
     private static int secondsElapsed;
     private static GameTimerTask instance;
@@ -27,22 +25,32 @@ public class GameTimerTask extends BukkitRunnable {
         SideBarInformation.update();
         setSecondsElapsed(getSecondsElapsed()+1);
 
-        if (secondsElapsed == timeToFirstUpgrade) {
-            Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.FIRST_UPGRADE);
+        if (secondsElapsed == 360) {
             Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.DIAMOND);
+            Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("DIAMOND ").color(NamedTextColor.AQUA)).append(Component.text("generators were upgraded to level II")));
         }
 
-        if (secondsElapsed == timeToSecondUpgrade) {
-            Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.SECOND_UPGRADE);
+        if (secondsElapsed == 720) {
             Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.EMERALD);
+            Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("EMERALD ").color(NamedTextColor.AQUA)).append(Component.text(" generators were upgraded to level II")));
         }
 
-        if (secondsElapsed == timeToBedDestruction) {
+        if (secondsElapsed == 1080) {
+            Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.DIAMOND);
+            Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("DIAMOND ").color(NamedTextColor.AQUA)).append(Component.text("generators were upgraded to level III")));
+        }
+
+        if (secondsElapsed == 1440) {
+            Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.EMERALD);
+            Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("EMERALD ").color(NamedTextColor.AQUA)).append(Component.text("generators were upgraded to level III")));
+        }
+
+        if (secondsElapsed == 2040) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.BED_DESTRUCTION);
         }
 
-        if (secondsElapsed == timeToSuddenDeath) {
-            Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.SUDDEN_DEATH);
+        if (secondsElapsed == 2640) {
+            Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.DRAGONS);
         }
 
         new GameTimerTask().runTaskLater(Bedwars.getInstance(), 20L);

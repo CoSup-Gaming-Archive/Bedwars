@@ -140,7 +140,7 @@ public class UpgradesManager {
         if (playerTeam.getUpgrades().getHaste()>=2){
             add="";
         }
-        Component hasteTitle = Component.text("Reinforced Armor "+add).color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false);
+        Component hasteTitle = Component.text("Maniac Miner "+add).color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false);
         //so the tiers u already have are like stikedthru
         strike1=false;
         strike2=false;

@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
+import org.jetbrains.annotations.NotNull;
 
 public class SideBarInformation {
     public static void update() {
@@ -39,13 +40,8 @@ public class SideBarInformation {
 
         int seconds = GameTimerTask.getSecondsElapsed();
 
-        int hours = seconds / 3600;
-        int minutes = seconds / 60 - hours*60;
-        seconds = seconds - minutes * 60 - hours*60*60;
-
-        if (hours > 0) {
-            return hours+":"+minutes+":"+seconds;
-        }
+        int minutes = seconds / 60;
+        seconds = seconds - minutes * 60;
 
         if (minutes > 0) {
             return minutes+" min "+seconds+" sec";
@@ -71,7 +67,7 @@ public class SideBarInformation {
         }
     }
 
-    private static Component getTeamSymbol(Team team) {
+    private static Component getTeamSymbol(@NotNull Team team) {
         if (team.isAlive()) {
             return Component.text().content("\u2714").color(NamedTextColor.GREEN).build();
         }
