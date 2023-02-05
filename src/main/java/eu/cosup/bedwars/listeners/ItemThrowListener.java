@@ -9,6 +9,7 @@ import eu.cosup.bedwars.tasks.ActivateGameTask;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -97,6 +98,7 @@ public class ItemThrowListener implements Listener {
                 for (Player teammate : Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getPlayers()) {
                     if (teammate.getLocation().toVector().distance(itemGenerator.getLocation().toVector()) < 3) {
                         teammate.getInventory().addItem(event.getItem().getItemStack());
+                        teammate.playSound(teammate.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
                     }
                 }
             }
