@@ -43,27 +43,35 @@ public class ItemThrowListener implements Listener {
     @EventHandler
     private void onItemStack(ItemMergeEvent event) {
         for (ItemGenerator itemGenerator : Game.getGameInstance().getSelectedMap().getItemGenerators()) {
-            if (itemGenerator.getType().equals(ItemGenerator.GeneratorType.SPAWN)) {
-
-
-                if (event.getTarget().getLocation().toVector().distance(itemGenerator.getLocation().toVector()) > 5) {
-                    continue;
+            if (event.getTarget().getLocation().toVector().distance(itemGenerator.getLocation().toVector()) > 5) {
+                continue;
+            }
+            if (event.getEntity().getItemStack().getType() == Material.GOLD_INGOT) {
+                if (event.getTarget().getItemStack().getAmount() + event.getEntity().getItemStack().getAmount() > 10) {
+                    event.getEntity().remove();
+                    event.getTarget().setItemStack(new ItemStack(Material.GOLD_INGOT, 10));
+                    event.setCancelled(true);
                 }
-
-                if (event.getEntity().getItemStack().getType() == Material.GOLD_INGOT) {
-                    if (event.getTarget().getItemStack().getAmount() + event.getEntity().getItemStack().getAmount() > 10) {
-                        event.getEntity().remove();
-                        event.getTarget().setItemStack(new ItemStack(Material.GOLD_INGOT, 10));
-                        event.setCancelled(true);
-                    }
+            }
+            if (event.getEntity().getItemStack().getType() == Material.IRON_INGOT) {
+                if (event.getTarget().getItemStack().getAmount() + event.getEntity().getItemStack().getAmount() > 50) {
+                    event.getEntity().remove();
+                    event.getTarget().setItemStack(new ItemStack(Material.IRON_INGOT, 50));
+                    event.setCancelled(true);
                 }
-
-                if (event.getEntity().getItemStack().getType() == Material.IRON_INGOT) {
-                    if (event.getTarget().getItemStack().getAmount() + event.getEntity().getItemStack().getAmount() > 50) {
-                        event.getEntity().remove();
-                        event.getTarget().setItemStack(new ItemStack(Material.IRON_INGOT, 50));
-                        event.setCancelled(true);
-                    }
+            }
+            if (event.getEntity().getItemStack().getType() == Material.DIAMOND) {
+                if (event.getTarget().getItemStack().getAmount() + event.getEntity().getItemStack().getAmount() > 4) {
+                    event.getEntity().remove();
+                    event.getTarget().setItemStack(new ItemStack(Material.DIAMOND, 4));
+                    event.setCancelled(true);
+                }
+            }
+            if (event.getEntity().getItemStack().getType() == Material.EMERALD) {
+                if (event.getTarget().getItemStack().getAmount() + event.getEntity().getItemStack().getAmount() > 2) {
+                    event.getEntity().remove();
+                    event.getTarget().setItemStack(new ItemStack(Material.EMERALD, 2));
+                    event.setCancelled(true);
                 }
             }
         }
