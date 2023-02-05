@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class ItemThrowListener implements Listener {
 
@@ -34,16 +35,23 @@ public class ItemThrowListener implements Listener {
         for (ItemGenerator itemGenerator : Game.getGameInstance().getSelectedMap().getItemGenerators()) {
             if (itemGenerator.getType().equals(ItemGenerator.GeneratorType.SPAWN)) {
 
+
+                if (event.getTarget().getLocation().toVector().distance(itemGenerator.getLocation().toVector()) > 5) {
+                    continue;
+                }
+
                 if (event.getEntity().getItemStack().getType() == Material.GOLD_INGOT) {
-                    if (event.getTarget().getItemStack().getAmount() > 10) {
-                        event.getTarget().remove();
+                    if (event.getTarget().getItemStack().getAmount() + event.getEntity().getItemStack().getAmount() > 10) {
+                        event.getEntity().remove();
+                        event.getTarget().setItemStack(new ItemStack(Material.GOLD_INGOT, 10));
                         event.setCancelled(true);
                     }
                 }
 
                 if (event.getEntity().getItemStack().getType() == Material.IRON_INGOT) {
-                    if (event.getTarget().getItemStack().getAmount() > 60) {
-                        event.getTarget().remove();
+                    if (event.getTarget().getItemStack().getAmount() + event.getEntity().getItemStack().getAmount() > 50) {
+                        event.getEntity().remove();
+                        event.getTarget().setItemStack(new ItemStack(Material.IRON_INGOT, 50));
                         event.setCancelled(true);
                     }
                 }
