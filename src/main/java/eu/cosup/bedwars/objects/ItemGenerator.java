@@ -88,12 +88,12 @@ public class ItemGenerator implements ConfigurationSerializable {
                     case 3 -> {
                         location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 20));
                         location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 5));
-                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD_BLOCK, 1));
+                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD, 1));
                     }
                     case 4 -> {
                         location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 40));
                         location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 10));
-                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD_BLOCK, 2));
+                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD, 2));
                     }
                 }
 
