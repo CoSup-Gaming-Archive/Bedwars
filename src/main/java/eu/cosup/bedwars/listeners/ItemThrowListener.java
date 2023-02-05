@@ -37,12 +37,14 @@ public class ItemThrowListener implements Listener {
                 if (event.getEntity().getItemStack().getType() == Material.GOLD_INGOT) {
                     if (event.getTarget().getItemStack().getAmount() > 50) {
                         event.getTarget().remove();
+                        event.setCancelled(true);
                     }
                 }
 
                 if (event.getEntity().getItemStack().getType() == Material.IRON_INGOT) {
                     if (event.getTarget().getItemStack().getAmount() > 10) {
                         event.getTarget().remove();
+                        event.setCancelled(true);
                     }
                 }
             }
