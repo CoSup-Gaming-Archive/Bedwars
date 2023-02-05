@@ -1,5 +1,5 @@
 required-player-count : 2
-return-to-lobby-delay : 10
+return-to-lobby-delay : 25
 respawn-delay : 7
 spawn-protection-distance : 6
 
