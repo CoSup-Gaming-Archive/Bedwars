@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
+import org.jetbrains.annotations.NotNull;
 
 public class SideBarInformation {
     public static void update() {
@@ -71,7 +72,7 @@ public class SideBarInformation {
         }
     }
 
-    private static Component getTeamSymbol(Team team) {
+    private static Component getTeamSymbol(@NotNull Team team) {
         if (team.isAlive()) {
             return Component.text().content("\u2714").color(NamedTextColor.GREEN).build();
         }

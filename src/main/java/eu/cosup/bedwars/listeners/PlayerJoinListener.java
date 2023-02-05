@@ -6,6 +6,8 @@ import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamColor;
 import eu.cosup.bedwars.tasks.SpectatorTask;
+import eu.cosup.tournament.common.utility.PlayerUtility;
+import eu.cosup.tournament.server.TournamentServer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
@@ -37,7 +39,13 @@ public class PlayerJoinListener implements Listener {
 
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.JOINING) {
             event.getPlayer().teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
-            event.getPlayer().setGameMode(GameMode.ADVENTURE);
+            if (!PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
+                new SpectatorTask(event.getPlayer(), true).runTask(Bedwars.getInstance());
+                return;
+            }
+
+            event.getPlayer().setGameMode(GameMode.CREATIVE);
+            return;
         }
 
         new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
