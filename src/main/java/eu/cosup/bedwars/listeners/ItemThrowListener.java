@@ -87,7 +87,7 @@ public class ItemThrowListener implements Listener {
                 }
 
                 // important since this prevents duping
-                if (event.getItem().getItemStack().getItemMeta().lore() != null) {
+                if (event.getItem().getItemStack().getItemMeta().hasLore()) {
                     return;
                 }
 
@@ -95,7 +95,6 @@ public class ItemThrowListener implements Listener {
                 event.getItem().remove();
 
                 for (Player teammate : Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getPlayers()) {
-
                     if (teammate.getLocation().toVector().distance(itemGenerator.getLocation().toVector()) < 3) {
                         teammate.getInventory().addItem(event.getItem().getItemStack());
                     }
