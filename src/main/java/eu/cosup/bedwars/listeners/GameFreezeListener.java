@@ -26,7 +26,5 @@ public class GameFreezeListener implements Consumer<CommandSender> {
         if (GameTimerTask.getInstance() != null) {
             GameTimerTask.getInstance().cancelTimer();
         }
-
-        commandSender.getServer().broadcast(Component.text(commandSender.getName()+" has frozen the server").color(NamedTextColor.RED));
     }
 }
