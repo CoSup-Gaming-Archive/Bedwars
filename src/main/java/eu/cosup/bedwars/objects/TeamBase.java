@@ -69,6 +69,11 @@ public class TeamBase {
     }
 
     public void enemyEnterEvent(Player player){
+
+        if (team.getUpgrades().getActivatedTraps().size() == 0) {
+            return;
+        }
+
         switch (team.getUpgrades().getActivatedTraps().get(0)){
             case BLINDNESS -> {
                 PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 20*8, 0);

@@ -50,8 +50,6 @@ public class SpectatorTask extends BukkitRunnable {
         }
 
 
-        TeamColor team = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
-
         for (int i = 0; i < respawnDelay; i++) {
             int finalI = i;
             new BukkitRunnable() {
@@ -92,7 +90,6 @@ public class SpectatorTask extends BukkitRunnable {
 
                 Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).setPlayerDead(player, false);
 
-                player.sendMessage(Component.text().content("You are alive!").color(TeamColor.getNamedTextColor(team)));
             }
         }.runTaskLater(Bedwars.getInstance(), respawnDelay * 20L);
     }
