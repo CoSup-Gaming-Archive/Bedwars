@@ -82,6 +82,7 @@ public class SpectatorTask extends BukkitRunnable {
 
                 player.teleport(Game.getGameInstance().getSelectedMap().getSpawnByPlayer(player));
 
+                Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().putIfAbsent(player.getName(), 0);
                 Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().putIfAbsent(player.getName(), 0);
                 Game.getGameInstance().getShopManager().getPlayerTools().putIfAbsent(player.getName(), new HashMap<>());
 
