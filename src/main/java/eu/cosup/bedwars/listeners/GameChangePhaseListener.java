@@ -29,7 +29,7 @@ public class GameChangePhaseListener implements GameListener {
     @Override
     public void firedChangeGamePhaseEvent(@NotNull ChangeGamePhaseEvent event) {
 
-        if (event.newGamePhase() == GameStateManager.GamePhase.SUDDEN_DEATH) {
+        if (event.newGamePhase() == GameStateManager.GamePhase.DRAGONS) {
             for (TeamColor teamColor : Game.getGameInstance().getSelectedMap().getTeamBeds().keySet()) {
                 Location location = Game.getGameInstance().getSelectedMap().getSpawnByColor(teamColor);
                 location.setY(location.getY() + 30);

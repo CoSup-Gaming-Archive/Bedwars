@@ -35,14 +35,14 @@ public class ItemThrowListener implements Listener {
             if (itemGenerator.getType().equals(ItemGenerator.GeneratorType.SPAWN)) {
 
                 if (event.getEntity().getItemStack().getType() == Material.GOLD_INGOT) {
-                    if (event.getTarget().getItemStack().getAmount() > 50) {
+                    if (event.getTarget().getItemStack().getAmount() > 10) {
                         event.getTarget().remove();
                         event.setCancelled(true);
                     }
                 }
 
                 if (event.getEntity().getItemStack().getType() == Material.IRON_INGOT) {
-                    if (event.getTarget().getItemStack().getAmount() > 10) {
+                    if (event.getTarget().getItemStack().getAmount() > 60) {
                         event.getTarget().remove();
                         event.setCancelled(true);
                     }

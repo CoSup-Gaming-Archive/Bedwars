@@ -3,9 +3,4 @@ return-to-lobby-delay : 10
 respawn-delay : 7
 spawn-protection-distance : 6
 
-time-to-first-phase : 60
-time-to-second-phase : 120
-time-to-bed-destruction-phase : 300
-time-to-sudden-death-phase : 360
-
 random-teams: true

@@ -40,13 +40,8 @@ public class SideBarInformation {
 
         int seconds = GameTimerTask.getSecondsElapsed();
 
-        int hours = seconds / 3600;
-        int minutes = seconds / 60 - hours*60;
-        seconds = seconds - minutes * 60 - hours*60*60;
-
-        if (hours > 0) {
-            return hours+":"+minutes+":"+seconds;
-        }
+        int minutes = seconds / 60;
+        seconds = seconds - minutes * 60;
 
         if (minutes > 0) {
             return minutes+" min "+seconds+" sec";
