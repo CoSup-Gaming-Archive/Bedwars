@@ -11,7 +11,9 @@ import eu.cosup.bedwars.tasks.TeamLoseBedTask;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
+import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +30,12 @@ public class GameChangePhaseListener implements GameListener {
     public void firedChangeGamePhaseEvent(@NotNull ChangeGamePhaseEvent event) {
 
         if (event.newGamePhase() == GameStateManager.GamePhase.SUDDEN_DEATH) {
-            // TODO: spawn dragons
+            for (TeamColor teamColor : Game.getGameInstance().getSelectedMap().getTeamBeds().keySet()) {
+                Location location = Game.getGameInstance().getSelectedMap().getSpawnByColor(teamColor);
+                location.setY(location.getY() + 30);
+
+                location.getWorld().spawnEntity(location, EntityType.ENDER_DRAGON);
+            }
         }
 
         if (event.newGamePhase() == GameStateManager.GamePhase.BED_DESTRUCTION) {
