@@ -100,13 +100,14 @@ public class ItemThrowListener implements Listener {
                     return;
                 }
 
-                event.setCancelled(true);
                 event.getItem().remove();
 
                 for (Player teammate : Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getPlayers()) {
                     if (teammate.getLocation().toVector().distance(itemGenerator.getLocation().toVector()) < 3) {
-                        teammate.getInventory().addItem(event.getItem().getItemStack());
-                        teammate.playSound(teammate.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
+                        if (!player.getName().equals(teammate.getName())) {
+                            teammate.getInventory().addItem(event.getItem().getItemStack());
+                            teammate.playSound(teammate.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
+                        }
                     }
                 }
             }
