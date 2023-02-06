@@ -251,47 +251,6 @@ shop:
         display-name: §6Ranged for losers
       
     items:
-      ARROW:
-        item:
-          type: ARROW
-          amount: 6
-          meta:
-            meta-type: UNSPECIFIC
-        priceItem: GOLD_INGOT
-        respectTeamColor: false
-        price: 2
-      BOW:
-        item:
-          type: BOW
-          amount: 1
-          meta:
-            meta-type: UNSPECIFIC
-        priceItem: EMERALD
-        respectTeamColor: false
-        price: 2
-      BOW_POWER:
-        item:
-          type: BOW
-          amount: 1
-          meta:
-            meta-type: UNSPECIFIC
-            enchants:
-              power: 1
-        priceItem: EMERALD
-        respectTeamColor: false
-        price: 3
-      BOW_BEST:
-        item:
-          type: BOW
-          amount: 1
-          meta:
-            meta-type: UNSPECIFIC
-            enchants:
-              power: 1
-              punch: 1
-        priceItem: EMERALD
-        respectTeamColor: false
-        price: 4
   tab6:
     icon:
       type: BREWING_STAND
@@ -385,24 +344,6 @@ shop:
         priceItem: GOLD_INGOT
         respectTeamColor: false
         price: 3
-      SNOWBALL:
-        item:
-          type: SNOWBALL
-          amount: 1
-          meta:
-            meta-type: UNSPECIFIC
-        priceItem: GOLD_INGOT
-        respectTeamColor: false
-        price: 1000
-      IRONGOLEM:
-        item:
-          type: DIRT
-          amount: 1
-          meta:
-            meta-type: UNSPECIFIC
-        priceItem: GOLD_INGOT
-        respectTeamColor: false
-        price: 3000
       FIREBALL:
         item:
           type: FIRE_CHARGE
@@ -439,16 +380,6 @@ shop:
         priceItem: GOLD_INGOT
         respectTeamColor: false
         price: 3
-      EGG:
-        item:
-          type: EGG
-          amount: 1
-          meta:
-            display-name: I think they will remove this item
-            meta-type: UNSPECIFIC
-        priceItem: IRON_INGOT
-        respectTeamColor: false
-        price: 30
       MILK:
         item:
           type: MILK_BUCKET
@@ -465,15 +396,6 @@ shop:
           meta:
             meta-type: UNSPECIFIC
         priceItem: SPONGE
-        respectTeamColor: false
-        price: 1
-      CHEST:
-        item:
-          type: CHEST
-          amount: 1
-          meta:
-            display-name: never heard of this before
-        priceItem: CHEST
         respectTeamColor: false
         price: 1
 tabList:
