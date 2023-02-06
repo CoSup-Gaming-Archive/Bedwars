@@ -6,6 +6,7 @@ import eu.cosup.bedwars.events.ChangeGamePhaseEvent;
 import eu.cosup.bedwars.events.ChangeGameStateEvent;
 import eu.cosup.bedwars.interfaces.GameListener;
 import eu.cosup.bedwars.managers.GameStateManager;
+import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamColor;
 import eu.cosup.bedwars.tasks.TeamLoseBedTask;
 import net.kyori.adventure.text.Component;
@@ -16,6 +17,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 
 // this could be usefull for later
@@ -69,7 +72,16 @@ public class GameChangePhaseListener implements GameListener {
         }
 
         if (event.newGameState().equals(GameStateManager.GameState.ENDING)) {
-            Game.getGameInstance().finishGame(Game.getGameInstance().getTeamManager().getAliveTeam().getColor());
+            List<Team> teams = Game.getGameInstance().getTeamManager().getTeams().stream().filter(team1 -> team1.getAlivePlayers().size() > 0).toList();
+            if (teams.size() == 0) {
+                Game.getGameInstance().finishGame(null);
+            }
+            if (teams.size() == 1) {
+                Game.getGameInstance().finishGame(teams.get(0).getColor());
+            }
+            if (teams.size() == 2) {
+                throw new RuntimeException("There cannot be two alive teams in the ending phase");
+            }
         }
     }
 }

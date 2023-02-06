@@ -101,7 +101,7 @@ public class Game {
 
     }
 
-    public void finishGame(TeamColor winner) {
+    public void finishGame(@Nullable TeamColor winner) {
         new GameEndTask(winner).runTask(Bedwars.getInstance());
     }
 }
