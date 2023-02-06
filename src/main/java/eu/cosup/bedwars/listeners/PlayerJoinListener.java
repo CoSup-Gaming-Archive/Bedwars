@@ -32,6 +32,9 @@ public class PlayerJoinListener implements Listener {
         }
 
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.JOINING) {
+
+            event.getPlayer().getInventory().clear();
+
             event.getPlayer().teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
             if (!PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
                 new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());

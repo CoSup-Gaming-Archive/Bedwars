@@ -19,7 +19,6 @@ public class GameFreezeListener implements Consumer<CommandSender> {
     @Override
     public void accept(CommandSender commandSender) {
         if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.ACTIVE) {
-            commandSender.sendMessage(Component.text("You cannot do that right now").color(NamedTextColor.RED));
             return;
         }
 
