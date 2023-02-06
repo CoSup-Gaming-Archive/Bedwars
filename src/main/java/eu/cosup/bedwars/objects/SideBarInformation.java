@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 public class SideBarInformation {
     public static void update() {
 
@@ -22,15 +24,25 @@ public class SideBarInformation {
         scoreBoardManager.clearObjective();
         scoreBoardManager.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&BBedwars"));
 
-        scoreBoardManager.addItem(Component.text().content(" ").build());
+        scoreBoardManager.addItem(Component.text().content(" \n ").build());
 
         addFormattedTeamStrings(scoreBoardManager);
 
-        scoreBoardManager.addItem(Component.text().content(" ").build());
+        scoreBoardManager.addItem(Component.text().content(" \n ").build());
 
         scoreBoardManager.addItem(Component.text().content(getFormattedTime()).color(NamedTextColor.YELLOW).build());
 
-        scoreBoardManager.addItem(Component.text().content(" ").build());
+        scoreBoardManager.addItem(Component.text().content(" \n ").build());
+
+        scoreBoardManager.addItem(Component.text().content("Current game phase: "+Game.getGameInstance().getGameStateManager().getGamePhase()).color(NamedTextColor.YELLOW).build());
+
+        int index = Arrays.stream(GameStateManager.GamePhase.values()).toList().indexOf(Game.getGameInstance().getGameStateManager().getGamePhase());
+        if (index != Arrays.stream(GameStateManager.GamePhase.values()).toList().size()) {
+            scoreBoardManager.addItem(Component.text().content("Next game phase: " + Arrays.stream(GameStateManager.GamePhase.values()).toList().get(index)).color(NamedTextColor.YELLOW).build());
+        }
+
+        scoreBoardManager.addItem(Component.text().content(" \n ").build());
+
         scoreBoardManager.addItem(Component.text().content("CoSup Gaming").color(NamedTextColor.GRAY).build());
         scoreBoardManager.setSlot(DisplaySlot.SIDEBAR);
         scoreBoardManager.getObjective();
@@ -44,7 +56,7 @@ public class SideBarInformation {
         seconds = seconds - minutes * 60;
 
         if (minutes > 0) {
-            return minutes+" min "+seconds+" sec";
+            return minutes+":"+seconds+" elapsed";
         }
 
         return seconds+" seconds";
