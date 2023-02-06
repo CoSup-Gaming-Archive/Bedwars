@@ -1,5 +1,6 @@
 package eu.cosup.bedwars.listeners;
 
+import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.objects.Team;
@@ -32,6 +33,7 @@ public class BlockBreakListener implements Listener {
             Team bedTeam = Game.getGameInstance().getSelectedMap().whichTeamBed(block.getLocation());
 
             if (bedTeam == null) {
+                Bedwars.getInstance().getLogger().warning("A bed was broken but it wasn't a team bed");
                 event.setCancelled(true);
                 return;
             }
