@@ -36,11 +36,6 @@ public class SideBarInformation {
 
         scoreBoardManager.addItem(Component.text().content("Current game phase: "+Game.getGameInstance().getGameStateManager().getGamePhase()).color(NamedTextColor.YELLOW).build());
 
-        int index = Arrays.stream(GameStateManager.GamePhase.values()).toList().indexOf(Game.getGameInstance().getGameStateManager().getGamePhase());
-        if (index != Arrays.stream(GameStateManager.GamePhase.values()).toList().size()) {
-            scoreBoardManager.addItem(Component.text().content("Next game phase: " + Arrays.stream(GameStateManager.GamePhase.values()).toList().get(index)).color(NamedTextColor.YELLOW).build());
-        }
-
         scoreBoardManager.addItem(Component.text().content(" \n ").build());
 
         scoreBoardManager.addItem(Component.text().content("CoSup Gaming").color(NamedTextColor.GRAY).build());
