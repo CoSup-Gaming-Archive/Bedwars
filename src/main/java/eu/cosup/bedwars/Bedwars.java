@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 public final class Bedwars extends JavaPlugin {
 
     private static Bedwars instance;
@@ -70,6 +71,7 @@ public final class Bedwars extends JavaPlugin {
 
         new GameChangePhaseListener();
         new TeamChangeAliveListener();
+
     }
 
     @Override

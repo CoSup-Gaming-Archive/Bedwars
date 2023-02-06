@@ -5,40 +5,52 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import eu.cosup.bedwars.Bedwars;
+import eu.cosup.bedwars.Game;
+import eu.cosup.bedwars.managers.GameStateManager;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.key.Keyed;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ItemGenerator implements ConfigurationSerializable {
 
+    public enum GeneratorType {
+        SPAWN,
+        DIAMOND,
+        EMERALD;
+    }
+
     private final Location location;
-    private final Material item;
-    private double dropTime;
-    private final int maxLevel;
-    private final double percentTimeDecreaseLevel;
-    private int dropAmount;
     private int currentLevel = 1;
+    private GeneratorType type;
+    private String name;
 
     private SpawnerTask spawnerTask;
 
-    public ItemGenerator(Location location, Material item, double dropTime, int dropAmount, int maxLevel, double percentTimeDecreaseLevel) {
+    public ItemGenerator(String name, Location location, GeneratorType type) {
         this.location = location;
-        this.item = item;
-        this.dropTime = dropTime;
-        this.maxLevel = maxLevel;
-        this.percentTimeDecreaseLevel = percentTimeDecreaseLevel;
-        this.dropAmount = dropAmount;
+        this.type = type;
+        this.name = name;
     }
 
     public void startSpawning() {
@@ -51,44 +63,54 @@ public class ItemGenerator implements ConfigurationSerializable {
     }
 
     public void upgrade() {
-        if (currentLevel < maxLevel) {
-            currentLevel++;
-            this.dropTime *= percentTimeDecreaseLevel;
-        }
+        currentLevel++;
     }
 
-    public void removeGenerator() {
-        // we will want to remove the holograms that show that there is a generator there or something more nice
+    public GeneratorType getType() {
+        return type;
     }
 
     private void dropItem() {
-        ItemStack drop = new ItemStack(item);
-        drop.setAmount(dropAmount);
-        location.getWorld().dropItem(location, drop);
-    }
+        switch (type) {
+            case SPAWN -> {
+                Team team = Game.getGameInstance().getTeamManager().getTeamWithName(name);
 
-    public double getDropTime() {
-        return dropTime;
-    }
+                if (team == null) {
+                    return;
+                }
+                switch (team.getUpgrades().getRessources()) {
+                    default -> {
+                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 10)).setVelocity(new Vector().zero());
+                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 1)).setVelocity(new Vector().zero());
+                    }
+                    case 2 -> {
+                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 20)).setVelocity(new Vector().zero());
+                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 5)).setVelocity(new Vector().zero());
+                    }
+                    case 3 -> {
+                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 20)).setVelocity(new Vector().zero());
+                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 5)).setVelocity(new Vector().zero());
+                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD, 1)).setVelocity(new Vector().zero());
+                    }
+                    case 4 -> {
+                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 40)).setVelocity(new Vector().zero());
+                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 10)).setVelocity(new Vector().zero());
+                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD, 2)).setVelocity(new Vector().zero());
+                    }
+                }
 
-    public double getPercentTimeDecreaseLevel() {
-        return percentTimeDecreaseLevel;
-    }
-
-    public int getDropAmount() {
-        return dropAmount;
-    }
-
-    public int getMaxLevel() {
-        return maxLevel;
+            }
+            case DIAMOND -> {
+                location.getWorld().dropItem(location, new ItemStack(Material.DIAMOND, 1));
+            }
+            case EMERALD -> {
+                location.getWorld().dropItem(location, new ItemStack(Material.EMERALD, 1));
+            }
+        }
     }
 
     public Location getLocation() {
         return location;
-    }
-
-    public Material getItem() {
-        return item;
     }
 
     public SpawnerTask getSpawnerTask() {
@@ -100,36 +122,45 @@ public class ItemGenerator implements ConfigurationSerializable {
         Map<String, Object> map = new HashMap<>();
 
         map.put("location", location);
-        map.put("item", item.toString());
-        map.put("dropTime", dropTime);
-        map.put("maxLevel", maxLevel);
-        map.put("percentTimeDecreaseLevel", percentTimeDecreaseLevel);
-        map.put("dropAmount", dropAmount);
+        map.put("type", type);
 
         return map;
     }
 
-    public static ItemGenerator deserialize(ConfigurationSection configurationSection) {
+    public static ItemGenerator deserialize(@NotNull String name, @NotNull ConfigurationSection configurationSection) {
 
-        if (configurationSection.getString("item") == null) {
-            Bukkit.getLogger().severe("While loading a generator material was a null string or material does not exist");
-            return null;
+        if (configurationSection.getString("type") == null) {
+            throw new RuntimeException("While loading a generator material was a null string or material does not exist");
         }
 
         return new ItemGenerator(
+                name,
                 configurationSection.getLocation("location"),
-                Material.getMaterial(configurationSection.getString("item").toUpperCase()),
-                configurationSection.getDouble("dropTime"),
-                configurationSection.getInt("dropAmount"),
-                configurationSection.getInt("maxLevel"),
-                configurationSection.getDouble("percentTimeDecreaseLevel")
+                GeneratorType.valueOf(configurationSection.getString("type").toUpperCase())
         );
     }
 
     class SpawnerTask extends BukkitRunnable {
 
         private SpawnerTask() {
-            this.runTaskLater(Bedwars.getInstance(), (long) dropTime*20L);
+            switch (type) {
+                case EMERALD, DIAMOND -> {
+                    switch (currentLevel) {
+                        case 1 -> {
+                            this.runTaskLater(Bedwars.getInstance(), (long) 39*20L);
+                        }
+                        case 2 -> {
+                            this.runTaskLater(Bedwars.getInstance(), (long) 30*20L);
+                        }
+                        case 3 -> {
+                            this.runTaskLater(Bedwars.getInstance(), (long) 20*20L);
+                        }
+                    }
+                }
+                case SPAWN -> {
+                    this.runTaskLater(Bedwars.getInstance(), (long) 10*20L);
+                }
+            }
         }
 
         @Override

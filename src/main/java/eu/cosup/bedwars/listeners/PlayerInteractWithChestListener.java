@@ -4,6 +4,7 @@ import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.objects.PrivateChest;
 import eu.cosup.bedwars.objects.TeamChest;
+import eu.cosup.tournament.common.utility.PlayerUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.GameMode;
@@ -40,6 +41,10 @@ public class PlayerInteractWithChestListener implements Listener {
     @EventHandler
     private void onPlayerInteractWithChest(PlayerInteractEvent event) {
 
+        if (PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
+            return;
+        }
+
         if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.ACTIVE) {
             return;
         }
@@ -59,6 +64,10 @@ public class PlayerInteractWithChestListener implements Listener {
             if (!shouldInteract(event.getClickedBlock().getType())) {
                 event.setCancelled(true);
             }
+            return;
+        }
+
+        if (event.getClickedBlock().getType() == PrivateChest.CHEST_BLOCK) {
             return;
         }
 

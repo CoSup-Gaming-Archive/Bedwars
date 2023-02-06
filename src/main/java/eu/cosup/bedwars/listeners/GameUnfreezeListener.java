@@ -20,12 +20,9 @@ public class GameUnfreezeListener implements Consumer<CommandSender> {
     @Override
     public void accept(CommandSender commandSender) {
         if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.ACTIVE) {
-            commandSender.sendMessage(Component.text("You cannot do that right now").color(NamedTextColor.RED));
             return;
         }
 
         new GameTimerTask().runTask(Bedwars.getInstance());
-
-        commandSender.getServer().broadcast(Component.text(commandSender.getName()+" has unfrozen the server").color(NamedTextColor.RED));
     }
 }

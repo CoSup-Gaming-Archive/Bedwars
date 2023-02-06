@@ -3,6 +3,7 @@ package eu.cosup.bedwars.tasks;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
+import eu.cosup.bedwars.managers.ShopManager;
 import eu.cosup.bedwars.objects.TeamColor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -13,6 +14,9 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SpectatorTask extends BukkitRunnable {
 
@@ -46,8 +50,6 @@ public class SpectatorTask extends BukkitRunnable {
         }
 
 
-        TeamColor team = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
-
         for (int i = 0; i < respawnDelay; i++) {
             int finalI = i;
             new BukkitRunnable() {
@@ -78,11 +80,16 @@ public class SpectatorTask extends BukkitRunnable {
 
                 player.teleport(Game.getGameInstance().getSelectedMap().getSpawnByPlayer(player));
 
-                ActivateGameTask.preparePlayerFull(player);
+                Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().putIfAbsent(player.getName(), 0);
+                Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().putIfAbsent(player.getName(), 0);
+                Game.getGameInstance().getShopManager().getPlayerTools().putIfAbsent(player.getName(), new HashMap<>());
+
+                ActivateGameTask.preparePlayerFull(player
+                        , Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(player.getName())
+                        , Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()));
 
                 Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).setPlayerDead(player, false);
 
-                player.sendMessage(Component.text().content("You are alive!").color(TeamColor.getNamedTextColor(team)));
             }
         }.runTaskLater(Bedwars.getInstance(), respawnDelay * 20L);
     }

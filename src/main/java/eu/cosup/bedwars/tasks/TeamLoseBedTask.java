@@ -53,7 +53,20 @@ public class TeamLoseBedTask extends BukkitRunnable {
         // it was no accident
         Team loserTeam = Game.getGameInstance().getTeamManager().getTeamByColor(bedColor);
 
-        loserTeam.setAlive(false);
+        if (loserTeam != null) {
+            loserTeam.setAlive(false);
+
+            for (Location bedLocation :Game.getGameInstance().getSelectedMap().getTeamBedsFull().get(loserTeam.getColor())) {
+                Bedwars.getInstance().getGameWorld().setType(bedLocation, Material.AIR);
+            }
+
+            if (!(loserTeam.getAlivePlayers().size() > 0)) {
+                if (Game.getGameInstance().getTeamManager().onlyOneTeamAlive()) {
+                    Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.ENDING);
+                }
+            }
+        }
+
         SideBarInformation.update();
 
         // broadcast that they lost bed
@@ -62,17 +75,5 @@ public class TeamLoseBedTask extends BukkitRunnable {
                 .append(Component.text().content(" was destroyed!").color(NamedTextColor.YELLOW)).build();
 
         Bedwars.getInstance().getServer().broadcast(msg);
-
-        // cheeky way of getting the beacon to not drop anything
-
-        for (Location bedLocation :Game.getGameInstance().getSelectedMap().getTeamBedsFull().get(loserTeam.getColor())) {
-            Bedwars.getInstance().getGameWorld().setType(bedLocation, Material.AIR);
-        }
-
-        if (!(loserTeam.getAlivePlayers().size() > 0)) {
-            if (Game.getGameInstance().getTeamManager().onlyOneTeamAlive()) {
-                Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.ENDING);
-            }
-        }
     }
 }

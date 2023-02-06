@@ -22,9 +22,9 @@ public class ItemGeneratorManager {
         }
     }
 
-    public void upgradeGenerators(Material material) {
+    public void upgradeGenerators(ItemGenerator.GeneratorType type) {
         for (ItemGenerator itemGenerator : Game.getGameInstance().getSelectedMap().getItemGenerators()) {
-            if (itemGenerator.getItem() == material) {
+            if (itemGenerator.getType().equals(type)) {
                 itemGenerator.upgrade();
             }
         }

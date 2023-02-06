@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'eu.cosup'
-version = '1.0.0-SNAPSHOT'
+version = '1.0.0-RC2-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'eu.cosup:Tournament:1.0.0-20230128.115653-5@jar'
+    implementation 'eu.cosup:Tournament:1.0.0-20230203.214013-8@jar'
     implementation 'org.apache.commons:commons-io:1.3.2'
     compileOnly 'io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT'
 }

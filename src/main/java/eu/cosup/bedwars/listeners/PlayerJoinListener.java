@@ -6,6 +6,8 @@ import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamColor;
 import eu.cosup.bedwars.tasks.SpectatorTask;
+import eu.cosup.tournament.common.utility.PlayerUtility;
+import eu.cosup.tournament.server.TournamentServer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.ChatColor;
@@ -25,19 +27,22 @@ public class PlayerJoinListener implements Listener {
 
         // if game has already started
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
-            Team playerTeam = game.getTeamManager().whichTeam(event.getPlayer().getUniqueId());
-
-            Component msg = Component.text().content("You joined as ").color(NamedTextColor.YELLOW)
-                            .append(Component.text().content(TeamColor.getFormattedTeamColor(playerTeam.getColor())).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer().getUniqueId()).getColor()))).build();
-
-            event.getPlayer().sendMessage(msg);
             event.getPlayer().setHealth(0);
             return;
         }
 
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.JOINING) {
+
+            event.getPlayer().getInventory().clear();
+
             event.getPlayer().teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
-            event.getPlayer().setGameMode(GameMode.ADVENTURE);
+            if (!PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
+                new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
+                return;
+            }
+
+            event.getPlayer().setGameMode(GameMode.CREATIVE);
+            return;
         }
 
         new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());

@@ -13,3 +13,5 @@ commands:
     aliases: [gen]
   openshop:
     aliases: [os]
+  openupgrades:
+    aliases: [ou]
