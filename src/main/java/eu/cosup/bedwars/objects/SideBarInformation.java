@@ -34,10 +34,6 @@ public class SideBarInformation {
 
         scoreBoardManager.addItem(Component.text().content(" \n ").build());
 
-        scoreBoardManager.addItem(Component.text().content("Current game phase: "+Game.getGameInstance().getGameStateManager().getGamePhase()).color(NamedTextColor.YELLOW).build());
-
-        scoreBoardManager.addItem(Component.text().content(" \n ").build());
-
         scoreBoardManager.addItem(Component.text().content("CoSup Gaming").color(NamedTextColor.GRAY).build());
         scoreBoardManager.setSlot(DisplaySlot.SIDEBAR);
         scoreBoardManager.getObjective();
