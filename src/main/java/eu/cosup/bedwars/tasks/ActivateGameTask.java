@@ -6,6 +6,7 @@ import eu.cosup.bedwars.objects.PrivateChest;
 import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamChest;
 import eu.cosup.bedwars.objects.TeamColor;
+import eu.cosup.bedwars.utility.NameTagEditor;
 import eu.cosup.tournament.common.objects.GameTeam;
 import eu.cosup.tournament.server.TournamentServer;
 import org.bukkit.*;
@@ -66,8 +67,9 @@ public class ActivateGameTask extends BukkitRunnable {
     public static void preparePlayerFull(@NotNull Player player, int armorLevel, @Nullable HashMap<String, Integer> tools) {
         player.getInventory().clear();
         TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
-        // TODO NameTagEditor nameTagEditor = new NameTagEditor(player);
-        // TODO nameTagEditor.setNameColor(TeamColor.getChatColor(teamColor)).setPrefix(teamColor.toString()+" ").setTabName(TeamColor.getChatColor(teamColor)+player.getName()).setChatName((TeamColor.getChatColor(teamColor)+player.getName()));
+        NameTagEditor nameTagEditor = new NameTagEditor(player);
+
+        nameTagEditor.setNameColor(TeamColor.getChatColor(teamColor)).setPrefix(teamColor.toString()+" ").setTabName(TeamColor.getChatColor(teamColor)+player.getName()).setChatName((TeamColor.getChatColor(teamColor)+player.getName()));
 
         preparePlayerStats(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getHaste());
         givePlayerArmor(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getProtection(), armorLevel);
@@ -90,6 +92,7 @@ public class ActivateGameTask extends BukkitRunnable {
         if (upgradeLevel > 0) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, upgradeLevel, false, false, false));
         }
+
     }
 
     public static void teleportPlayerToSpawn(@NotNull Player player) {
