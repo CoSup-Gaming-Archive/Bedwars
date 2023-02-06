@@ -36,7 +36,10 @@ public class GameStateManager {
 
     public enum GamePhase {
 
-        UPGRADES,
+        DIAMOND,
+        EMERALD,
+        DIAMOND_TWO,
+        EMERALD_TWO,
         BED_DESTRUCTION,
         DRAGONS
     }

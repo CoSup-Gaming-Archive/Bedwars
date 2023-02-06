@@ -49,6 +49,8 @@ public class ItemGenerator implements ConfigurationSerializable {
 
     public ItemGenerator(String name, Location location, GeneratorType type) {
         this.location = location;
+        this.location.setX(location.getX() + 0.5);
+        this.location.setZ(location.getZ() + 0.5);
         this.type = type;
         this.name = name;
     }
