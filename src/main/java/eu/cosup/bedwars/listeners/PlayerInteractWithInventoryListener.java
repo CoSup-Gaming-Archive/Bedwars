@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 
 public class PlayerInteractWithInventoryListener implements Listener {
     @EventHandler
@@ -26,6 +27,10 @@ public class PlayerInteractWithInventoryListener implements Listener {
             if (event.getClickedInventory() != event.getView().getPlayer().getInventory()) {
                 Game.getGameInstance().getShopManager().interactWithShop(event.getSlot(), (Player) event.getWhoClicked(), event.getClickedInventory());
             }
+        }
+
+        if (event.getSlotType() == InventoryType.SlotType.ARMOR) {
+            event.setCancelled(true);
         }
     }
 
