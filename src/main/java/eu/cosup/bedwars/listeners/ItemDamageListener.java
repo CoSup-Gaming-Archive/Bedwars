@@ -1,4 +1,4 @@
-package eu.cosup.bedwars.listeners.custom;
+package eu.cosup.bedwars.listeners;
 
 import io.papermc.paper.event.entity.EntityDamageItemEvent;
 import org.bukkit.event.EventHandler;
