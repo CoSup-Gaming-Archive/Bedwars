@@ -47,6 +47,7 @@ public final class Bedwars extends JavaPlugin {
         }
 
         // register all the listeners
+        getServer().getPluginManager().registerEvents(new ItemDamageListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
