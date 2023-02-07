@@ -22,12 +22,13 @@ public class StartCountdownTask extends BukkitRunnable {
             Bukkit.getLogger().severe("Start countdown cannot be that low, defaulting to 10");
             startCountdown = 10;
         }
+
     }
 
     @Override
     public void run() {
         Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.STARTING);
-
+        Game.getGameInstance().getTeamManager().makeTeams();
         for (int i = 0; i <= startCountdown; i++) {
 
             int finalI = i;
@@ -41,7 +42,6 @@ public class StartCountdownTask extends BukkitRunnable {
 
                     // at the alst second
                     if (finalI <= 0) {
-                        Game.getGameInstance().getTeamManager().makeTeams();
 
                         Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.ACTIVE);
 
