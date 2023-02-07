@@ -38,7 +38,7 @@ public class GameEndTask extends BukkitRunnable {
 
                 Location playerLocation = player.getLocation();
 
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 1; i++) {
                     Bedwars.getInstance().getGameWorld().spawnEntity(playerLocation, EntityType.FIREWORK);
                 }
             }

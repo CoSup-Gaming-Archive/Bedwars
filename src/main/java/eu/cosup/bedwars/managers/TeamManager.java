@@ -21,7 +21,6 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 public class TeamManager {
 
     private ArrayList<Team> teams = new ArrayList<>();
-
     public ArrayList<Team> getTeams() {
         return teams;
     }
@@ -44,7 +43,7 @@ public class TeamManager {
         }
     }
 
-    public ArrayList<Team> getAliveTeams() {
+    public ArrayList<Team> getTeamsWithBeds() {
         ArrayList<Team> aliveTeams = new ArrayList<>();
 
         for (Team team : teams) {
@@ -65,24 +64,6 @@ public class TeamManager {
         }
 
         return null;
-    }
-
-    public boolean onlyOneTeamAlive() {
-        return getAliveTeams().size() < 2;
-    }
-
-    public Team getAliveTeam() {
-
-        if (!onlyOneTeamAlive()) {
-            return null;
-        }
-
-        if (getAliveTeams().size() == 0) {
-            Bukkit.getLogger().severe("There was probably only one team registered at the start");
-            return teams.get(0);
-        }
-
-        return getAliveTeams().get(0);
     }
 
     // which team player is in
