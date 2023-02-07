@@ -53,9 +53,15 @@ public class PlayerInteractWithChestListener implements Listener {
             return;
         }
 
+
         if (event.getClickedBlock() == null) {
             return;
         }
+
+        if (event.getClickedBlock().getType().toString().contains("BED")) {
+            return;
+        }
+
 
         if (event.getPlayer().getGameMode() == GameMode.CREATIVE ||
             event.getPlayer().getGameMode() == GameMode.SPECTATOR){

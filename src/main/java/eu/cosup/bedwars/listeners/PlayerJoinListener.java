@@ -25,6 +25,11 @@ public class PlayerJoinListener implements Listener {
         // TODO NameTagEditor nameTagEditor = new NameTagEditor(event.getPlayer());
         // TODO nameTagEditor.setNameColor(ChatColor.GRAY).setPrefix("Spectator ").setTabName(ChatColor.translateAlternateColorCodes('&', "&7"+event.getPlayer().getName()));
 
+        if (PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
+            event.getPlayer().setGameMode(GameMode.CREATIVE);
+            return;
+        }
+
         // if game has already started
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
             event.getPlayer().setHealth(0);
@@ -37,8 +42,5 @@ public class PlayerJoinListener implements Listener {
             new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
             return;
         }
-
-        event.getPlayer().setGameMode(GameMode.CREATIVE);
-        return;
     }
 }
