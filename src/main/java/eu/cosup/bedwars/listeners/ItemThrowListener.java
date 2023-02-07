@@ -35,13 +35,17 @@ public class ItemThrowListener implements Listener {
                 event.setCancelled(true);
                 return;
             }
-
-            event.getItemDrop().getItemStack().lore(null);
         }
     }
 
     @EventHandler
     private void onItemStack(ItemMergeEvent event) {
+
+        if (!event.getEntity().getItemStack().getLore().equals(event.getTarget().getItemStack().getLore())) {
+            event.setCancelled(true);
+            return;
+        }
+
         for (ItemGenerator itemGenerator : Game.getGameInstance().getSelectedMap().getItemGenerators()) {
             if (event.getTarget().getLocation().toVector().distance(itemGenerator.getLocation().toVector()) > 5) {
                 continue;
@@ -95,15 +99,12 @@ public class ItemThrowListener implements Listener {
                     return;
                 }
 
-                // important since this prevents duping
-                if (event.getItem().getItemStack().getItemMeta().hasLore()) {
+                // this part should prevent item duping
+                if (event.getItem().getItemStack().getItemMeta().getLore() == null) {
                     return;
                 }
 
-                event.getItem().getItemStack().lore(null);
-
-                event.setCancelled(true);
-                event.getItem().remove();
+                event.getItem().getItemStack().setLore(null);
 
                 for (Player teammate : Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getPlayers()) {
                     if (teammate.getLocation().toVector().distance(itemGenerator.getLocation().toVector()) < 3) {
@@ -111,6 +112,8 @@ public class ItemThrowListener implements Listener {
                         teammate.playSound(teammate.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
                     }
                 }
+
+                event.getItem().getItemStack().setAmount(0);
             }
         }
     }
