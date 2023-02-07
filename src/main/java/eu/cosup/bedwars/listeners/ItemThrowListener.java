@@ -36,7 +36,7 @@ public class ItemThrowListener implements Listener {
                 return;
             }
 
-            event.getItemDrop().getItemStack().lore(new ArrayList<>());
+            event.getItemDrop().getItemStack().lore(null);
         }
     }
 
@@ -100,14 +100,15 @@ public class ItemThrowListener implements Listener {
                     return;
                 }
 
+                event.getItem().getItemStack().lore(null);
+
+                event.setCancelled(true);
                 event.getItem().remove();
 
                 for (Player teammate : Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getPlayers()) {
                     if (teammate.getLocation().toVector().distance(itemGenerator.getLocation().toVector()) < 3) {
-                        if (!player.getName().equals(teammate.getName())) {
-                            teammate.getInventory().addItem(event.getItem().getItemStack());
-                            teammate.playSound(teammate.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
-                        }
+                        teammate.getInventory().addItem(event.getItem().getItemStack());
+                        teammate.playSound(teammate.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
                     }
                 }
             }

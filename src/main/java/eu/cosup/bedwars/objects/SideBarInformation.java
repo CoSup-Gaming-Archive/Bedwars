@@ -24,15 +24,15 @@ public class SideBarInformation {
         scoreBoardManager.clearObjective();
         scoreBoardManager.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&BBedwars"));
 
-        scoreBoardManager.addItem(Component.text().content(" \n ").build());
+        scoreBoardManager.addItem(Component.text().content(" ").build());
 
         addFormattedTeamStrings(scoreBoardManager);
+        scoreBoardManager.addItem(Component.text().content(" ").build());
 
-        scoreBoardManager.addItem(Component.text().content(" \n ").build());
 
         scoreBoardManager.addItem(Component.text().content(getFormattedTime()).color(NamedTextColor.YELLOW).build());
+        scoreBoardManager.addItem(Component.text().content(" ").build());
 
-        scoreBoardManager.addItem(Component.text().content(" \n ").build());
 
         scoreBoardManager.addItem(Component.text().content("CoSup Gaming").color(NamedTextColor.GRAY).build());
         scoreBoardManager.setSlot(DisplaySlot.SIDEBAR);

@@ -31,7 +31,8 @@ public class PlayerJoinListener implements Listener {
             return;
         }
 
-        if (game.getGameStateManager().getGameState() == GameStateManager.GameState.JOINING) {
+        if (game.getGameStateManager().getGameState() == GameStateManager.GameState.JOINING ||
+        game.getGameStateManager().getGameState().equals(GameStateManager.GameState.STARTING)) {
 
             event.getPlayer().getInventory().clear();
 
@@ -44,7 +45,5 @@ public class PlayerJoinListener implements Listener {
             event.getPlayer().setGameMode(GameMode.CREATIVE);
             return;
         }
-
-        new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
     }
 }

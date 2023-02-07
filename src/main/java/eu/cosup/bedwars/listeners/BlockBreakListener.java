@@ -42,6 +42,7 @@ public class BlockBreakListener implements Listener {
             new TeamLoseBedTask(bedColor, event.getPlayer());
 
             event.setCancelled(true);
+            return;
         }
 
         if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
