@@ -5,6 +5,7 @@ import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.managers.ShopManager;
 import eu.cosup.bedwars.objects.TeamColor;
+import eu.cosup.bedwars.utility.NameTagEditor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
@@ -77,6 +78,7 @@ public class SpectatorTask extends BukkitRunnable {
                     cancel();
                     return;
                 }
+                Game.getGameInstance().updatePlayersNameTag(player);
 
                 player.teleport(Game.getGameInstance().getSelectedMap().getSpawnByPlayer(player));
 
@@ -93,4 +95,5 @@ public class SpectatorTask extends BukkitRunnable {
             }
         }.runTaskLater(Bedwars.getInstance(), respawnDelay * 20L);
     }
+
 }

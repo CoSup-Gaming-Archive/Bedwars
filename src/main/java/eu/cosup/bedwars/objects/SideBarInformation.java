@@ -21,7 +21,7 @@ public class SideBarInformation {
     public static void update() {
 
         // scoreboard
-        ScoreBoardManager scoreBoardManager = Game.getGameInstance().getScoreBoardManager();
+        ScoreBoardManager scoreBoardManager = new ScoreBoardManager("bedwars");
         scoreBoardManager.clearObjective();
         scoreBoardManager.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&BBedwars"));
 

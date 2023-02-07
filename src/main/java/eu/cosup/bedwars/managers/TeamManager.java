@@ -8,6 +8,7 @@ import eu.cosup.tournament.common.objects.GameTeam;
 import eu.cosup.tournament.server.TournamentServer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,6 +81,10 @@ public class TeamManager {
     }
 
     public @Nullable Team getTeamByColor(TeamColor teamColor) {
+
+        if (teamColor == null) {
+            return null;
+        }
 
         for (Team team : teams) {
             if (Objects.equals(team.getColor().toString(), teamColor.toString())) {

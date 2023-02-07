@@ -64,6 +64,7 @@ public final class Bedwars extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new TNTPlaceListener(), this);
         getServer().getPluginManager().registerEvents(new PearlTeleportListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerShootFireballListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityDamageListener(), this);
 
         new StartGameCommandListener();
         new EndGameCommandListener();
