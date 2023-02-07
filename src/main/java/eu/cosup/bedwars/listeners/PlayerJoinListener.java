@@ -30,20 +30,15 @@ public class PlayerJoinListener implements Listener {
             event.getPlayer().setHealth(0);
             return;
         }
+        event.getPlayer().getInventory().clear();
 
-        if (game.getGameStateManager().getGameState() == GameStateManager.GameState.JOINING ||
-        game.getGameStateManager().getGameState().equals(GameStateManager.GameState.STARTING)) {
-
-            event.getPlayer().getInventory().clear();
-
-            event.getPlayer().teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
-            if (!PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
-                new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
-                return;
-            }
-
-            event.getPlayer().setGameMode(GameMode.CREATIVE);
+        event.getPlayer().teleport(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
+        if (!PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
+            new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
             return;
         }
+
+        event.getPlayer().setGameMode(GameMode.CREATIVE);
+        return;
     }
 }
