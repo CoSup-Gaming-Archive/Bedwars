@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Score;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -20,7 +21,7 @@ public class SideBarInformation {
     public static void update() {
 
         // scoreboard
-        ScoreBoardManager scoreBoardManager = new ScoreBoardManager("bedwars");
+        ScoreBoardManager scoreBoardManager = Game.getGameInstance().getScoreBoardManager();
         scoreBoardManager.clearObjective();
         scoreBoardManager.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&BBedwars"));
 
