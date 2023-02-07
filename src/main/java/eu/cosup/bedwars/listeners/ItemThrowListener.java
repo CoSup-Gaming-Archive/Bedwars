@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ItemThrowListener implements Listener {
 
@@ -41,7 +42,7 @@ public class ItemThrowListener implements Listener {
     @EventHandler
     private void onItemStack(ItemMergeEvent event) {
 
-        if (!event.getEntity().getItemStack().getLore().equals(event.getTarget().getItemStack().getLore())) {
+        if (!Objects.equals(event.getEntity().getItemStack().getLore(), event.getTarget().getItemStack().getLore())) {
             event.setCancelled(true);
             return;
         }
