@@ -28,6 +28,7 @@ public class Game {
     private BlockManager blockManager;
     private ItemGeneratorManager itemGeneratorManager;
     private ChestManager chestManager;
+    private ScoreBoardManager scoreBoardManager;
 
     public Game(LoadedMap selectedMap) {
         gameInstance = this;
@@ -41,6 +42,7 @@ public class Game {
         shopManager.loadConfig();
         chestManager = new ChestManager();
         upgradesManager=new UpgradesManager();
+        scoreBoardManager=new ScoreBoardManager("bedwars");
 
         initGame();
     }
@@ -81,6 +83,8 @@ public class Game {
     public LoadedMap getSelectedMap() {
         return selectedMap;
     }
+    public ScoreBoardManager getScoreBoardManager(){return scoreBoardManager;}
+
 
     // loading and joining phase
     private void initGame() {
