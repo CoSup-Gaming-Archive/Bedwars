@@ -105,6 +105,7 @@ public class ItemThrowListener implements Listener {
                     return;
                 }
 
+                event.setCancelled(true);
                 event.getItem().getItemStack().setLore(null);
 
                 for (Player teammate : Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getPlayers()) {
