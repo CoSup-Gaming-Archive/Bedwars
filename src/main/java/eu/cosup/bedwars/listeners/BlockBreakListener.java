@@ -39,9 +39,9 @@ public class BlockBreakListener implements Listener {
             }
 
             TeamColor bedColor = bedTeam.getColor();
+            event.setCancelled(true);
             new TeamLoseBedTask(bedColor, event.getPlayer());
 
-            event.setCancelled(true);
             return;
         }
 
