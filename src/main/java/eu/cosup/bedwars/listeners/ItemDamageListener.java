@@ -1,6 +1,5 @@
 package eu.cosup.bedwars.listeners;
 
-import io.papermc.paper.event.entity.EntityDamageItemEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemDamageEvent;
