@@ -87,7 +87,7 @@ public class PlayerDeathListener implements Listener {
             new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
             Bedwars.getInstance().getServer().sendMessage(killerText);
 
-            if (Game.getGameInstance().getTeamManager().onlyOneTeamAlive()) {
+            if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getAlivePlayers().size() == 0) {
                 Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.ENDING);
             }
             return;

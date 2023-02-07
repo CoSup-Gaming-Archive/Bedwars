@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
+import eu.cosup.tournament.server.item.ItemBuilder;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.key.Keyed;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -28,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.text.html.parser.Entity;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -44,6 +46,7 @@ public class ItemGenerator implements ConfigurationSerializable {
     private int currentLevel = 1;
     private GeneratorType type;
     private String name;
+    private int count = 0;
 
     private SpawnerTask spawnerTask;
 
@@ -73,6 +76,8 @@ public class ItemGenerator implements ConfigurationSerializable {
     }
 
     private void dropItem() {
+        count++;
+
         switch (type) {
             case SPAWN -> {
                 Team team = Game.getGameInstance().getTeamManager().getTeamWithName(name);
@@ -82,22 +87,30 @@ public class ItemGenerator implements ConfigurationSerializable {
                 }
                 switch (team.getUpgrades().getRessources()) {
                     default -> {
-                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 10)).setVelocity(new Vector().zero());
-                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 1)).setVelocity(new Vector().zero());
+                        if (count % 10 == 0) {
+                            location.getWorld().dropItem(location, ItemBuilder.of(Material.GOLD_INGOT).amount(1).lore(new ArrayList<>()).build()).setVelocity(new Vector().zero());
+                        }
+                        location.getWorld().dropItem(location, ItemBuilder.of(Material.IRON_INGOT).amount(1).lore(new ArrayList<>()).build()).setVelocity(new Vector().zero());
                     }
                     case 2 -> {
-                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 20)).setVelocity(new Vector().zero());
-                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 5)).setVelocity(new Vector().zero());
+                        if (count % 10 == 0) {
+                            location.getWorld().dropItem(location, ItemBuilder.of(Material.GOLD_INGOT).amount(1).lore(new ArrayList<>()).build()).setVelocity(new Vector().zero());
+                        }
+                        location.getWorld().dropItem(location, ItemBuilder.of(Material.IRON_INGOT).amount(2).lore(new ArrayList<>()).build()).setVelocity(new Vector().zero());
                     }
                     case 3 -> {
-                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 20)).setVelocity(new Vector().zero());
-                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 5)).setVelocity(new Vector().zero());
-                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD, 1)).setVelocity(new Vector().zero());
+                        if (count % 10 == 0) {
+                            location.getWorld().dropItem(location, ItemBuilder.of(Material.EMERALD).amount(1).lore(new ArrayList<>()).build()).setVelocity(new Vector().zero());
+                            location.getWorld().dropItem(location, ItemBuilder.of(Material.GOLD_INGOT).amount(2).lore(new ArrayList<>()).build()).setVelocity(new Vector().zero());
+                        }
+                        location.getWorld().dropItem(location, ItemBuilder.of(Material.IRON_INGOT).amount(2).lore(new ArrayList<>()).build()).setVelocity(new Vector().zero());
                     }
                     case 4 -> {
-                        location.getWorld().dropItem(location, new ItemStack(Material.IRON_INGOT, 40)).setVelocity(new Vector().zero());
-                        location.getWorld().dropItem(location, new ItemStack(Material.GOLD_INGOT, 10)).setVelocity(new Vector().zero());
-                        location.getWorld().dropItem(location, new ItemStack(Material.EMERALD, 2)).setVelocity(new Vector().zero());
+                        if (count % 10 == 0) {
+                            location.getWorld().dropItem(location, ItemBuilder.of(Material.EMERALD).amount(2).lore(new ArrayList<>()).build()).setVelocity(new Vector().zero());
+                            location.getWorld().dropItem(location, ItemBuilder.of(Material.GOLD_INGOT).amount(4).lore(new ArrayList<>()).build()).setVelocity(new Vector().zero());
+                        }
+                        location.getWorld().dropItem(location, ItemBuilder.of(Material.IRON_INGOT).amount(4).lore(new ArrayList<>()).build()).setVelocity(new Vector().zero());
                     }
                 }
 
@@ -160,7 +173,7 @@ public class ItemGenerator implements ConfigurationSerializable {
                     }
                 }
                 case SPAWN -> {
-                    this.runTaskLater(Bedwars.getInstance(), (long) 10*20L);
+                    this.runTaskLater(Bedwars.getInstance(), (long) 20L);
                 }
             }
         }

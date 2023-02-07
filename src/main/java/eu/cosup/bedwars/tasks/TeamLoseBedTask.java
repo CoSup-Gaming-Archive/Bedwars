@@ -59,12 +59,6 @@ public class TeamLoseBedTask extends BukkitRunnable {
             for (Location bedLocation :Game.getGameInstance().getSelectedMap().getTeamBedsFull().get(loserTeam.getColor())) {
                 Bedwars.getInstance().getGameWorld().setType(bedLocation, Material.AIR);
             }
-
-            if (!(loserTeam.getAlivePlayers().size() > 0)) {
-                if (Game.getGameInstance().getTeamManager().onlyOneTeamAlive()) {
-                    Game.getGameInstance().getGameStateManager().setGameState(GameStateManager.GameState.ENDING);
-                }
-            }
         }
 
         SideBarInformation.update();

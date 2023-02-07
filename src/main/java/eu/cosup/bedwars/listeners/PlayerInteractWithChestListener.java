@@ -45,6 +45,10 @@ public class PlayerInteractWithChestListener implements Listener {
             return;
         }
 
+        if (event.getPlayer().isSneaking()) {
+            return;
+        }
+
         if (Game.getGameInstance().getGameStateManager().getGameState() != GameStateManager.GameState.ACTIVE) {
             return;
         }
