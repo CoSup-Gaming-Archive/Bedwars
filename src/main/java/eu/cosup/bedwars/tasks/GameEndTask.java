@@ -62,27 +62,17 @@ public class GameEndTask extends BukkitRunnable {
                     }
                 }
             }
-        /*for (int xIndex = -15; xIndex<15; xIndex++){
-            for (int yIndex = -15; yIndex<15; yIndex++){
-                for (int zIndex = -15; zIndex<15; zIndex++){
-                    Block blockAt = baseCenter.getWorld().getBlockAt(x+xIndex, y+yIndex, z+zIndex);
-                    if (!(blockAt.getType().isAir())){
-                        blockAt.setType(Material.GOLD_BLOCK);
-                    }
-                }
-            }
-        }*/
             for (int xi = -2; xi<=2; xi++){
                 for (int yi = 0; yi<=y-2; yi++){
                     for (int zi = -2; zi<=2; zi++){
                         double distance = Math.sqrt(Math.pow(xi, 2) + Math.pow(zi, 2));
                         if (distance<=2.3) {
                             if (yi == y - 2) {
-                                baseCenter.getWorld().getBlockAt(baseCenter.getBlockX() + xi, yi, baseCenter.getBlockZ() + zi).setType(Material.POLISHED_ANDESITE);
+                                baseCenter.getWorld().getBlockAt(baseCenter.getBlockX() + xi, yi, baseCenter.getBlockZ() + zi).setType(Material.GOLD_BLOCK);
                             } else if (yi == y - 3) {
-                                baseCenter.getWorld().getBlockAt(baseCenter.getBlockX() + xi, yi, baseCenter.getBlockZ() + zi).setType(Material.DIORITE_WALL);
+                                baseCenter.getWorld().getBlockAt(baseCenter.getBlockX() + xi, yi, baseCenter.getBlockZ() + zi).setType(Material.CHAIN);
                             } else {
-                                baseCenter.getWorld().getBlockAt(baseCenter.getBlockX() + xi, yi, baseCenter.getBlockZ() + zi).setType(Material.ANDESITE);
+                                baseCenter.getWorld().getBlockAt(baseCenter.getBlockX() + xi, yi, baseCenter.getBlockZ() + zi).setType(Material.EMERALD_BLOCK);
                             }
                         }
                     }

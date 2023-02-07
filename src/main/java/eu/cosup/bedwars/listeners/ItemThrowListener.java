@@ -107,6 +107,7 @@ public class ItemThrowListener implements Listener {
 
                 event.setCancelled(true);
                 event.getItem().getItemStack().setLore(null);
+                event.getItem().remove();
 
                 for (Player teammate : Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getPlayers()) {
                     if (teammate.getLocation().toVector().distance(itemGenerator.getLocation().toVector()) < 3) {
@@ -115,7 +116,6 @@ public class ItemThrowListener implements Listener {
                     }
                 }
 
-                event.getItem().getItemStack().setAmount(0);
             }
         }
     }
