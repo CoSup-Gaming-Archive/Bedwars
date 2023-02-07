@@ -67,13 +67,12 @@ public class ActivateGameTask extends BukkitRunnable {
     public static void preparePlayerFull(@NotNull Player player, int armorLevel, @Nullable HashMap<String, Integer> tools) {
         player.getInventory().clear();
         TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
-        NameTagEditor nameTagEditor = new NameTagEditor(player);
 
-        nameTagEditor.setNameColor(TeamColor.getChatColor(teamColor)).setPrefix(teamColor.toString()+" ").setTabName(TeamColor.getChatColor(teamColor)+player.getName()).setChatName((TeamColor.getChatColor(teamColor)+player.getName()));
 
         preparePlayerStats(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getHaste());
         givePlayerArmor(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getProtection(), armorLevel);
         teleportPlayerToSpawn(player);
+        Game.getGameInstance().updatePlayersNameTag(player);
 
         if (tools == null) {
             givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), new HashMap<>());

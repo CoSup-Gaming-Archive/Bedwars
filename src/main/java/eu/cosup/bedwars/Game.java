@@ -8,9 +8,12 @@ import eu.cosup.bedwars.tasks.ActivateGameTask;
 import eu.cosup.bedwars.tasks.GameEndTask;
 import eu.cosup.bedwars.tasks.GameTimerTask;
 import eu.cosup.bedwars.tasks.StartCountdownTask;
+import eu.cosup.bedwars.utility.NameTagEditor;
 import eu.cosup.tournament.server.TournamentServer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -103,6 +106,13 @@ public class Game {
         GameTimerTask.resetTimer();
         new GameTimerTask().runTask(Bedwars.getInstance());
 
+    }
+    //Didn't know where else to put it
+    public void updatePlayersNameTag(Player player){
+        TeamColor teamColor = Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor();
+        NameTagEditor nameTagEditor = new NameTagEditor(player);
+        //nameTagEditor.setPrefix(ChatColor.translateAlternateColorCodes('&', "&7 [&f"+Math.round(player.getHealth())+"&c♥&7]"));
+        nameTagEditor.setNameColor(TeamColor.getChatColor(teamColor)).setPrefix(teamColor.toString()+" ").setSuffix(ChatColor.translateAlternateColorCodes('&', "&7 [&f"+Math.round(player.getHealth())+"&c\u2764&7]")) .setTabName(TeamColor.getChatColor(teamColor)+player.getName()).setChatName((TeamColor.getChatColor(teamColor)+player.getName()));
     }
 
     public void finishGame(@Nullable TeamColor winner) {
