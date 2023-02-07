@@ -81,10 +81,14 @@ public class PlayerDeathListener implements Listener {
 
 
         if (!Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).isAlive()) {
-            killerText
-            .append(Component.text().content(" FINAL KILL").decorate(TextDecoration.BOLD).color(NamedTextColor.AQUA));
+            killerText.append(Component.text().content(" FINAL KILL").decorate(TextDecoration.BOLD).color(NamedTextColor.AQUA));
 
             new SpectatorTask(event.getPlayer(), false).runTask(Bedwars.getInstance());
+
+            if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()) != null) {
+                Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).setPlayerDead(player, true);
+            }
+
             Bedwars.getInstance().getServer().sendMessage(killerText);
 
             if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getAlivePlayers().size() == 0) {
