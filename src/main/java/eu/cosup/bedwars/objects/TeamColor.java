@@ -37,6 +37,14 @@ public enum TeamColor {
         
         return NamedTextColor.BLACK;
     }
+    public static ChatColor getChatColor(TeamColor teamColor){
+        if (teamColor==RED){
+            return ChatColor.RED;
+        } else if (teamColor==BLUE){
+            return ChatColor.BLUE;
+        }
+        return ChatColor.BLACK;
+    }
 
     public static String getFormattedTeamColor(TeamColor teamColor) {
         return teamColor.toString().substring(0, 1).toUpperCase()+teamColor.toString().substring(1).toLowerCase();
