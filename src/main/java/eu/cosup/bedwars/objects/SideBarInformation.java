@@ -48,7 +48,7 @@ public class SideBarInformation {
         seconds = seconds - minutes * 60;
 
         if (minutes > 0) {
-            return minutes+":"+seconds+" elapsed";
+            return minutes + ":" + (seconds < 10 ? "0" + seconds : seconds) + " elapsed";
         }
 
         return seconds+" seconds";
