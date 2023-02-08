@@ -4,10 +4,8 @@ import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.objects.Team;
 import eu.cosup.tournament.common.utility.PlayerUtility;
-import eu.cosup.tournament.server.TournamentServer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.block.Bed;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,6 +20,10 @@ public class PlayerMoveListener implements Listener {
 
             for (Player player : Bedwars.getInstance().getServer().getOnlinePlayers()) {
 
+                if (PlayerUtility.isPlayerStaff(player.getUniqueId(), player.getName())) {
+                    continue;
+                }
+
                 if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
 
                     for (Player player1 : Bedwars.getInstance().getServer().getOnlinePlayers()) {
@@ -32,10 +34,7 @@ public class PlayerMoveListener implements Listener {
                     }
                 } else {
                     for (Player player1 : Bedwars.getInstance().getServer().getOnlinePlayers()) {
-
-                        if (!PlayerUtility.isPlayerStaff(player.getUniqueId(), player.getName())) {
-                            player1.showPlayer(Bedwars.getInstance(), player);
-                        }
+                         player1.showPlayer(Bedwars.getInstance(), player);
                     }
                 }
             }
