@@ -14,10 +14,6 @@ public class PlayerMoveListener implements Listener {
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent event) {
 
-        if (PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
-            return;
-        }
-
         Player player = event.getPlayer();
         int x=player.getLocation().getBlockX();
         int y=player.getLocation().getBlockY();
