@@ -16,6 +16,34 @@ import org.bukkit.potion.PotionEffectType;
 
 public class PlayerMoveListener implements Listener {
 
+    public PlayerMoveListener() {
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Bedwars.getInstance(), () -> {
+
+            for (Player player : Bedwars.getInstance().getServer().getOnlinePlayers()) {
+
+                if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
+
+                    for (Player player1 : Bedwars.getInstance().getServer().getOnlinePlayers()) {
+
+                        if (!PlayerUtility.isPlayerStaff(player.getUniqueId(), player.getName())) {
+                            player1.hidePlayer(Bedwars.getInstance(), player);
+                        }
+                    }
+                } else {
+                    for (Player player1 : Bedwars.getInstance().getServer().getOnlinePlayers()) {
+
+                        if (!PlayerUtility.isPlayerStaff(player.getUniqueId(), player.getName())) {
+                            player1.showPlayer(Bedwars.getInstance(), player);
+                        }
+                    }
+                }
+            }
+
+        }, 1L, 4L);
+
+    }
+
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent event) {
 
@@ -28,20 +56,19 @@ public class PlayerMoveListener implements Listener {
                 continue;
             }
 
-            if (team == null) {
-                continue;
-            }
-            int tx = team.getBase().getCenter().getBlockX();
-            int ty = team.getBase().getCenter().getBlockY();
-            int tz = team.getBase().getCenter().getBlockZ();
-            int dx = tx-x;
-            int dy = ty-y;
-            int dz = tz-z;  //           x²   + y²   + z²
-            double distance = Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2)+Math.pow(dz, 2));
-            if (distance<=team.getBase().getRadius()){
-                team.getBase().checkIfEnteredBase(player);
-            } else {
-                team.getBase().removePlayerFromRange(player);
+            if (team != null) {
+                int tx = team.getBase().getCenter().getBlockX();
+                int ty = team.getBase().getCenter().getBlockY();
+                int tz = team.getBase().getCenter().getBlockZ();
+                int dx = tx-x;
+                int dy = ty-y;
+                int dz = tz-z;  //           x²   + y²   + z²
+                double distance = Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2)+Math.pow(dz, 2));
+                if (distance<=team.getBase().getRadius()){
+                    team.getBase().checkIfEnteredBase(player);
+                } else {
+                    team.getBase().removePlayerFromRange(player);
+                }
             }
         }
         double playerY = event.getTo().getY();
@@ -72,21 +99,5 @@ public class PlayerMoveListener implements Listener {
             event.getPlayer().setHealth(0);
             return;
         }
-    }
-
-    @EventHandler
-    private void hideInvisible(PlayerMoveEvent event) {
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Bedwars.getInstance(), () -> {
-
-            if (event.getPlayer().hasPotionEffect(PotionEffectType.INVISIBILITY)) {
-
-                for (Player player : Bedwars.getInstance().getServer().getOnlinePlayers()) {
-
-                    if (!PlayerUtility.isPlayerStaff(player.getUniqueId(), player.getName())) {
-                        player.hidePlayer(Bedwars.getInstance(), event.getPlayer());
-                    }
-                }
-            }
-        }, 1L);
     }
 }
