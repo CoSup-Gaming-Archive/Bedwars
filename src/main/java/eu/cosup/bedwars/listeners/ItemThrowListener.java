@@ -94,6 +94,11 @@ public class ItemThrowListener implements Listener {
             return;
         }
 
+        if (event.getItem().getItemStack().getType().toString().contains("BED")) {
+            event.setCancelled(true);
+            return;
+        }
+
         for (ItemGenerator itemGenerator : Game.getGameInstance().getSelectedMap().getItemGenerators()) {
             if (itemGenerator.getType().equals(ItemGenerator.GeneratorType.SPAWN)) {
 
