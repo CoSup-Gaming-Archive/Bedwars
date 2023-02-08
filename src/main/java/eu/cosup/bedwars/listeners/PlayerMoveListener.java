@@ -14,16 +14,16 @@ public class PlayerMoveListener implements Listener {
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent event) {
 
-        if (PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
-            return;
-        }
-
         Player player = event.getPlayer();
         int x=player.getLocation().getBlockX();
         int y=player.getLocation().getBlockY();
         int z=player.getLocation().getBlockZ();
         for (Team team: Game.getGameInstance().getTeamManager().getTeams()){
             if (team == Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId())){
+                continue;
+            }
+
+            if (team == null) {
                 continue;
             }
             int tx = team.getBase().getCenter().getBlockX();

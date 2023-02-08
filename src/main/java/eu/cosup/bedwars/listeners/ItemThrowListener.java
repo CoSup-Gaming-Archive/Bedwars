@@ -42,8 +42,7 @@ public class ItemThrowListener implements Listener {
     @EventHandler
     private void onItemStack(ItemMergeEvent event) {
 
-        if (!Objects.equals(event.getEntity().getItemStack().getLore(), event.getTarget().getItemStack().getLore())) {
-            event.setCancelled(true);
+        if (event.getTarget().getItemStack().getLore() == null) {
             return;
         }
 
