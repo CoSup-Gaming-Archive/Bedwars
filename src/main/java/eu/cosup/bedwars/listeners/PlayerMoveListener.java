@@ -47,15 +47,15 @@ public class PlayerMoveListener implements Listener {
     private void onPlayerMove(PlayerMoveEvent event) {
 
         Player player = event.getPlayer();
-        int x=player.getLocation().getBlockX();
-        int y=player.getLocation().getBlockY();
-        int z=player.getLocation().getBlockZ();
-        for (Team team: Game.getGameInstance().getTeamManager().getTeams()){
-            if (team == Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId())){
-                continue;
-            }
 
-            if (team != null) {
+        if (!(Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId())==null)){
+            int x=player.getLocation().getBlockX();
+            int y=player.getLocation().getBlockY();
+            int z=player.getLocation().getBlockZ();
+            for (Team team: Game.getGameInstance().getTeamManager().getTeams()){
+                if (team == Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId())){
+                    continue;
+                }
                 int tx = team.getBase().getCenter().getBlockX();
                 int ty = team.getBase().getCenter().getBlockY();
                 int tz = team.getBase().getCenter().getBlockZ();
@@ -69,9 +69,10 @@ public class PlayerMoveListener implements Listener {
                     team.getBase().removePlayerFromRange(player);
                 }
             }
+
+
         }
         double playerY = event.getTo().getY();
-
         if (
                 event.getPlayer().getGameMode() == GameMode.CREATIVE
                 || event.getPlayer().getGameMode() == GameMode.SPECTATOR
