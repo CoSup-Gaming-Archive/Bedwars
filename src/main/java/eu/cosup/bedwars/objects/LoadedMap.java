@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -154,7 +155,7 @@ public class LoadedMap {
     public Team whichTeamBed(Location location) {
         for (TeamColor teamColor : getTeamBedsFull().keySet()) {
             for (Location bedLocation : getTeamBedsFull().get(teamColor)) {
-                if (Objects.equals(bedLocation.toBlockLocation().toString(), location.toBlockLocation().toString())) {
+                if (Objects.equals(bedLocation.toBlockLocation().toVector(), location.toBlockLocation().toVector())) {
                     return Game.getGameInstance().getTeamManager().getTeamByColor(teamColor);
                 }
             }
