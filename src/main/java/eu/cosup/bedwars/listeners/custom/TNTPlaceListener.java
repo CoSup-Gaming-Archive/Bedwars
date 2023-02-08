@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class TNTPlaceListener implements Listener {
@@ -14,6 +15,7 @@ public class TNTPlaceListener implements Listener {
     private void onPlaceTNT(@NotNull BlockPlaceEvent event) {
         if (event.getBlock().getType() == Material.TNT) {
             event.setCancelled(true);
+            event.getPlayer().getInventory().removeItem(new ItemStack(Material.TNT));
             event.getBlock().getLocation().getWorld().spawnEntity(event.getBlock().getLocation(), EntityType.PRIMED_TNT);
         }
     }
