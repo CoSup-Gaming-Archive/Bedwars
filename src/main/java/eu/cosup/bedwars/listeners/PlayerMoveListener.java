@@ -22,6 +22,10 @@ public class PlayerMoveListener implements Listener {
             if (team == Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId())){
                 continue;
             }
+
+            if (team == null) {
+                continue;
+            }
             int tx = team.getBase().getCenter().getBlockX();
             int ty = team.getBase().getCenter().getBlockY();
             int tz = team.getBase().getCenter().getBlockZ();
