@@ -90,9 +90,15 @@ public class GameEndTask extends BukkitRunnable {
             }
         }
 
-        Component msg = Component.text().content(String.valueOf(winner)).color(TeamColor.getNamedTextColor(winner))
-                .append(Component.text().content(" is the winner!").color(NamedTextColor.YELLOW)).build();
+        Component msg;
+        if (winnerTeam != null) {
+            msg = Component.text().content(String.valueOf(winner)).color(TeamColor.getNamedTextColor(winner))
+                    .append(Component.text().content(" is the winner!").color(NamedTextColor.YELLOW)).build();
+        } else {
+            msg = Component.text("The game ended").color(NamedTextColor.RED);
+        }
         Bedwars.getInstance().getServer().broadcast(msg);
+
 
         SideBarInformation.update();
 
