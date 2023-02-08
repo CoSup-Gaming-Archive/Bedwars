@@ -20,21 +20,17 @@ public class PlayerMoveListener implements Listener {
 
             for (Player player : Bedwars.getInstance().getServer().getOnlinePlayers()) {
 
-                if (PlayerUtility.isPlayerStaff(player.getUniqueId(), player.getName())) {
-                    continue;
-                }
-
                 if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
 
-                    for (Player player1 : Bedwars.getInstance().getServer().getOnlinePlayers()) {
+                    for (Player viewer : Bedwars.getInstance().getServer().getOnlinePlayers()) {
 
-                        if (!PlayerUtility.isPlayerStaff(player.getUniqueId(), player.getName())) {
-                            player1.hidePlayer(Bedwars.getInstance(), player);
+                        if (!PlayerUtility.isPlayerStaff(viewer.getUniqueId(), viewer.getName())) {
+                            viewer.hidePlayer(Bedwars.getInstance(), player);
                         }
                     }
                 } else {
-                    for (Player player1 : Bedwars.getInstance().getServer().getOnlinePlayers()) {
-                         player1.showPlayer(Bedwars.getInstance(), player);
+                    for (Player viewer : Bedwars.getInstance().getServer().getOnlinePlayers()) {
+                         viewer.showPlayer(Bedwars.getInstance(), player);
                     }
                 }
             }
