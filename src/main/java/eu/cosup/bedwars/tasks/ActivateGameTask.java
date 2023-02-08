@@ -48,7 +48,7 @@ public class ActivateGameTask extends BukkitRunnable {
         Bedwars.getInstance().getGameWorld().setStorm(false);
 
         // im pretty sure this is right
-        Bedwars.getInstance().getGameWorld().setGameRule(GameRule.NATURAL_REGENERATION, false);
+        Bedwars.getInstance().getGameWorld().setGameRule(GameRule.NATURAL_REGENERATION, true);
 
 
         // qol for builders
@@ -91,7 +91,6 @@ public class ActivateGameTask extends BukkitRunnable {
         if (upgradeLevel > 0) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, upgradeLevel, false, false, false));
         }
-
     }
 
     public static void teleportPlayerToSpawn(@NotNull Player player) {

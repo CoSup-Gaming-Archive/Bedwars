@@ -1,13 +1,18 @@
 package eu.cosup.bedwars.listeners;
 
+import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.objects.Team;
 import eu.cosup.tournament.common.utility.PlayerUtility;
+import eu.cosup.tournament.server.TournamentServer;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.block.Bed;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
 
 public class PlayerMoveListener implements Listener {
 
@@ -67,5 +72,21 @@ public class PlayerMoveListener implements Listener {
             event.getPlayer().setHealth(0);
             return;
         }
+    }
+
+    @EventHandler
+    private void hideInvisible(PlayerMoveEvent event) {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(Bedwars.getInstance(), () -> {
+
+            if (event.getPlayer().hasPotionEffect(PotionEffectType.INVISIBILITY)) {
+
+                for (Player player : Bedwars.getInstance().getServer().getOnlinePlayers()) {
+
+                    if (!PlayerUtility.isPlayerStaff(player.getUniqueId(), player.getName())) {
+                        player.hidePlayer(Bedwars.getInstance(), event.getPlayer());
+                    }
+                }
+            }
+        }, 1L);
     }
 }
