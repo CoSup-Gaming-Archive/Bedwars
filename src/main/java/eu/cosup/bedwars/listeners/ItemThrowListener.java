@@ -42,6 +42,10 @@ public class ItemThrowListener implements Listener {
     @EventHandler
     private void onItemStack(ItemMergeEvent event) {
 
+        if (event.getTarget().getItemStack().getLore() == null) {
+            return;
+        }
+
         for (ItemGenerator itemGenerator : Game.getGameInstance().getSelectedMap().getItemGenerators()) {
             if (event.getTarget().getLocation().toVector().distance(itemGenerator.getLocation().toVector()) > 5) {
                 continue;
