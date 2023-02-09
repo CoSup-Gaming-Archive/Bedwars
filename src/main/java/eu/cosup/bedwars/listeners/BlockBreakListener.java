@@ -15,6 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockBreakListener implements Listener {
@@ -61,6 +62,15 @@ public class BlockBreakListener implements Listener {
     private void onBlockDestroy(BlockDropItemEvent event) {
         if (!event.getBlock().isSolid() && !event.getBlock().getType().equals(Material.LADDER)) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    private void onBlockInteract(PlayerInteractEvent event) {
+        if (event.getClickedBlock() != null) {
+            if (event.getClickedBlock().getType().equals(Material.CAULDRON)) {
+                event.setCancelled(true);
+            }
         }
     }
 }
