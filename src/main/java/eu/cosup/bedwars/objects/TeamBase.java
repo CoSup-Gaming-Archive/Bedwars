@@ -79,7 +79,7 @@ public class TeamBase {
         return team;
     }
 
-    public void enemyEnterEvent(Player player){
+    public void enemyEnterEvent(@NotNull Player player){
 
         if (team.getUpgrades().getActivatedTraps().size() == 0) {
             return;
@@ -87,6 +87,13 @@ public class TeamBase {
 
         for (Player teamPlayer : team.getAlivePlayers()) {
             teamPlayer.playSound(teamPlayer.getLocation(), Sound.BLOCK_BELL_USE, 1, 1);
+
+            teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).decoration(TextDecoration.ITALIC, false).append(
+                    Component.text(" just entered your base").color(TextColor.color(85, 255, 85)).decoration(TextDecoration.ITALIC, false)
+            ));
+            teamPlayer.showTitle(Title.title(Component.text("Base invasion!").color(TextColor.color(85, 255, 85)).decoration(TextDecoration.ITALIC, false), Component.text(player.getName()).color(TextColor.color(255, 255, 85)).decoration(TextDecoration.ITALIC, false).append(
+                    Component.text(" from "+ Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor() +" team just entered your base").color(TextColor.color(85, 255, 85)).decoration(TextDecoration.ITALIC, false)
+            )));
         }
 
         switch (team.getUpgrades().getActivatedTraps().get(0)){
@@ -98,16 +105,10 @@ public class TeamBase {
 
             }
             case ALARM -> {
+                player.removePotionEffect(PotionEffectType.INVISIBILITY);
                 for (Player teamPlayer : team.getAlivePlayers()){
-                    teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).decoration(TextDecoration.ITALIC, false).append(
-                            Component.text(" just entered your base").color(TextColor.color(85, 255, 85)).decoration(TextDecoration.ITALIC, false)
-                    ));
-                    teamPlayer.showTitle(Title.title(Component.text("Base invasion!").color(TextColor.color(85, 255, 85)).decoration(TextDecoration.ITALIC, false), Component.text(player.getName()).color(TextColor.color(255, 255, 85)).decoration(TextDecoration.ITALIC, false).append(
-                            Component.text(" from "+ Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor() +" team just entered your base").color(TextColor.color(85, 255, 85)).decoration(TextDecoration.ITALIC, false)
-                    )));
-
                     for (int index=0; index<5; index++){
-                        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100.0f, 1.0f);
+                        teamPlayer.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100.0f, 1.0f);
                     }
                 }
             }
