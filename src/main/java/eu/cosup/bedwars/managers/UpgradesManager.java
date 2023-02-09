@@ -476,9 +476,9 @@ public class UpgradesManager {
                 if (PlayerInventoryUtility.getInstance().getAmountOfMaterial(player, Material.DIAMOND)>=8){
                     PlayerInventoryUtility.getInstance().takeMaterialFromPlayer(player, Material.DIAMOND, 8);
                     playerTeam.getUpgrades().setSharpness(playerTeam.getUpgrades().getSharpness() + 1);
-                    for ( Player teamPlayer : playerTeam.getAlivePlayers()){
+                    for (Player teamPlayer : playerTeam.getAlivePlayers()) {
                         Game.getGameInstance().getShopManager().getPlayerTools().putIfAbsent(player.getName(), new HashMap<>());
-                        ActivateGameTask.givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(teamPlayer.getUniqueId()).getUpgrades().getSharpness(), Game.getGameInstance().getShopManager().getPlayerTools().get(teamPlayer.getName()));
+                        ActivateGameTask.givePlayerTools(teamPlayer, Game.getGameInstance().getTeamManager().whichTeam(teamPlayer.getUniqueId()).getUpgrades().getSharpness(), Game.getGameInstance().getShopManager().getPlayerTools().get(teamPlayer.getName()));
                         teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Sharpened Swords for the whole team").color(TextColor.color(85, 255, 85))));
                     }
                     openGUIForPlayer(player);
@@ -510,9 +510,9 @@ public class UpgradesManager {
                         if (playerTeam.getUpgrades().getProtection() < 4) {
                             playerTeam.getUpgrades().setProtection(playerTeam.getUpgrades().getProtection() + 1);
                         }
-                        for ( Player teamPlayer : playerTeam.getAlivePlayers()){
+                        for (Player teamPlayer : playerTeam.getAlivePlayers()) {
                             Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().putIfAbsent(player.getName(), 0);
-                            ActivateGameTask.givePlayerArmor(player, Game.getGameInstance().getTeamManager().whichTeam(teamPlayer.getUniqueId()).getUpgrades().getProtection(), Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(teamPlayer.getName()));
+                            ActivateGameTask.givePlayerArmor(teamPlayer, Game.getGameInstance().getTeamManager().whichTeam(teamPlayer.getUniqueId()).getUpgrades().getProtection(), Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(teamPlayer.getName()));
                             teamPlayer.sendMessage(Component.text(player.getName()).color(TextColor.color(255, 255, 85)).append(Component.text(" bought Reinforced Armor "+ String.valueOf(playerTeam.getUpgrades().getProtection())+" for the whole team").color(TextColor.color(85, 255, 85))));
                         }
                         openGUIForPlayer(player);
@@ -524,7 +524,6 @@ public class UpgradesManager {
                 }
 
             } else if (shop.getItem(slot).getType()==Material.GOLDEN_PICKAXE){
-
 
                 if (playerTeam.getUpgrades().getHaste()>=2){
                     player.sendMessage(Component.text("You already own that team upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));

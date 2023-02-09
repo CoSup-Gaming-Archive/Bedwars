@@ -25,35 +25,35 @@ public class GameTimerTask extends BukkitRunnable {
         SideBarInformation.update();
         setSecondsElapsed(getSecondsElapsed()+1);
 
-        if (secondsElapsed == 360) {
+        if (secondsElapsed == 200) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.DIAMOND);
             Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.DIAMOND);
             Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("DIAMOND ").color(NamedTextColor.AQUA)).append(Component.text("generators were upgraded to level II")));
         }
 
-        if (secondsElapsed == 720) {
+        if (secondsElapsed == 400) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.EMERALD);
             Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.EMERALD);
             Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("EMERALD ").color(NamedTextColor.AQUA)).append(Component.text(" generators were upgraded to level II")));
         }
 
-        if (secondsElapsed == 1080) {
+        if (secondsElapsed == 600) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.DIAMOND_TWO);
             Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.DIAMOND);
             Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("DIAMOND ").color(NamedTextColor.AQUA)).append(Component.text("generators were upgraded to level III")));
         }
 
-        if (secondsElapsed == 1440) {
+        if (secondsElapsed == 800) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.EMERALD_TWO);
             Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.EMERALD);
             Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("EMERALD ").color(NamedTextColor.AQUA)).append(Component.text("generators were upgraded to level III")));
         }
 
-        if (secondsElapsed == 2040) {
+        if (secondsElapsed == 900) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.BED_DESTRUCTION);
         }
 
-        if (secondsElapsed == 2640) {
+        if (secondsElapsed == 1000) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.DRAGONS);
         }
 

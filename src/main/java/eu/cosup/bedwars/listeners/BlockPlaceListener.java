@@ -2,11 +2,13 @@ package eu.cosup.bedwars.listeners;
 
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
+import eu.cosup.bedwars.objects.ItemGenerator;
 import eu.cosup.bedwars.utility.BlockUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.block.data.BlockData;
@@ -78,6 +80,21 @@ public class BlockPlaceListener implements Listener {
         }
 
         Game.getGameInstance().getBlockManager().addBlock(block);
+
+    }
+
+    @EventHandler
+    private void onPlaceInSpawner(BlockPlaceEvent event) {
+        // prevent placement of blocks in spawner
+
+        for (ItemGenerator itemGenerator : Game.getGameInstance().getSelectedMap().getItemGenerators()) {
+            if (itemGenerator.getType().equals(ItemGenerator.GeneratorType.SPAWN)) {
+                if (event.getBlock().getLocation().distance(itemGenerator.getLocation()) < 3) {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+        }
 
     }
 }

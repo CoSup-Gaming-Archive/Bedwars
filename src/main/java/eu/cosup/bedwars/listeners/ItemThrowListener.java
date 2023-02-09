@@ -1,12 +1,8 @@
 package eu.cosup.bedwars.listeners;
 
-import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
-import eu.cosup.bedwars.managers.ItemGeneratorManager;
 import eu.cosup.bedwars.objects.ItemGenerator;
-import eu.cosup.bedwars.tasks.ActivateGameTask;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -16,12 +12,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Objects;
+
 
 public class ItemThrowListener implements Listener {
 

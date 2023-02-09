@@ -48,7 +48,7 @@ public class ActivateGameTask extends BukkitRunnable {
         Bedwars.getInstance().getGameWorld().setStorm(false);
 
         // im pretty sure this is right
-        Bedwars.getInstance().getGameWorld().setGameRule(GameRule.NATURAL_REGENERATION, false);
+        Bedwars.getInstance().getGameWorld().setGameRule(GameRule.NATURAL_REGENERATION, true);
 
 
         // qol for builders
@@ -91,7 +91,6 @@ public class ActivateGameTask extends BukkitRunnable {
         if (upgradeLevel > 0) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, upgradeLevel, false, false, false));
         }
-
     }
 
     public static void teleportPlayerToSpawn(@NotNull Player player) {
@@ -155,10 +154,22 @@ public class ActivateGameTask extends BukkitRunnable {
 
     public static void givePlayerTools(@NotNull Player player, int swordLevel, @NotNull HashMap<String, Integer> tools) {
 
-        player.getInventory().remove(Material.DIAMOND_SWORD);
-        player.getInventory().remove(Material.GOLDEN_SWORD);
-        player.getInventory().remove(Material.IRON_SWORD);
-        player.getInventory().remove(Material.WOODEN_SWORD);
+        boolean hasSword = false;
+
+        for (ItemStack content : player.getInventory().getContents()) {
+
+            if (content == null) {
+                continue;
+            }
+
+            if (content.getType().toString().contains("SWORD")) {
+                hasSword = true;
+            }
+        }
+
+        if (!hasSword) {
+            player.getInventory().addItem(new ItemStack(Material.WOODEN_SWORD));
+        }
 
         player.getInventory().remove(Material.DIAMOND_PICKAXE);
         player.getInventory().remove(Material.GOLDEN_PICKAXE);
@@ -172,24 +183,15 @@ public class ActivateGameTask extends BukkitRunnable {
 
         player.getInventory().remove(Material.SHEARS);
 
-        ItemStack sword;
-
-        switch (swordLevel) {
-            default -> {
-                sword = new ItemStack(Material.WOODEN_SWORD, 1);
-            }
-            case 1 -> {
-                sword = new ItemStack(Material.IRON_SWORD, 1);
-            }
-            case 2 -> {
-                sword = new ItemStack(Material.DIAMOND_SWORD, 1);
+        for (ItemStack itemStack : player.getInventory().getContents()) {
+            if (itemStack != null) {
+                if (itemStack.getType().toString().contains("SWORD")) {
+                    if (swordLevel > 0) {
+                        itemStack.addEnchantment(Enchantment.DAMAGE_ALL, swordLevel);
+                    }
+                }
             }
         }
-
-        if (swordLevel > 0) {
-            sword.addEnchantment(Enchantment.DAMAGE_ALL, swordLevel);
-        }
-        player.getInventory().addItem(sword);
 
         for (String tool : tools.keySet()) {
 

@@ -210,7 +210,7 @@ public class ShopManager {
 
                   HashMap<Integer, ItemStack> itemThatDidntFit = new HashMap<>();
 
-                  Game.getGameInstance().getShopManager().getPlayerTools().computeIfAbsent(player.getName(), k -> new HashMap());
+                  Game.getGameInstance().getShopManager().getPlayerTools().computeIfAbsent(player.getName(), k -> new HashMap<>());
                   Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().putIfAbsent(player.getName(), 0);
                   Game.getGameInstance().getShopManager().getPlayerSwordUpgrades().putIfAbsent(player.getName(), 0);
 
@@ -260,6 +260,9 @@ public class ShopManager {
                   for (ItemStack itemToDrop :itemThatDidntFit.values()){
                       player.getWorld().dropItemNaturally(player.getLocation(), itemToDrop);
                   }
+
+                  ActivateGameTask.givePlayerTools(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getSharpness(), Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()));
+
                   player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 200f, 2f);
               } else {
                   player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 100f, 0.9f);
