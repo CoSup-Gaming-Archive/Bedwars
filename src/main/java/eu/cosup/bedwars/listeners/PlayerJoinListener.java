@@ -3,6 +3,7 @@ package eu.cosup.bedwars.listeners;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
+import eu.cosup.bedwars.managers.TeamManager;
 import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamColor;
 import eu.cosup.bedwars.tasks.SpectatorTask;
@@ -17,6 +18,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.util.Arrays;
+
 public class PlayerJoinListener implements Listener {
 
     @EventHandler
@@ -29,6 +32,17 @@ public class PlayerJoinListener implements Listener {
             event.getPlayer().setGameMode(GameMode.CREATIVE);
             return;
         }
+
+        // The player needs to be readded to the teams player list on rejoin because the old player
+        // object in the teams player list becomes stale
+        Team team = Game.getGameInstance().getTeamManager().whichTeam(event.getPlayer().getUniqueId());
+        if (team != null) {
+            team.getPlayers().removeIf(player -> player.getUniqueId().equals(event.getPlayer().getUniqueId()));
+            if (team.getPlayers().stream().noneMatch(player -> player.getUniqueId().equals(event.getPlayer().getUniqueId()))) {
+                team.getPlayers().add(event.getPlayer());
+            }
+        }
+
 
         // if game has already started
         if (game.getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
