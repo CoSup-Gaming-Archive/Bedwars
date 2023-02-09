@@ -19,6 +19,7 @@ import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -43,7 +44,13 @@ public class GameChangePhaseListener implements GameListener {
 
                 Entity entity =  location.getWorld().spawnEntity(location, EntityType.ENDER_DRAGON);
                 EnderDragon enderDragon = (EnderDragon) entity;
-                enderDragon.setPhase(EnderDragon.Phase.CIRCLING);
+
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        enderDragon.setPhase(EnderDragon.Phase.CHARGE_PLAYER);
+                    }
+                }.runTaskTimer(Bedwars.getInstance(), 20L*10, 10L*20L);
                 enderDragon.setPodium(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
             }
         }
