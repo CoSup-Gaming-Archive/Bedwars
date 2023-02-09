@@ -12,6 +12,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Timestamp;
@@ -82,6 +83,10 @@ public class TeamBase {
 
         if (team.getUpgrades().getActivatedTraps().size() == 0) {
             return;
+        }
+
+        for (Player teamPlayer : team.getAlivePlayers()) {
+            teamPlayer.playSound(teamPlayer.getLocation(), Sound.BLOCK_BELL_USE, 1, 1);
         }
 
         switch (team.getUpgrades().getActivatedTraps().get(0)){

@@ -525,7 +525,6 @@ public class UpgradesManager {
 
             } else if (shop.getItem(slot).getType()==Material.GOLDEN_PICKAXE){
 
-
                 if (playerTeam.getUpgrades().getHaste()>=2){
                     player.sendMessage(Component.text("You already own that team upgrade").color(TextColor.color(255, 85, 85)).decoration(TextDecoration.ITALIC, false));
                     openGUIForPlayer(player);

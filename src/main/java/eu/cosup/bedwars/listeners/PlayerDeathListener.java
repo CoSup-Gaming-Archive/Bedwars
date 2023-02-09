@@ -14,6 +14,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Sound;
 import org.bukkit.block.Bed;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -73,12 +74,12 @@ public class PlayerDeathListener implements Listener {
         if (killer == null) {
             killerText.append(Component.text().content(" committed suicide").color(NamedTextColor.YELLOW));
         } else {
+            killer.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 200f, 2f);
             killerText
             .append(Component.text().content(" was killed by ").color(NamedTextColor.YELLOW))
             .append(Component.text().content(killer.getName()).color(TeamColor.getNamedTextColor(Game.getGameInstance().getTeamManager().whichTeam(killer.getUniqueId()).getColor())));
             PlayerDamageManager.setPlayerLastDamage(event.getPlayer(), null);
         }
-
 
         if (!Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).isAlive()) {
             killerText.append(Component.text().content(" FINAL KILL").decorate(TextDecoration.BOLD).color(NamedTextColor.AQUA));
