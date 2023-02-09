@@ -1,5 +1,6 @@
 package eu.cosup.bedwars.listeners;
 
+import com.destroystokyo.paper.event.block.BlockDestroyEvent;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
@@ -7,11 +8,13 @@ import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamColor;
 import eu.cosup.bedwars.tasks.TeamLoseBedTask;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDropItemEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockBreakListener implements Listener {
@@ -50,6 +53,14 @@ public class BlockBreakListener implements Listener {
                 event.setCancelled(true);
                 return;
             }
+        }
+    }
+
+
+    @EventHandler
+    private void onBlockDestroy(BlockDropItemEvent event) {
+        if (!event.getBlock().isSolid() && !event.getBlock().getType().equals(Material.LADDER)) {
+            event.setCancelled(true);
         }
     }
 }
