@@ -1,10 +1,12 @@
 package eu.cosup.bedwars.objects;
 
+import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -25,15 +27,23 @@ public class TeamBase {
         this.team=team;
         this.center=location;
         this.radius=radius;
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Bedwars.getInstance(),
+                () -> {
+                    playersInRange.forEach(player -> {
+                        if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor() == team.getColor()) {
+                            if (team.getUpgrades().getHeal()) {
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 25, 1, false, false, false));
+                            }
+                        }
+                    });
+                },0L, 20L);
     }
     public void checkIfEnteredBase(@NotNull Player player){
         if (!(this.team.getBase().playersInRange.contains(player))){
             playersInRange.add(player);
             long now = System.currentTimeMillis();
             if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor() == team.getColor()) {
-                if (team.getUpgrades().getHeal()) {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 1, 1, false, false, false));
-                }
                 return;
             }
             if (now-20*1000>=lastBaseEntering){
