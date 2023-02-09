@@ -27,19 +27,17 @@ public class TeamBase {
         this.radius=radius;
     }
     public void checkIfEnteredBase(@NotNull Player player){
-        if (!(this.team.getBase().playersInRange.contains(player))){
-            playersInRange.add(player);
-            long now = System.currentTimeMillis();
-            if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor() == team.getColor()) {
-                if (team.getUpgrades().getHeal()) {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 1, 1, false, false, false));
-                }
-                return;
+        if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getColor() == team.getColor()) {
+            if (team.getUpgrades().getHeal()) {
+                player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 1, 1, false, false, false));
             }
-            if (now-20*1000>=lastBaseEntering){
-                lastBaseEntering=now;
-                this.enemyEnterEvent(player);
-            }
+            return;
+        }
+        playersInRange.add(player);
+        long now = System.currentTimeMillis();
+        if (now-20*1000>=lastBaseEntering){
+            lastBaseEntering=now;
+            this.enemyEnterEvent(player);
         }
     }
 
