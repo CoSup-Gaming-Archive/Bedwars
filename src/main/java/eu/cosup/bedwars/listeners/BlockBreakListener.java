@@ -7,6 +7,7 @@ import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.objects.TeamColor;
 import eu.cosup.bedwars.tasks.TeamLoseBedTask;
+import io.papermc.paper.event.block.BlockBreakBlockEvent;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -60,9 +61,10 @@ public class BlockBreakListener implements Listener {
 
 
     @EventHandler
-    private void onBlockDestroy(BlockDestroyEvent event) {
+    private void onBlockDestroy(BlockBreakBlockEvent event) {
+
         if (!event.getBlock().isSolid() && !event.getBlock().getType().equals(Material.LADDER)) {
-            event.setWillDrop(false);
+            event.getDrops().clear();
         }
     }
 
