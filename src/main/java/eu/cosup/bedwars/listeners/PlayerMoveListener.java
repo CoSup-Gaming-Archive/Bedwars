@@ -1,11 +1,5 @@
 package eu.cosup.bedwars.listeners;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.objects.Team;
@@ -16,32 +10,33 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 public class PlayerMoveListener implements Listener {
 
     public PlayerMoveListener() {
 
-        ProtocolLibrary.getProtocolManager().addPacketListener(
-                new PacketAdapter(Bedwars.getInstance(), PacketType.Play.Server.ENTITY_EQUIPMENT) {
-                    @Override
-                    public void onPacketSending(PacketEvent event) {
-                        PacketContainer packet = event.getPacket();
-                        ItemStack stack = packet.getItemModifier().read(0);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Bedwars.getInstance(), () -> {
 
-                        if (stack != null) {
-                            event.setPacket(packet = packet.deepClone());
+            for (Player player : Bedwars.getInstance().getServer().getOnlinePlayers()) {
 
-                            // Color that depends on the player's name
-                            boolean isInvisible = event.getPlayer().hasPotionEffect(PotionEffectType.INVISIBILITY);
+                if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
 
-                            if (isInvisible) {
-                                packet.getModifier().write(0, null);
-                            }
-                        };
+                    for (Player viewer : Bedwars.getInstance().getServer().getOnlinePlayers()) {
+
+                        if (!PlayerUtility.isPlayerStaff(viewer.getUniqueId(), viewer.getName())) {
+                            viewer.hidePlayer(Bedwars.getInstance(), player);
+                        }
                     }
-                });
+                } else {
+                    for (Player viewer : Bedwars.getInstance().getServer().getOnlinePlayers()) {
+                         viewer.showPlayer(Bedwars.getInstance(), player);
+                    }
+                }
+            }
+
+        }, 1L, 4L);
+
     }
 
     @EventHandler
