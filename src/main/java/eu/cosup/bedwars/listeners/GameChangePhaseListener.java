@@ -23,6 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 
 
 // this could be usefull for later
@@ -48,7 +49,15 @@ public class GameChangePhaseListener implements GameListener {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
+
                         enderDragon.setPhase(EnderDragon.Phase.CHARGE_PLAYER);
+
+                        Team team = Game.getGameInstance().getTeamManager().getTeamByColor(teamColor);
+
+                        if (team != null) {
+                            enderDragon.setTarget(team.getAlivePlayers().get(0));
+                        }
+
                     }
                 }.runTaskTimer(Bedwars.getInstance(), 20L*10, 10L*20L);
                 enderDragon.setPodium(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());

@@ -3,6 +3,7 @@ package eu.cosup.bedwars.listeners;
 import eu.cosup.bedwars.Game;
 import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.objects.ItemGenerator;
+import eu.cosup.tournament.server.item.ItemBuilder;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -13,7 +14,9 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 
 
 public class ItemThrowListener implements Listener {
@@ -46,14 +49,14 @@ public class ItemThrowListener implements Listener {
             if (event.getEntity().getItemStack().getType() == Material.GOLD_INGOT) {
                 if (event.getTarget().getItemStack().getAmount() + event.getEntity().getItemStack().getAmount() > 10) {
                     event.getEntity().remove();
-                    event.getTarget().setItemStack(new ItemStack(Material.GOLD_INGOT, 10));
+                    event.getTarget().setItemStack(ItemBuilder.of(Material.GOLD_INGOT).amount(10).lore(new ArrayList<>()).build());
                     event.setCancelled(true);
                 }
             }
             if (event.getEntity().getItemStack().getType() == Material.IRON_INGOT) {
                 if (event.getTarget().getItemStack().getAmount() + event.getEntity().getItemStack().getAmount() > 50) {
                     event.getEntity().remove();
-                    event.getTarget().setItemStack(new ItemStack(Material.IRON_INGOT, 50));
+                    event.getTarget().setItemStack(ItemBuilder.of(Material.IRON_INGOT).amount(50).lore(new ArrayList<>()).build());
                     event.setCancelled(true);
                 }
             }
