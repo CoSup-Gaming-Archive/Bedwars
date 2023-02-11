@@ -12,6 +12,7 @@ import eu.cosup.bedwars.tasks.TeamLoseBedTask;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -19,6 +20,7 @@ import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,16 +52,16 @@ public class GameChangePhaseListener implements GameListener {
                     @Override
                     public void run() {
 
-                        enderDragon.setPhase(EnderDragon.Phase.CHARGE_PLAYER);
-
                         Team team = Game.getGameInstance().getTeamManager().getTeamByColor(teamColor);
 
-                        if (team != null) {
+                        if (team != null && team.getAlivePlayers().size() > 0) {
                             enderDragon.setTarget(team.getAlivePlayers().get(0));
                         }
 
+                        enderDragon.setPhase(EnderDragon.Phase.CIRCLING);
+
                     }
-                }.runTaskTimer(Bedwars.getInstance(), 20L*10, 10L*20L);
+                }.runTaskTimer(Bedwars.getInstance(), 0, 10L*20L);
                 enderDragon.setPodium(Game.getGameInstance().getSelectedMap().getSpectatorSpawn());
             }
         }
