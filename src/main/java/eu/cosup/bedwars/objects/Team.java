@@ -23,16 +23,23 @@ public class Team {
     private final HashMap<String, Boolean> deathList = new HashMap<>();
     private TeamBase base;
     private TeamUpgrades upgrades = new TeamUpgrades();
+    private String slug;
 
-    public Team(TeamColor teamColor, List<Player> players, boolean isAlive) {
+    public Team(TeamColor teamColor, List<Player> players, boolean isAlive, @NotNull String slug) {
         this.players = players;
         this.color = teamColor;
         this.isAlive = isAlive;
+        this.slug = slug;
         this.base= new TeamBase(this, Game.getGameInstance().getSelectedMap().getTeamBeds().get(this.color), Game.getGameInstance().getSelectedMap().getBaseDetectionRadius());
         for (Player player : players) {
             isPlayerDead(player);
         }
     }
+
+    public String getSlug() {
+        return slug;
+    }
+
     public TeamUpgrades getUpgrades() {
         return upgrades;
     }

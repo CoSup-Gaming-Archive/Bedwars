@@ -62,7 +62,7 @@ public class GameTimerTask extends BukkitRunnable {
 
         if (secondsElapsed == 1000) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.DRAGONS);
-            Bedwars.getInstance().getServer().broadcast(Component.text("At 30 minutes the team with more alive players wins").color(NamedTextColor.RED));
+            Bedwars.getInstance().getServer().broadcast(Component.text("At 30 minutes the team with more players alive wins").color(NamedTextColor.RED));
         }
 
         new GameTimerTask().runTaskLater(Bedwars.getInstance(), 20L);

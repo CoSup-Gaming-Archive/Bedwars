@@ -58,8 +58,7 @@ public class SideBarInformation {
 
         for (Team team : Game.getGameInstance().getTeamManager().getTeams()) {
 
-
-            TextComponent.Builder teamText = Component.text().content(TeamColor.getFormattedTeamColor(team.getColor())).color(TeamColor.getNamedTextColor(team.getColor()));
+            TextComponent.Builder teamText = Component.text().content(team.getSlug()).color(TeamColor.getNamedTextColor(team.getColor()));
 
             if (Game.getGameInstance().getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
                 teamText

@@ -40,7 +40,7 @@ public class TeamManager {
                     teamPlayers.add(player);
                 }
             }
-            teams.add(new Team(teamColor, teamPlayers, true));
+            teams.add(new Team(teamColor, teamPlayers, true, gameTeams.get(i).getName()));
         }
     }
 

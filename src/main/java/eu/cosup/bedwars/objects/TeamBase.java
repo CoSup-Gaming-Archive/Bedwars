@@ -2,11 +2,13 @@ package eu.cosup.bedwars.objects;
 
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
+import eu.cosup.tournament.common.utility.PlayerUtility;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -41,6 +43,11 @@ public class TeamBase {
                 },0L, 20L);
     }
     public void checkIfEnteredBase(@NotNull Player player){
+
+        if (player.getGameMode() != GameMode.SURVIVAL) {
+            return;
+        }
+
         if (!(this.team.getBase().playersInRange.contains(player))){
             playersInRange.add(player);
             long now = System.currentTimeMillis();
