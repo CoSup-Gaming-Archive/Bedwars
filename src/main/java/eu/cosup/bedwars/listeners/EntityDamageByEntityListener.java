@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 public class EntityDamageByEntityListener implements Listener {
@@ -59,6 +60,10 @@ public class EntityDamageByEntityListener implements Listener {
             return;
         }
 
+        if (event.getEntity() instanceof Player player) {
+            event.setDamage(0);
+            player.removePotionEffect(PotionEffectType.INVISIBILITY);
+        }
         PlayerDamageManager.setPlayerLastDamage((Player) event.getEntity(), (Player) event.getDamager());
     }
 }

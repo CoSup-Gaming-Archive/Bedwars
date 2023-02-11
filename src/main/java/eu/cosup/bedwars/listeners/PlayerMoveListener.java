@@ -2,7 +2,9 @@ package eu.cosup.bedwars.listeners;
 
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
+import eu.cosup.bedwars.managers.ShopManager;
 import eu.cosup.bedwars.objects.Team;
+import eu.cosup.bedwars.tasks.ActivateGameTask;
 import eu.cosup.tournament.common.utility.PlayerUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -10,7 +12,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.ArrayList;
 
 public class PlayerMoveListener implements Listener {
 
@@ -22,16 +27,11 @@ public class PlayerMoveListener implements Listener {
 
                 if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
 
-                    for (Player viewer : Bedwars.getInstance().getServer().getOnlinePlayers()) {
+                    player.getInventory().setArmorContents(new ItemStack[]{null, null, null, null});
 
-                        if (!PlayerUtility.isPlayerStaff(viewer.getUniqueId(), viewer.getName())) {
-                            viewer.hidePlayer(Bedwars.getInstance(), player);
-                        }
-                    }
                 } else {
-                    for (Player viewer : Bedwars.getInstance().getServer().getOnlinePlayers()) {
-                         viewer.showPlayer(Bedwars.getInstance(), player);
-                    }
+                    Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().putIfAbsent(player.getName(), 0);
+                    ActivateGameTask.givePlayerArmor(player, Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()).getUpgrades().getProtection(), Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().get(player.getName()));
                 }
             }
 
