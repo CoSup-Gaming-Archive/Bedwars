@@ -61,8 +61,12 @@ public class EntityDamageByEntityListener implements Listener {
         }
 
         if (event.getEntity() instanceof Player player) {
-            event.setDamage(0);
-            player.removePotionEffect(PotionEffectType.INVISIBILITY);
+
+            if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
+                event.setDamage(0);
+                player.removePotionEffect(PotionEffectType.INVISIBILITY);
+            }
+
         }
         PlayerDamageManager.setPlayerLastDamage((Player) event.getEntity(), (Player) event.getDamager());
     }
