@@ -25,9 +25,16 @@ public class PlayerMoveListener implements Listener {
 
             for (Player player : Bedwars.getInstance().getServer().getOnlinePlayers()) {
 
+                if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()) == null) {
+                    continue;
+                }
+
                 if (player.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
 
-                    player.getInventory().setArmorContents(new ItemStack[]{null, null, null, null});
+                    player.getInventory().setHelmet(null);
+                    player.getInventory().setChestplate(null);
+                    player.getInventory().setLeggings(null);
+                    player.getInventory().setBoots(null);
 
                 } else {
                     Game.getGameInstance().getShopManager().getPlayerArmorUpgrade().putIfAbsent(player.getName(), 0);

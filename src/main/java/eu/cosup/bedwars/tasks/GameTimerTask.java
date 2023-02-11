@@ -11,6 +11,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Bed;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.naming.Name;
+
 public class GameTimerTask extends BukkitRunnable {
 
     private static int secondsElapsed;
@@ -28,33 +30,39 @@ public class GameTimerTask extends BukkitRunnable {
         if (secondsElapsed == 200) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.DIAMOND);
             Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.DIAMOND);
+            Bedwars.getInstance().getServer().broadcast(Component.text("At 15 minutes all beds will be destroyed").color(NamedTextColor.RED));
             Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("DIAMOND ").color(NamedTextColor.AQUA)).append(Component.text("generators were upgraded to level II")));
         }
 
         if (secondsElapsed == 400) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.EMERALD);
             Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.EMERALD);
-            Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("EMERALD ").color(NamedTextColor.AQUA)).append(Component.text(" generators were upgraded to level II")));
+            Bedwars.getInstance().getServer().broadcast(Component.text("At 15 minutes all beds will be destroyed").color(NamedTextColor.RED));
+            Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("EMERALD ").color(NamedTextColor.GREEN)).append(Component.text(" generators were upgraded to level II")));
         }
 
         if (secondsElapsed == 600) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.DIAMOND_TWO);
             Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.DIAMOND);
+            Bedwars.getInstance().getServer().broadcast(Component.text("At 15 minutes all beds will be destroyed").color(NamedTextColor.RED));
             Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("DIAMOND ").color(NamedTextColor.AQUA)).append(Component.text("generators were upgraded to level III")));
         }
 
         if (secondsElapsed == 800) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.EMERALD_TWO);
             Game.getGameInstance().getItemGeneratorManager().upgradeGenerators(ItemGenerator.GeneratorType.EMERALD);
-            Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("EMERALD ").color(NamedTextColor.AQUA)).append(Component.text("generators were upgraded to level III")));
+            Bedwars.getInstance().getServer().broadcast(Component.text("At 15 minutes all beds will be destroyed").color(NamedTextColor.RED));
+            Bedwars.getInstance().getServer().broadcast(Component.text("All ").color(NamedTextColor.YELLOW).append(Component.text("EMERALD ").color(NamedTextColor.GREEN)).append(Component.text("generators were upgraded to level III")));
         }
 
         if (secondsElapsed == 900) {
+            Bedwars.getInstance().getServer().broadcast(Component.text("At 16 minutes the dragons will spawn").color(NamedTextColor.RED));
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.BED_DESTRUCTION);
         }
 
         if (secondsElapsed == 1000) {
             Game.getGameInstance().getGameStateManager().setGamePhase(GameStateManager.GamePhase.DRAGONS);
+            Bedwars.getInstance().getServer().broadcast(Component.text("At 30 minutes the team with more alive players wins").color(NamedTextColor.RED));
         }
 
         new GameTimerTask().runTaskLater(Bedwars.getInstance(), 20L);
