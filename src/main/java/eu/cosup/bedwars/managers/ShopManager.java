@@ -24,6 +24,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -86,7 +87,7 @@ public class ShopManager {
     public HashMap<String, ShopTabUtility> getItems(){
         return items;
     }
-    public void openShopForPlayer(Player player, @Nullable String currentTab){
+    public void openShopForPlayer(@NotNull Player player, @Nullable String currentTab){
         if (currentTab==null){
             currentTab=getShopConfig().getStringList("tabList").toArray()[0].toString();
         }
@@ -127,6 +128,29 @@ public class ShopManager {
                 modifyItemType= modifyItemType.replaceFirst("WHITE", getTeamColor(player));
                 itemPreview.setType(Material.getMaterial(modifyItemType));
             }
+
+            if (item.getItem().getType().toString().contains("AXE")) {
+                if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()) != null) {
+
+                    switch (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(itemPreview.getType().toString().replace("WOODEN_", ""))) {
+                        case 1 -> {
+                            item.setPrice(10);
+                        }
+                        case 2 -> {
+                            item.setPrice(40);
+                        }
+                        case 3 -> {
+                            item.setPrice(10);
+                            item.setPriceItem(Material.GOLD_INGOT);
+                        }
+                        case 4 -> {
+                            item.setPrice(20);
+                            item.setPriceItem(Material.GOLD_INGOT);
+                        }
+                    }
+                }
+            }
+
             if (itemMeta.hasLore()){
                 List<Component> lore = itemMeta.lore();
                 lore.add(Component.text("   "));

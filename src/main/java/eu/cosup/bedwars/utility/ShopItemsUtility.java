@@ -30,6 +30,14 @@ public class ShopItemsUtility {
         return price;
     }
 
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setPriceItem(Material priceItem) {
+        this.priceItem = priceItem;
+    }
+
     public int getSlot() {
         return slot;
     }
