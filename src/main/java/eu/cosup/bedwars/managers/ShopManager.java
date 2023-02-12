@@ -132,20 +132,28 @@ public class ShopManager {
             if (item.getItem().getType().toString().contains("AXE")) {
                 if (Game.getGameInstance().getTeamManager().whichTeam(player.getUniqueId()) != null) {
 
+
+                    Game.getGameInstance().getShopManager().getPlayerTools().computeIfAbsent(player.getName(), k -> new HashMap<>());
+                    Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).putIfAbsent(itemPreview.getType().toString().replace("WOODEN_", ""), 0);
                     switch (Game.getGameInstance().getShopManager().getPlayerTools().get(player.getName()).get(itemPreview.getType().toString().replace("WOODEN_", ""))) {
-                        case 1 -> {
+                        case 0 -> {
                             item.setPrice(10);
+                        }
+                        case 1 -> {
+                            item.setPrice(40);
+                            itemPreview.setType(Material.valueOf(itemPreview.getType().toString().replace("WOODEN", "IRON")));
                         }
                         case 2 -> {
-                            item.setPrice(40);
-                        }
-                        case 3 -> {
                             item.setPrice(10);
                             item.setPriceItem(Material.GOLD_INGOT);
+                            itemPreview.setType(Material.valueOf(itemPreview.getType().toString().replace("WOODEN", "GOLDEN")));
+                            itemPreview.addEnchantment(Enchantment.DIG_SPEED, 2);
                         }
-                        case 4 -> {
+                        case 3 -> {
                             item.setPrice(20);
                             item.setPriceItem(Material.GOLD_INGOT);
+                            itemPreview.setType(Material.valueOf(itemPreview.getType().toString().replace("WOODEN", "DIAMOND")));
+                            itemPreview.addEnchantment(Enchantment.DIG_SPEED, 3);
                         }
                     }
                 }
