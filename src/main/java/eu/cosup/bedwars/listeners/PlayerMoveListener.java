@@ -2,6 +2,7 @@ package eu.cosup.bedwars.listeners;
 
 import eu.cosup.bedwars.Bedwars;
 import eu.cosup.bedwars.Game;
+import eu.cosup.bedwars.managers.GameStateManager;
 import eu.cosup.bedwars.managers.ShopManager;
 import eu.cosup.bedwars.objects.Team;
 import eu.cosup.bedwars.tasks.ActivateGameTask;
@@ -73,6 +74,17 @@ public class PlayerMoveListener implements Listener {
 
         }
         double playerY = event.getTo().getY();
+
+        // prevents ghosting
+        if (Game.getGameInstance().getGameStateManager().getGameState() == GameStateManager.GameState.ACTIVE) {
+            if (!PlayerUtility.isPlayerStaff(event.getPlayer().getUniqueId(), event.getPlayer().getName())) {
+                if (event.getPlayer().getGameMode() == GameMode.SPECTATOR) {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+        }
+
         if (
                 event.getPlayer().getGameMode() == GameMode.CREATIVE
                 || event.getPlayer().getGameMode() == GameMode.SPECTATOR
